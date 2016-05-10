@@ -209,6 +209,11 @@ GEM
       oauth (>= 0.4.1)
     execjs (2.6.0)
     extlib (0.9.16)
+    factory_girl (4.7.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.7.0)
+      factory_girl (~> 4.7.0)
+      railties (>= 3.0.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     feed-normalizer (1.5.2)
@@ -262,6 +267,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    hash_diff (0.8.0)
     hashie (2.0.5)
     haversine (0.3.0)
     hipchat (1.2.0)
@@ -430,6 +436,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    redis (2.1.1)
     ref (2.0.0)
     responders (2.1.1)
       railties (>= 4.2.0, < 5.1)
@@ -604,6 +611,7 @@ DEPENDENCIES
   dropbox-api
   em-http-request (~> 1.1.2)
   evernote_oauth
+  factory_girl_rails (~> 4.0)
   faraday (~> 0.9.0)
   faraday_middleware!
   feed-normalizer
@@ -617,6 +625,7 @@ DEPENDENCIES
   guard (~> 2.13.0)
   guard-livereload (~> 2.5.1)
   guard-rspec (~> 4.6.4)
+  hash_diff
   haversine
   hipchat (~> 1.2.0)
   httmultiparty (~> 0.3.16)
@@ -652,6 +661,7 @@ DEPENDENCIES
   rack-livereload (~> 0.3.16)
   rails (= 4.2.5.2)
   rails_12factor
+  redis (= 2.1.1)
   rr
   rspec (~> 3.2)
   rspec-collection_matchers (~> 1.1.0)

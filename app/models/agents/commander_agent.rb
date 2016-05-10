@@ -47,5 +47,16 @@ module Agents
         end
       end
     end
+
+    def hamta_meddelande
+        @response2 ||= HTTParty.get('http://opendata-download-warnings.smhi.se/api/messages.json').parsed_response
+        if @response2 == {}
+            ""
+        else
+            mess = @response2['message']['text']
+            "SMHI:s beskrivning av väderläget i stort är att #{mess[0].downcase + mess.gsub("\n\n", "")[1..-1]}."
+        end
+    end
+
   end
 end

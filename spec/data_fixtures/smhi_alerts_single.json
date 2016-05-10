@@ -1,0 +1,79 @@
+{
+  "alert": 
+    {
+      "identifier": "smhi-bpm-1460422899165",
+      "sender": "noreplyvarning@smhi.se",
+      "sent": "2016-04-12T03:04:32+02:00",
+      "status": "Actual",
+      "msgType": "Alert",
+      "scope": "Public",
+      "code": [
+        "system_affiliation 5",
+        "latest_update 2016-04-12T03:04:35+02:00",
+        "system_version 1",
+        "system_alert_category risk"
+      ],
+      "info": {
+        "language": "sv-SE",
+        "category": "Met",
+        "event": "fire warning",
+        "urgency": "Expected",
+        "severity": "Severe",
+        "certainty": "Possible",
+        "eventCode": [
+          {
+            "valueName": "system_event_level",
+            "value": "Risk Grass fire"
+          },
+          {
+            "valueName": "system_event_sv-SE",
+            "value": "Brandvarning"
+          },
+          {
+            "valueName": "system_event_priority",
+            "value": 0
+          },
+          {
+            "valueName": "system_event_level_sv-SE",
+            "value": "Risk Gräsbrand"
+          },
+          {
+            "valueName": "system_event_level_color",
+            "value": "#ab56ac"
+          },
+          {
+            "valueName": "system_event_level_id",
+            "value": 0
+          }
+        ],
+        "effective": "2016-04-12T03:04:32+02:00",
+        "onset": "2016-04-12T03:04:32+02:00",
+        "expires": "2017-04-12T03:01:39+02:00",
+        "senderName": "SMHI, Swedish Meteorological and Hydrological Institute",
+        "headline": "Stockholms län utom Roslagskusten",
+        "description": "Faran för gräsbränder är i dag stor. ",
+        "web": "http://www.smhi.se/vadret/vadret-i-sverige/Varningar",
+        "parameter": [
+          {
+            "valueName": "system_position",
+            "value": 1
+          },
+          {
+            "valueName": "system_eng_description",
+            "value": "No English description available"
+          },
+          {
+            "valueName": "system_history",
+            "value": "{\"history\":[{\"date\":\"2016-04-12T03:04:32\",\"node\":\"description\",\"label\":\"Områdesbeskrivning (Sv)\",\"value\":\"Faran för gräsbränder är i dag stor. \"}]}"
+          },
+          {
+            "valueName": "system_eng_headline",
+            "value": "No English headline available"
+          }
+        ],
+        "area": {
+          "areaDesc": "025"
+        }
+      }
+    }
+}

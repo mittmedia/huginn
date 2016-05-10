@@ -36,6 +36,9 @@ gem 'xmpp4r',  '~> 0.5.6'         # JabberAgent
 gem 'mqtt'                        # MQTTAgent
 gem 'slack-notifier', '~> 1.0.0'  # SlackAgent
 gem 'hypdf', '~> 1.0.10'          # PDFInfoAgent
+gem 'redis', '2.1.1'              # SmhiVarningarAgent
+gem 'hash_diff'                   # SmhiVarningarAgent
+gem "factory_girl_rails", "~> 4.0" # TrafikverketAgent
 
 # Weibo Agents
 gem 'weibo_2', github: 'cantino/weibo_2', branch: 'master'

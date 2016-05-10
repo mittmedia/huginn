@@ -1,0 +1,384 @@
+{
+  "RESPONSE": {
+    "RESULT": [
+      {
+        "Situation": [
+          {
+            "CountryCode": "se",
+            "Deviation": [
+              {
+                "CountyNo": [
+                  14
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "1999-06-22T13:40:49",
+                "EndTime": "2016-04-29T15:00:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (314602.99 6412767.13)",
+                  "WGS84": "POINT (11.8786 57.81839)"
+                },
+                "Header": "Kornhallsleden",
+                "IconId": "ferryServiceNotOperating",
+                "Id": "SE_STA_TRISSID_1_203352",
+                "ManagedCause": true,
+                "Message": "På grund av färjebyte är färjan indragen denna dag 29 April mellan klockan 09:00 och 15.00.",
+                "MessageCode": "Färja",
+                "MessageCodeValue": "ferry",
+                "MessageType": "Färjor",
+                "MessageTypeValue": "TransitInformation",
+                "RoadNumber": "Väg 570",
+                "RoadNumberNumeric": 570,
+                "StartTime": "2016-04-29T09:00:00",
+                "LocationDescriptor": "Väg 570 i Kungälvs kommun i Västra Götalands län",
+                "VersionTime": "2016-04-14T10:09:06"
+              }
+            ],
+            "Id": "GUIDe4a381f6-a911-4753-81fb-8181ac3b7e26",
+            "ModifiedTime": "2016-04-14T08:09:33.242Z",
+            "PublicationTime": "2016-04-14T10:09:32",
+            "VersionTime": "2016-04-14T10:09:06"
+          },
+          {
+            "CountryCode": "se",
+            "Deviation": [
+              {
+                "CountyNo": [
+                  2,
+                  1
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "2008-03-12T14:26:55",
+                "EndTime": "2016-06-02T16:00:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (693904.97 6584473.9)",
+                  "WGS84": "POINT (18.4111271 59.35431)"
+                },
+                "Header": "Norra Lagnö - Tynningö    ",
+                "IconId": "ferryServiceNotOperating",
+                "Id": "SE_STA_TRISSID_1_26168535",
+                "ManagedCause": true,
+                "Message": "Mindre kapacitet p.g.a. reparation av ordinarie färja. Max 20 fordon per tur",
+                "MessageCode": "Färja",
+                "MessageCodeValue": "ferry",
+                "MessageType": "Färjor",
+                "MessageTypeValue": "TransitInformation",
+                "RoadNumber": "Väg 642",
+                "RoadNumberNumeric": 642,
+                "StartTime": "2016-04-29T01:00:00",
+                "LocationDescriptor": "Väg 642 på Lagnövägen vid Lagnö brygga, i båda riktningar.",
+                "VersionTime": "2016-04-14T13:27:55"
+              }
+            ],
+            "Id": "GUID327c4962-ae3d-403e-bbaa-5ce7a15dac1a",
+            "ModifiedTime": "2016-04-14T11:28:21.466Z",
+            "PublicationTime": "2016-04-14T13:28:20",
+            "VersionTime": "2016-04-14T13:27:55"
+          },
+          {
+            "CountryCode": "se",
+            "Deviation": [
+              {
+                "CountyNo": [
+                  14
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "2008-12-07T22:05:48",
+                "EndTime": "2016-05-02T16:00:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (299000.98 6408338)",
+                  "WGS84": "POINT (11.620142 57.771946)"
+                },
+                "Header": "Nordöleden Burö-Knippla-Hyppeln-Rörö",
+                "IconId": "ferryServiceNotOperating",
+                "Id": "SE_STA_TRISSID_1_1776897",
+                "ManagedCause": true,
+                "Message": "Nedsatt kapacitet Nordö färjorna, Nordö 3 ersätter färja 2. Gäller från tisdag 29 mars till och med 2 maj  2016 .",
+                "MessageCode": "Färja",
+                "MessageCodeValue": "ferry",
+                "MessageType": "Färjor",
+                "MessageTypeValue": "TransitInformation",
+                "RoadNumber": "Väg 575",
+                "RoadNumberNumeric": 575,
+                "StartTime": "2016-03-29T07:00:00",
+                "LocationDescriptor": "Väg 575 vid Burösunds Brygga, i båda riktningar.",
+                "VersionTime": "2016-04-08T12:14:33"
+              }
+            ],
+            "Id": "GUID9384c086-76c9-4e86-ab4a-6b456dff5d14",
+            "ModifiedTime": "2016-04-08T10:15:00.288Z",
+            "PublicationTime": "2016-04-08T12:14:59",
+            "VersionTime": "2016-04-08T12:14:33"
+          },
+          {
+            "CountryCode": "se",
+            "Deviation": [
+              {
+                "CountyNo": [
+                  2,
+                  1
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "2008-03-12T14:26:55",
+                "EndTime": "2016-06-02T16:00:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (693904.97 6584473.9)",
+                  "WGS84": "POINT (18.4111271 59.35431)"
+                },
+                "Header": "Norra Lagnö - Tynningö    ",
+                "IconId": "ferryServiceNotOperating",
+                "Id": "SE_STA_TRISSID_1_26168535",
+                "ManagedCause": true,
+                "Message": "Mindre kapacitet p.g.a. reparation av ordinarie färja. Max 20 fordon per tur",
+                "MessageCode": "Färja",
+                "MessageCodeValue": "ferry",
+                "MessageType": "Färjor",
+                "MessageTypeValue": "TransitInformation",
+                "RoadNumber": "Väg 642",
+                "RoadNumberNumeric": 642,
+                "StartTime": "2016-04-29T01:00:00",
+                "LocationDescriptor": "Väg 642 på Lagnövägen vid Lagnö brygga, i båda riktningar.",
+                "VersionTime": "2016-04-14T13:27:55"
+              }
+            ],
+            "Id": "GUID327c4962-ae3d-403e-bbaa-5ce7a15dac1a",
+            "ModifiedTime": "2016-04-14T11:28:21.466Z",
+            "PublicationTime": "2016-04-14T13:28:20",
+            "VersionTime": "2016-04-14T13:27:55"
+          },
+          {
+            "CountryCode": "se",
+            "Deviation": [
+              {
+                "CountyNo": [
+                  14
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "2008-12-07T22:05:48",
+                "EndTime": "2016-05-02T16:00:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (299000.98 6408338)",
+                  "WGS84": "POINT (11.620142 57.771946)"
+                },
+                "Header": "Nordöleden Burö-Knippla-Hyppeln-Rörö",
+                "IconId": "ferryServiceNotOperating",
+                "Id": "SE_STA_TRISSID_1_1776897",
+                "ManagedCause": true,
+                "Message": "Nedsatt kapacitet Nordö färjorna, Nordö 3 ersätter färja 2. Gäller från tisdag 29 mars till och med 2 maj  2016 .",
+                "MessageCode": "Färja",
+                "MessageCodeValue": "ferry",
+                "MessageType": "Färjor",
+                "MessageTypeValue": "TransitInformation",
+                "RoadNumber": "Väg 575",
+                "RoadNumberNumeric": 575,
+                "StartTime": "2016-03-29T07:00:00",
+                "LocationDescriptor": "Väg 575 vid Burösunds Brygga, i båda riktningar.",
+                "VersionTime": "2016-04-08T12:14:33"
+              }
+            ],
+            "Id": "GUID9384c086-76c9-4e86-ab4a-6b456dff5d14",
+            "ModifiedTime": "2016-04-08T10:15:00.288Z",
+            "PublicationTime": "2016-04-08T12:14:59",
+            "VersionTime": "2016-04-08T12:14:33"
+          },
+          {
+            "CountryCode": "se",
+            "Deviation": [
+              {
+                "CountyNo": [
+                  14
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "2016-04-10T12:29:57",
+                "EndTime": "2016-05-31T05:30:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (314854.33 6396774.85)",
+                  "WGS84": "POINT (11.895155 57.6750565)"
+                },
+                "IconId": "roadwork",
+                "Id": "SE_STA_TRISSID_1_10687994",
+                "ManagedCause": true,
+                "Message": "Gnistängstunneln, södergående tunnelrör mot Frölunda avstängt. Trafiken överleds.\nMötande trafik i norrgående rör.\n",
+                "MessageCode": "Vägarbeten",
+                "MessageCodeValue": "roadworks",
+                "MessageType": "Vägarbete",
+                "MessageTypeValue": "MaintenanceWorks",
+                "RoadNumber": "E 6",
+                "RoadNumberNumeric": 6,
+                "SeverityCode": 5,
+                "SeverityText": "Mycket stor påverkan",
+                "StartTime": "2016-05-30T20:00:00",
+                "LocationDescriptor": "E6.20 vid Gnistängstunneln i riktning mot Frölunda i Västra Götalands län (O)",
+                "VersionTime": "2016-04-10T12:32:15"
+              },
+              {
+                "CountyNo": [
+                  14
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "2016-04-10T12:29:57",
+                "EndTime": "2016-05-31T05:30:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (314854.33 6396774.85)",
+                  "WGS84": "POINT (11.895155 57.6750565)"
+                },
+                "IconId": "trafficMessage",
+                "Id": "SE_STA_TRISSID_2_10687994",
+                "Message": "Gnistängstunneln, södergående tunnelrör mot Frölunda avstängt. Trafiken överleds.\nMötande trafik i norrgående rör.\n",
+                "MessageCode": "Körfältsavstängningar",
+                "MessageCodeValue": "laneClosures",
+                "MessageType": "Trafikmeddelande",
+                "MessageTypeValue": "RoadOrCarriagewayOrLaneManagement",
+                "NumberOfLanesRestricted": 2,
+                "RoadNumber": "E 6",
+                "RoadNumberNumeric": 6,
+                "SeverityCode": 5,
+                "SeverityText": "Mycket stor påverkan",
+                "StartTime": "2016-05-30T20:00:00",
+                "LocationDescriptor": "E6.20 vid Gnistängstunneln i riktning mot Frölunda i Västra Götalands län (O)",
+                "VersionTime": "2016-04-10T12:32:15"
+              }
+            ],
+            "Id": "GUIDe6287931-c99e-4a4c-8e73-8139c239db7c",
+            "ModifiedTime": "2016-04-13T23:01:50.292Z",
+            "PublicationTime": "2016-04-14T00:59:42",
+            "VersionTime": "2016-04-10T12:32:15"
+          },
+          {
+            "CountryCode": "se",
+            "Deviation": [
+              {
+                "CountyNo": [
+                  14
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "2016-04-10T12:13:40",
+                "EndTime": "2016-05-24T05:30:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (314825.57 6400452.94)",
+                  "WGS84": "POINT (11.8918476 57.7080345)"
+                },
+                "IconId": "roadwork",
+                "Id": "SE_STA_TRISSID_1_10687874",
+                "ManagedCause": true,
+                "Message": "Östergående tunnelrör i Lundbytunneln avstängt för trafik.\nÖstergående trafik mot Eriksberg omleds på kommunala vägnätet.",
+                "MessageCode": "Vägarbeten",
+                "MessageCodeValue": "roadworks",
+                "MessageType": "Vägarbete",
+                "MessageTypeValue": "MaintenanceWorks",
+                "RoadNumber": "E 6",
+                "RoadNumberNumeric": 6,
+                "SeverityCode": 5,
+                "SeverityText": "Mycket stor påverkan",
+                "StartTime": "2016-05-23T20:00:00",
+                "LocationDescriptor": "E6.21 vid Lundbytunneln i riktning mot Eriksbergsmotet i Västra Götalands län (O)",
+                "VersionTime": "2016-04-10T12:13:40"
+              },
+              {
+                "CountyNo": [
+                  14
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "2016-04-10T12:13:40",
+                "EndTime": "2016-05-24T05:30:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (314825.57 6400452.94)",
+                  "WGS84": "POINT (11.8918476 57.7080345)"
+                },
+                "IconId": "trafficMessage",
+                "Id": "SE_STA_TRISSID_2_10687874",
+                "Message": "Östergående tunnelrör i Lundbytunneln avstängt för trafik.\nÖstergående trafik mot Eriksberg omleds på kommunala vägnätet.",
+                "MessageCode": "Körfältsavstängningar",
+                "MessageCodeValue": "laneClosures",
+                "MessageType": "Trafikmeddelande",
+                "MessageTypeValue": "RoadOrCarriagewayOrLaneManagement",
+                "NumberOfLanesRestricted": 2,
+                "RoadNumber": "E 6",
+                "RoadNumberNumeric": 6,
+                "SeverityCode": 5,
+                "SeverityText": "Mycket stor påverkan",
+                "StartTime": "2016-05-23T20:00:00",
+                "LocationDescriptor": "E6.21 vid Lundbytunneln i riktning mot Eriksbergsmotet i Västra Götalands län (O)",
+                "VersionTime": "2016-04-10T12:13:40"
+              }
+            ],
+            "Id": "GUIDdd3ee328-b299-4af3-90cb-d131c9e29550",
+            "ModifiedTime": "2016-04-13T23:01:50.307Z",
+            "PublicationTime": "2016-04-14T00:59:42",
+            "VersionTime": "2016-04-10T12:13:40"
+          },
+          {
+            "CountryCode": "se",
+            "Deviation": [
+              {
+                "CountyNo": [
+                  18
+                ],
+                "Creator": "Trafikverket",
+                "CreationTime": "2016-02-25T10:38:29",
+                "EndTime": "2016-07-08T20:00:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (502094 6597880.81)",
+                  "WGS84": "POINT (15.0370064 59.5193138)"
+                },
+                "IconId": "trafficMessage",
+                "Id": "SE_STA_TRISSID_1_10225759",
+                "ManagedCause": true,
+                "Message": "Minitriathlon  \"Utmaningen\"\nStart och målområde vid stationsområdet Nora.",
+                "MessageCode": "Stort evenemang",
+                "MessageCodeValue": "majorEvent",
+                "MessageType": "Trafikmeddelande",
+                "MessageTypeValue": "PublicEvent",
+                "RoadNumber": "Väg 762",
+                "RoadNumberNumeric": 762,
+                "SeverityCode": 4,
+                "SeverityText": "Stor påverkan",
+                "StartTime": "2016-07-08T16:00:00",
+                "LocationDescriptor": "Väg 762 från Storgatan/Järntorgsgatan till Nora Kyrka båda riktningarna i Örebro län (T)",
+                "VersionTime": "2016-02-25T10:38:38"
+              }
+            ],
+            "Id": "GUID9503174d-e4f2-4be3-b926-8855b238d6e4",
+            "ModifiedTime": "2016-04-14T23:01:06.871Z",
+            "PublicationTime": "2016-04-15T00:59:37",
+            "VersionTime": "2016-02-25T10:38:38"
+          },
+          {
+            "CountryCode": "se",
+            "Deviation": [
+              {
+                "CountyNo": [
+                  2,
+                  1
+                ],
+                "Creator": "Solna stad",
+                "CreationTime": "2016-04-11T11:11:05",
+                "EndTime": "2016-04-11T21:45:00",
+                "Geometry": {
+                  "SWEREF99TM": "POINT (670354.04 6585300.06)",
+                  "WGS84": "POINT (17.9981823 59.37189)"
+                },
+                "IconId": "trafficMessage",
+                "Id": "SE_STA_TRISSID_1_59775963",
+                "ManagedCause": true,
+                "Message": "Evenemangsgatan och Magasinvägen avstängda i ca 30 minuter efter kvällens fotbollsmatch.\n\nPå grund av ett fasadarbete som pågår i området (som gör att trottoaren är avstängd), stängs Evenemangsgatan och Magasinvägen av för biltrafik i samband med utsläpp av publik från kvällens fotbollsmatch mellan AIK och IFK Göteborg.",
+                "MessageCode": "Stort evenemang",
+                "MessageCodeValue": "majorEvent",
+                "MessageType": "Trafikmeddelande",
+                "MessageTypeValue": "PublicEvent",
+                "SeverityCode": 4,
+                "SeverityText": "Stor påverkan",
+                "StartTime": "2016-04-11T21:00:00",
+                "LocationDescriptor": "Evenemangsgatan/Magasinvägen i Solna kommun i Stockholms län, i båda riktningar.",
+                "VersionTime": "2016-04-11T13:45:07"
+              }
+            ],
+            "Id": "GUID642893f4-a1bb-4591-92f6-000000000969",
+            "ModifiedTime": "2016-04-14T23:01:09.039Z",
+            "PublicationTime": "2016-04-15T00:59:37",
+            "VersionTime": "2016-04-11T13:45:07"
+          }
+         ]
+      }
+	 ]
+	}
+  }
