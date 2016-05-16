@@ -48,6 +48,22 @@ describe Agents::TrafikverketAgent do
     end
   end
 
-  describe ""
-
+  describe "check" do
+    it "evaluates if an event is sent" do
+      # m = agent.check
+      # p m
+      expect {
+        agent.check
+    }.to change { agent.events.count }.by(1) 
+    end
+    it "evaluates the number of keys in the JSON object" do
+      expect(agent.check[:articles][0].length).to eq(8)
+    end
+    it "makes sure no nil values are sent" do
+      m = agent.check
+      m[:articles][0].each do |a|
+        expect(a[1]).not_to be(nil)
+      end
+    end
+  end
 end

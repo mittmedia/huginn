@@ -1,4 +1,4 @@
-require 'httparty'
+    require 'httparty'
 require 'json'
 require 'date'
 require 'slack-notifier'
@@ -40,7 +40,8 @@ module Agents
 
         def default_options
           { "warnings_url" => "http://opendata-download-warnings.smhi.se/api/alerts.json",
-            "message_url" => "http://opendata-download-warnings.smhi.se/api/messages.json"
+            "message_url" => "http://opendata-download-warnings.smhi.se/api/messages.json",
+            "test" => ""
          }
         end
 
@@ -74,11 +75,11 @@ module Agents
             if omr.length > 3
               omr = omr.split(",")
               omr.each do |r|
-              list << Distrikt::OMR[r]
+              list << SMHI::Distrikt::OMR[r]
             end
             "#{list[0..-2].join(", ")} och #{list[-1]}"
           else
-            Distrikt::OMR[omr].to_s
+            SMHI::Distrikt::OMR[omr].to_s
           end    
         end
 
@@ -95,8 +96,6 @@ module Agents
                 article[:long] = article[:point].split[1][0..-2]
                 article[:poly] = a['info']['area']['polygon'] if a['info']['area'].has_key? 'polygon'
                 article[:prio] = SMHI::Rubrik::PRIO[a['info']['eventCode'][0]['value']]    # Nyhetsprio 2,4 eller 6
-                # Hoppa över om nyhetsprio är 1
-                next if article[:prio] == 1
                 article[:rubrik] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
                 article[:omr] = area_transformation(a)
                 article[:ingress] = build_ingress(a, article)
@@ -107,7 +106,7 @@ module Agents
                     next
                 end
                 digest = checksum(article[:id], article[:ingress])
-                # next if digest == redis.get(article[:id])
+                next if digest == redis.get(article[:id])
                 res[:articles] << article
                 redis.set(article[:id], digest)
                 # slacking(article)
@@ -115,13 +114,14 @@ module Agents
             # skriv_json(res)
             create_event payload: res
             return res
-            # puts "Antal noder JSON skrivet till fil: " + res[:articles].length.to_s
+            puts "Antal noder JSON skrivet till fil: " + res[:articles].length.to_s
         end
 
         def rensa_fel(text)
             text.gsub("\"", "")
                 .gsub("m/s", "meter per sekund")
                 .gsub(". .", ".")
+                .gsub(/(\D)\.(\S)/, '\1. \2')
         end
 
         def build_ingress(a, article)
@@ -140,7 +140,7 @@ module Agents
 #{SMHI::API.message(options['message_url'])} #{varningstext(article[:prio])}
 Det är den aktuella väderprognosen som avgör när och om en varning ska skickas ut. Bedömningen av väderläget görs av meteorologer och SMHI följer sedan upp varningen kontinuerligt när nya väderdata finns, fram till att väderhändelsen är över.
 Väderläget kan också förändras snabbt, vilket gör att varningsklassen kan ändras med kort varsel.
-Den här artikeln är skriven av Mittmedias textrobot med data frnå SMHI:s öppna API."
+Den här artikeln är hjälp av öppen data från SMHI."
             brodtext = rensa_fel(brodtext)
         end
 
@@ -152,6 +152,10 @@ Den här artikeln är skriven av Mittmedias textrobot med data frnå SMHI:s öpp
 
         def checksum(id, ingress)
             Digest::MD5.hexdigest(id + ingress).to_s
+        end
+
+        def working?
+          !recent_error_logs?
         end
     end
 end

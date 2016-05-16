@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-
+ 
 describe Agents::ApiRequestAgent do
   before do
     @valid_options = {
