@@ -31,27 +31,42 @@ module Agents
       @need = ['MessageCodeValue', 'SeverityCode', 'VersionTime', 'LocationDescriptor', 'Message', 'CountyNo', 'Geometry', 'MessageType']
       @useful = ['RoadNumber', 'EndTime']
       # Filtrerar bort poster som inte är ursprungsposter
-    	if m['ManagedCause'] != true
-         	p m['ManagedCause']
+    	if m['ManagedCause'] != true && m['CreationTime'] > m['StartTime']
+         	# p "m['ManagedCause']"
           return false
         end
+        if DateTime.parse(m['CreationTime']).today? == false
+        	return false
+      	end
         # Filtrerar bort ofullständiga poster 
         if (m.keys & @need).length < 8
-        	p (m.keys & @need).length
+        	# p (m.keys & @need)
           return false
         end
         # Filtrerar bort allt utom systemversion 1
         if m['Id'][15] != "1"
         	# Här borde det finnas en slack output
-        	p m['Id']
+        	# p m['Id']
           return false
         end
         # Filtrerar bort allt med prio mindre än 4
         if m[@need[1]] < 4
-        	p "prio"
+        	# p "prio"
           return false
         end
       return true
+    end
+
+    def roadwork_repeat(m)
+      if m[@need[0]] == "roadworks" && m.has_key?('EndTime')
+        if DateTime.parse(m['EndTime']).today? == false && DateTime.parse(m[@need[2]]).today?
+            p "vägarbete slutar: #{m['EndTime']}"
+            return false
+        else
+            return true
+        end
+        # p m['ManagedCause'].to_s
+      end
     end
 
     def filter_and_text
@@ -63,28 +78,27 @@ module Agents
         d['Deviation'].each do |m|
           article = {}
           next unless valid_alert?(m)
-          p "hej"
+          next unless roadwork_repeat(m)
           article[:rubrik] = uppdatera_rubrik(build_headline(m), m)
           article[:ort] = lansomv(m)
           article[:ingress] = rensa_fel(build_ingress(m))
           article[:brodtext] = rensa_fel(build_brodtext(m))
           article[:prio] = m[@need[1]]
           article[:udid] = m['Id']
+          article[:uid] = d['Id']
           article[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
           article[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
+          article[]
           digest = checksum(article)
-          if digest == redis.get(article[:udid])
-            p "Artikel med checksumman #{digest} finns redan"
-            next
-          end
-          # p article[:ort]
+          next if digest == redis.get(article[:udid])
           res[:articles] << article
           redis.set(article[:udid], digest)
           # slacking(article)
           count += 1
         end
       end
-      puts "Antal artiklar skickade: #{count}"
+      # puts "Antal artiklar skickade: #{count}"
+      # redis.flushall
       create_event payload: res
       res
   	end
@@ -109,7 +123,7 @@ module Agents
       sluttid = DateTime.parse(m[@useful[1]])
       "Varningen gäller #{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]].downcase} och det som orsakar störningen är #{meddelande[0].downcase + meddelande[1..-1].gsub("\r\n", "")}. Det hela påverkar #{m[@need[3]]}.
 Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(versionstid, sluttid)}
-Den här artikeln är skriven av Mittmedias textrobot, med data från Trafikverkets öppna API."
+Den här artikeln är skriven av Mittmedias textrobot med hjälp av öppen data från Trafikverket."
     end
 
     def sluttid_n(version, slut)
@@ -191,6 +205,7 @@ Den här artikeln är skriven av Mittmedias textrobot, med data från Trafikverk
         .gsub("/12", " december")
         .gsub(/(\d\d):(\d\d)/, '\1.\2')
         .gsub(/(\d+)([\a-zåäöÅÄÖ]+)/, '\1 \2')
+        .gsub(/(\D)\.(\S)/, '\1. \2')
     end
 
     def checksum(json)
@@ -229,6 +244,10 @@ Den här artikeln är skriven av Mittmedias textrobot, med data från Trafikverk
           </QUERY>
         </REQUEST>"
     	filter_and_text
+    end
+
+    def working?
+      !recent_error_logs?
     end
 	end
 end
