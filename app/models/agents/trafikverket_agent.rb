@@ -77,19 +77,28 @@ module Agents
       data['RESPONSE']['RESULT'][0]['Situation'].each do |d|
         d['Deviation'].each do |m|
           article = {}
+          tags = {}
           next unless valid_alert?(m)
           next unless roadwork_repeat(m)
-          article[:rubrik] = uppdatera_rubrik(build_headline(m), m)
+          article[:SMHI_agent_version] = "1.0"
+          article[:generated_at] = Time.now
+          article[:title] = uppdatera_rubrik(build_headline(m), m)
           article[:ort] = lansomv(m)
           article[:ingress] = rensa_fel(build_ingress(m))
           article[:brodtext] = rensa_fel(build_brodtext(m))
-          article[:prio] = m[@need[1]]
+          article[:priority] = m[@need[1]]
           article[:udid] = m['Id']
           article[:uid] = d['Id']
           article[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
           article[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
-          article[]
-          digest = checksum(article)
+          article[:data_created_at] = m['CreationTime']
+          article[:version_time] = m['VersionTime']
+
+          tags[:main] = "Vädervarning"
+          tags[:other1] = "SMHI"
+          tags[:other2] = m[@need[7]]
+          article[:tags] = tags
+          digest = checksum("#{article[:uid]}#{article[:udid]}#{article[:ingress]}#{article[:brodtext]}")
           next if digest == redis.get(article[:udid])
           res[:articles] << article
           redis.set(article[:udid], digest)

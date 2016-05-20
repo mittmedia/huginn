@@ -85,13 +85,15 @@ module Agents::TRAFIKVERKET::Tv
         "followLocalDiversion" => :anvisning,
         "vehicleRecovery" => :fordonshaveri,
         "seriousFire" => :brand,
-        "InfrastructureDamageObstruction" => :vagskada
+        "InfrastructureDamageObstruction" => :vagskada,
+        "accidentInvolvingHeavyLorries" => :lastbil,
+        "peopleOnRoadway" => :eftersok
     }
 # =begin
     RUBRIKER = {
         PRIONIV[4] => {
              :belagg => "Stora störningar i trafiken på grund av vägarbete",
-             :djurpv => "Djur irrade sig upp på vägen och störde trafiken",
+             :djurpv => "Djur på vägen orsakar störningar i trafiken",
              :fordonshaveri => "Trasigt fordon skapade störningar i trafiken",
              :farja => "Stora störningar i färjeförbindelsen",
              :ickefung => "Trafikverket varnar – stora trafikstörningar",
@@ -118,7 +120,9 @@ module Agents::TRAFIKVERKET::Tv
              :diverse => "Störningar i trafiken – Trafikverket varnar",
              :dubbelriktad => "Trafiken tillfälligt dubbelriktad – varning utfärdad",
              :anvisning => "Trafiken leds om – Trafikverket manar till försiktighet",
-             :brand => "Allvarlig brand påverkar trafiken"
+             :brand => "Allvarlig brand påverkar trafiken",
+             :lastbil => "Lastbilsolycka ger stora trafikstörningar",
+             :eftersok => "Jägare söker efter skadat djur"
         },
         PRIONIV[5] => {
             :belagg => "Mycket stora störningar i trafiken på grund av vägarbete",
@@ -149,7 +153,9 @@ module Agents::TRAFIKVERKET::Tv
             :diverse => "Störningar i trafiken – Trafikverket varnar",
             :dubbelriktad => "Trafiken tillfälligt dubbelriktad – varning utfärdad",
             :anvisning => "Trafiken leds om – Trafikverket manar till försiktighet",
-            :brand => "Allvarlig brand påverkar trafiken"
+            :brand => "Allvarlig brand påverkar trafiken",
+            :lastbil => "Allvarlig lastbilsolycka ger stora trafikstörningar",
+            :eftersok => "Jägare söker efter skadat djur"
         }
     }
 
@@ -170,7 +176,7 @@ module Agents::TRAFIKVERKET::Tv
         "roadSurfaceInPoorCondition" => "Det dåliga skicket på vägbanan",
         "oilOnRoad" => "Olja på vägen",
         "flooding" => "En översvämmad väg",
-        "unprotectedAccidentArea" => "En olycka där man ännu ej har kunnat spärra av vägen",
+        "unprotectedAccidentArea" => "En olycka där man ännu inte har kunnat spärra av vägen",
         "followDiversionSigns" => "En avstängd väg gör att trafiken måste ledas om och det",
         "hazardsOnTheRoad" => "Ett farligt föremål på vägen",
         "obstructionOnTheRoad" => "Ett hinder på vägbanan",

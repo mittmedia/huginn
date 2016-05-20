@@ -26,15 +26,15 @@ module Agents
 
     def default_options
       {
-        'webhook_url' => 'https://hooks.slack.com/services/...',
-        'channel' => '#general',
-        'username' => DEFAULT_USERNAME,
+        'webhook_url' => 'https://hooks.slack.com/services/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',
+        'channel' => '#robottest',
+        'username' => "Mittmediabotten",
         'message' => "Hey there, It's Huginn",
-        'icon' => '',
+        'icon' => ':robot:',
       }
     end
 
-    def validate_options
+    def validate_options 
       unless options['webhook_url'].present? ||
              (options['auth_token'].present? && options['team_name'].present?)  # compatibility
         errors.add(:base, "webhook_url is required")
@@ -81,7 +81,7 @@ module Agents
             slack_opts[:icon_url] = opts[:icon]
           end
         end
-        slack_notifier.ping opts[:message], slack_opts
+        slack_notifier.ping slack_opts.to_s
       end
     end
   end

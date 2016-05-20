@@ -229,7 +229,7 @@ module Agents::SMHI::Rubrik
         "Varning klass 1 mycket hård vind med nederbörd" => "en klass 1-varning för hårda vindar och kraftig nederbörd",
         "Varning klass 2 orkan" => "en klass 2-varning för orkanvindar",
         "Meddelande Fjällväder" => "en varning för hårt fjällväder",
-        "Risk Gräsbrand" => "ett varning om att det råder stor risk för gräsbränder",
+        "Risk Gräsbrand" => "en varning om att det råder stor risk för gräsbränder",
         "Varning klass 1 stor gräsbrandsfara" => "en klass 1-varning på grund av den stora risken för gräsbränder",
         "Varning klass 1 skogsbrandsfara" => "en klass 1-varning på grund av den stora risken för skogsbränder",
         "Meddelande Brand" => "en varning gällande brand",
