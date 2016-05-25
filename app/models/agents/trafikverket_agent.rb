@@ -13,6 +13,26 @@ module Agents
     	Agent för omvandling av data från Trafikverkets öppna API till nyhetsartiklar.
     	Tar emot data via en POST-request och returnerar ett JSON-objekt.
     MD
+    event_description <<-MD
+      fylls i när strukturen som passar OC är känd.
+
+      Annars ser den ut så här just nu:
+      {article:{
+        :systemversion:,
+        :id,
+        :point,
+        :lat,
+        :long,
+        :poly,
+        :prio,
+        :rubrik,
+        :omr,
+        :ingress,
+        :brodtext
+        :exact_poly,
+        }
+      }
+      MD
 
     def redis
       @redis ||= Redis.new(:host => '127.0.0.1', :port => 6379, :db => 15)
@@ -32,7 +52,6 @@ module Agents
       @useful = ['RoadNumber', 'EndTime']
       # Filtrerar bort poster som inte är ursprungsposter
     	if m['ManagedCause'] != true && m['CreationTime'] > m['StartTime']
-         	# p "m['ManagedCause']"
           return false
         end
         if DateTime.parse(m['CreationTime']).today? == false
@@ -40,32 +59,25 @@ module Agents
       	end
         # Filtrerar bort ofullständiga poster 
         if (m.keys & @need).length < 8
-        	# p (m.keys & @need)
           return false
         end
         # Filtrerar bort allt utom systemversion 1
         if m['Id'][15] != "1"
         	# Här borde det finnas en slack output
-        	# p m['Id']
           return false
         end
         # Filtrerar bort allt med prio mindre än 4
         if m[@need[1]] < 4
-        	# p "prio"
           return false
         end
       return true
     end
 
     def roadwork_repeat(m)
-      if m[@need[0]] == "roadworks" && m.has_key?('EndTime')
-        if DateTime.parse(m['EndTime']).today? == false && DateTime.parse(m[@need[2]]).today?
-            p "vägarbete slutar: #{m['EndTime']}"
-            return false
-        else
-            return true
-        end
-        # p m['ManagedCause'].to_s
+      if m[@need[0]] == "roadworks"
+        return false
+      else
+        return true
       end
     end
 
