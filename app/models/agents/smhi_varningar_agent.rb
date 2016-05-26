@@ -52,9 +52,9 @@ module Agents
 
     def varningstext(prio)
       if prio == 2
-        "En klass 1-varning innebär en väderutveckling som innebär vissa risker för allmänheten och störningar för en del samhällsfunktioner. Eftersom väderläget kan ändras snabbt så rekommenderar SMHI att håller sig uppdaterad om utvecklingen via media och andra källor."
+        "En klass 1-varning kan innebära vissa risker för allmänheten och störningar för en del samhällsfunktioner. Eftersom väderläget kan ändras snabbt så rekommenderar SMHI att håller sig uppdaterad om utvecklingen via media och andra källor."
       elsif prio == 4
-        "En klass 2-varning innebär att en väderutveckling väntas som kan innebära fara för allmänheten, stora materiella skador och stora störningar i viktiga samhällsfunktioner.
+        "En klass 2-varning kan innebära fara för allmänheten, stora materiella skador och stora störningar i viktiga samhällsfunktioner.
   Allmänheten uppmanas att hålla sig uppdaterade med ny information via olika medier."
       elsif prio == 6
         "En klass 3-varning innebär att mycket extremt väder väntas som kan innebära stor fara för allmänheten och mycket stora störningar i viktiga samhällsfunktioner.
@@ -77,6 +77,19 @@ module Agents
       end  
     end
 
+    def system_version_control(article, a)
+      if article[:systemversion] == 1
+        return true
+      else
+        diff = Time.parse(a['code'][1][14..-1]) - Time.parse(article[:data_posted_at])
+        if diff < 300
+          return true
+        else
+          return false
+        end
+      end
+    end
+
     def check
       # redis.flushall
       handelser = SMHI::API.warnings(options['warnings_url'])
@@ -84,31 +97,31 @@ module Agents
       handelser.each do |a|
         article = {}
         tags = {}
+        geometry = {}
         omrkod = a['info']['area']['areaDesc']
         article[:SMHI_agent_version] = "1.0"
         article[:article_created_at] = Time.zone.now
         article[:data_posted_at] = a['sent']
+        article[:updated_at] = a['code'][1][14..-1] if a['code'][1].present?
         article[:systemversion] = a['code'][2][-1].to_i
         article[:id] = a['identifier']
-        article[:point] = SMHI::Geometri::POINT[omrkod[0..2]]
-        article[:lat] = article[:point].split[0][6..-1]
-        article[:long] = article[:point].split[1][0..-2]
-        article[:poly] = a['info']['area']['polygon'] if a['info']['area'].has_key? 'polygon'
         article[:prio] = SMHI::Rubrik::PRIO[a['info']['eventCode'][0]['value']]  # Nyhetsprio 2,4 eller 6
         article[:rubrik] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
         article[:omr] = area_transformation(omrkod)
         article[:ingress] = build_ingress(a, article)
         article[:brodtext] = build_brodtext(a, article)
-        article[:exact_poly] = SMHI::Geometri::POLYGON[omrkod]
+        geometry[:point] = SMHI::Geometri::POINT[omrkod[0..2]]
+        geometry[:lat] = geometry[:point].split[0][6..-1]
+        geometry[:long] = geometry[:point].split[1][0..-2]
+        geometry[:poly] = a['info']['area']['polygon'] if a['info']['area'].has_key? 'polygon'
+        geometry[:exact_poly] = SMHI::Geometri::POLYGON[omrkod]
         tags[:id] = "Number"
         tags[:main] = "Vädervarning"
         tags[:other1] = "SMHI"
         tags[:other2] = a['info']['eventCode'][1]['value']
         article[:tags] = ["tag" => [tags]]
-        if article[:systemversion] > 1
-          # skicka till slack att en uppdatering gjorts
-          next
-        end
+        article[:geometry] = geometry
+        next unless system_version_control(article, a)
         digest = checksum(article[:id], article[:ingress])
         next if digest == redis.get(article[:id])
         res[:articles] << article
@@ -129,6 +142,7 @@ module Agents
         .gsub("idag", "i dag")
         .gsub("Idag", "I dag")
         .gsub("blir i eftermiddag stor", "blir stor i eftermiddag")
+        .gsub("siljan", "Siljan")
     end
 
     def build_ingress(a, article)

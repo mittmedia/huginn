@@ -45,6 +45,7 @@ module Agents
 
     def validate_options
       errors.add(:base, "url_string is required") unless options['url_string'].present?
+      errors.add(:base, "api_key is required") unless options['api_key'].present?
     end
 
     def valid_alert?(m)
