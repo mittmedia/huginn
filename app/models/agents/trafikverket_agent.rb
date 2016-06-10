@@ -35,7 +35,7 @@ module Agents
       MD
 
     def redis
-      @redis ||= Redis.new(:host => '127.0.0.1', :port => 6379, :db => 15)
+      @redis ||= Redis.new(url: Rails.configuration.redis_url)
     end
 
     def default_options
