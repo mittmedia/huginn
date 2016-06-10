@@ -34,10 +34,6 @@ module Agents
       }
       MD
 
-    def redis
-      @redis ||= Redis.new(url: Rails.configuration.redis_url)
-    end
-
     def default_options
       { "url_string" => "http://api.trafikinfo.trafikverket.se/v1.1/data.json",
       	"api_key" => "984fb975e4c540ccae03ec5558b2e657" }
@@ -80,7 +76,7 @@ module Agents
     end
 
     def filter_and_text
-      # redis.flushall
+      # $redis.flushall
       data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], @post_body)
       count = 0
       lan = []
@@ -111,9 +107,9 @@ module Agents
           article[:tags] = ["tag" => tags]
           article[:geometry] = geometry
           digest = checksum("#{article[:uid]}#{article[:ingress]}")
-          next if digest == redis.get(article[:udid])
+          next if digest == $redis.get(article[:udid])
           res[:articles] << article
-          redis.set(article[:udid], digest)
+          $redis.set(article[:udid], digest)
           # slacking(article)
           count += 1
           slack(m, article)

@@ -34,10 +34,6 @@ module Agents
       }
       MD
 
-    def redis
-      @redis ||= Redis.new(url: Rails.configuration.redis_url)
-    end
-
     def default_options
      { "warnings_url" => "http://opendata-download-warnings.smhi.se/api/alerts.json",
       "message_url" => "http://opendata-download-warnings.smhi.se/api/messages.json"
@@ -96,7 +92,7 @@ module Agents
     end
 
     def check
-      # redis.flushall
+      # $redis.flushall
       handelser = SMHI::API.warnings(options['warnings_url'])
       res = {articles:[]}
       if handelser.nil? == false
@@ -128,9 +124,9 @@ module Agents
           article[:geometry] = geometry
           next unless system_version_control(article, a)
           digest = checksum(article[:id], article[:ingress])
-          next if digest == redis.get(article[:id])
+          next if digest == $redis.get(article[:id])
           res[:articles] << article
-          redis.set(article[:id], digest)
+          $redis.set(article[:id], digest)
           slack(omrkod, article)
         end
         if res[:articles].length > 0 then create_event payload: res end
