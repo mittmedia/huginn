@@ -181,7 +181,7 @@ module Agents
         area = [omrkod]
       end
       area.each do |i|      
-        Agents::SMHI::Distrikt::CHANNEL2[Agents::SMHI::Distrikt::OMR[i]].each do |c|
+        Agents::SMHI::Distrikt::CHANNEL[Agents::SMHI::Distrikt::OMR[i]].each do |c|
           Agents::SLACK::MESSAGE.slacking(c, article, message)
         end
       end

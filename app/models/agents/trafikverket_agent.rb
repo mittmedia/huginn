@@ -331,7 +331,7 @@ module Agents
       }
       omrkod.each do |i|
         if i != 2
-          Agents::TRAFIKVERKET::Tv::CHANNEL2[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
+          Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
             Agents::SLACK::MESSAGE.slacking(c, article, message)
           end
         end
