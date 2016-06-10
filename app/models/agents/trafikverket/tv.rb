@@ -87,7 +87,10 @@ module Agents::TRAFIKVERKET::Tv
         "seriousFire" => :brand,
         "InfrastructureDamageObstruction" => :vagskada,
         "accidentInvolvingHeavyLorries" => :lastbil,
-        "peopleOnRoadway" => :eftersok
+        "peopleOnRoadway" => :eftersok,
+        "fallenTrees" => :fallnatrad,
+        "blackIceHalt" => :asfalt,
+        "blackIce" => :asfalt
     }
 # =begin
     RUBRIKER = {
@@ -122,7 +125,9 @@ module Agents::TRAFIKVERKET::Tv
              :anvisning => "Trafiken leds om – Trafikverket manar till försiktighet",
              :brand => "Allvarlig brand påverkar trafiken",
              :lastbil => "Lastbilsolycka ger stora trafikstörningar",
-             :eftersok => "Jägare söker efter skadat djur"
+             :eftersok => "Jägare söker efter skadat djur",
+             :fallnatrad => "Fallna träd skapar problem för trafiken",
+             :asfalt => '"Blödande" asfalt stör trafiken'
         },
         PRIONIV[5] => {
             :belagg => "Mycket stora störningar i trafiken på grund av vägarbete",
@@ -155,7 +160,9 @@ module Agents::TRAFIKVERKET::Tv
             :anvisning => "Trafiken leds om – Trafikverket manar till försiktighet",
             :brand => "Allvarlig brand påverkar trafiken",
             :lastbil => "Allvarlig lastbilsolycka ger stora trafikstörningar",
-            :eftersok => "Jägare söker efter skadat djur"
+            :eftersok => "Jägare söker efter skadat djur",
+            :fallnatrad => "Fallna träd skapar problem för trafiken",
+            :asfalt => '"Blödande" asfalt ger stora störningar i trafiken'
         }
     }
 
@@ -191,19 +198,74 @@ module Agents::TRAFIKVERKET::Tv
         "followLocalDiversion" => "En tillfällig omledning av trafiken",
         "vehicleRecovery" => "Ett omhändertagande av ett fordon",
         "seriousFire" => "En brand",
-        "InfrastructureDamageObstruction" => "En vägskada"
+        "InfrastructureDamageObstruction" => "En vägskada",
+        "fallenTrees" => "Nerfallna träd",
+        "accidentInvolvingHeavyLorries" => "En lastbilsolycka",
+        "peopleOnRoadway" => "Människor på vägbanan",
+        "blackIce" => '"Blödande" asfalt'
+
     }
 
     MEDDELANDETYP = {
-        "Vägarbete" => "ett vägarbete",
+        "Vägarbete" => "Ett större vägarbete",
         "Viktig trafikinformation" => "Trafikverket går ut och informerar om en händelse som",
-        "Färjor" => "ett problem med en färja",
+        "Färjor" => "Ett problem med en färja",
         "Hinder" => "Ett trafikhinder",
         "Olycka" => "En olycka",
-        "Restriktion" => "Trafiken har begränsats och kan",
+        "Restriktion" => "Trafiken har begränsats och",
         "Trafikmeddelande" => "Trafikverket går ut med ett meddelande om en händelse som",
         "Väglag" => "Det jobbiga väglaget",
         "Väglagsöversikt" => "En översikt av väglaget"
+    }
+
+    CHANNEL = {
+    "alla län" => ["#larm_ovriga_landet", "#larm_gavleborg", "#larm_orebro", "#larm_vasternorrland", "#larm_dalarna", "#larm_jamtland", "#larm_vastmanland", "#larm_stockholm"],
+    "Stockholms län" => ["#larm_stockholm"],
+    "Uppsala län" => ["#larm_ovriga_landet"],
+    "Södermanland" => ["#larm_ovriga_landet"],
+    "Östergötland" => ["#larm_ovriga_landet"],
+    "Jönköpings län" => ["#larm_ovriga_landet"],
+    "Kronoberg" => ["#larm_ovriga_landet"],
+    "Kalmar län" => ["#larm_ovriga_landet"],
+    "Gotland" => ["#larm_ovriga_landet"],
+    "Blekinge" => ["#larm_ovriga_landet"],
+    "Skåne" => ["#larm_ovriga_landet"],
+    "Halland" => ["#larm_ovriga_landet"],
+    "Västra Götaland" => ["#larm_ovriga_landet"],
+    "Värmland" => ["#larm_ovriga_landet"],
+    "Örebro län" => ["#larm_orebro"],
+    "Västmanland" => ["#larm_vastmanland"],
+    "Dalarna" => ["#larm_dalarna"],
+    "Gävleborg" => ["#larm_gavleborg"],
+    "Västernorrland" => ["#larm_vasternorrland"],
+    "Jämtland" => ["#larm_jamtland"],
+    "Västerbotten" => ["#larm_ovriga_landet"],
+    "Norrbotten" => ["#larm_ovriga_landet"]
+    }
+
+    CHANNEL2 = {
+    "alla län" => ["#robottest"],
+    "Stockholms län" => ["#robottest"],
+    "Uppsala län" => ["#robottest"],
+    "Södermanland" => ["#robottest"],
+    "Östergötland" => ["#robottest"],
+    "Jönköpings län" => ["#robottest"],
+    "Kronoberg" => ["#robottest"],
+    "Kalmar län" => ["#robottest"],
+    "Gotland" => ["#robottest"],
+    "Blekinge" => ["#robottest"],
+    "Skåne" => ["#robottest"],
+    "Halland" => ["#robottest"],
+    "Västra Götaland" => ["#robottest"],
+    "Värmland" => ["#robottest"],
+    "Örebro län" => ["#robottest"],
+    "Västmanland" => ["#robottest"],
+    "Dalarna" => ["#robottest"],
+    "Gävleborg" => ["#robottest"],
+    "Västernorrland" => ["#robottest"],
+    "Jämtland" => ["#robottest"],
+    "Västerbotten" => ["#robottest"],
+    "Norrbotten" => ["#robottest"]
     }
 
 # =end

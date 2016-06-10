@@ -52,25 +52,22 @@ module Agents
       @need = ['MessageCodeValue', 'SeverityCode', 'VersionTime', 'LocationDescriptor', 'Message', 'CountyNo', 'Geometry', 'MessageType']
       @useful = ['RoadNumber', 'EndTime']
       # Filtrerar bort poster som inte är ursprungsposter
-    	if m['ManagedCause'] != true && m['CreationTime'] > m['StartTime']
-          return false
-        end
-        if DateTime.parse(m['CreationTime']).today? == false
-        	return false
-      	end
-        # Filtrerar bort ofullständiga poster 
-        if (m.keys & @need).length < 8
-          return false
-        end
-        # Filtrerar bort allt utom systemversion 1
-        if m['Id'][15] != "1"
-        	# Här borde det finnas en slack output
-          return false
-        end
-        # Filtrerar bort allt med prio mindre än 4
-        if m[@need[1]] < 4
-          return false
-        end
+      if m.has_key?('EndTime')
+        return false if DateTime.parse(m['EndTime']).today? == false 
+      end
+      return false if DateTime.parse(m['StartTime']).today? == false
+      return false if m['ManagedCause'] != true 
+      return false if m['CreationTime'] < m['StartTime']
+      return false if DateTime.parse(m['CreationTime']).today? == false
+      # Filtrerar bort ofullständiga poster 
+      return false if (m.keys & @need).length < 8
+      # Filtrerar bort allt utom systemversion 1
+      return false if m['Id'][15] != "1"
+        # Här borde det finnas en slack output
+        # p m['Id']
+      # Filtrerar bort allt med prio mindre än 4
+      return false if m[@need[1]] < 4
+      # p "gått igenom: #{m['Id']}, #{m[@need[0]]}"
       return true
     end
 
@@ -83,46 +80,48 @@ module Agents
     end
 
     def filter_and_text
-     	data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], @post_body)
+      # redis.flushall
+      data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], @post_body)
       count = 0
       lan = []
       res = {articles:[]}
       data['RESPONSE']['RESULT'][0]['Situation'].each do |d|
         d['Deviation'].each do |m|
           article = {}
-          tags = {}
+          geometry = {}
+          tags = []
           next unless valid_alert?(m)
           next unless roadwork_repeat(m)
-          article[:SMHI_agent_version] = "1.0"
+          article[:Trafikverket_agent] = "1.0"
           article[:generated_at] = Time.now
-          article[:title] = uppdatera_rubrik(build_headline(m), m)
+          article[:title] = headline_place(build_headline(m), m)
           article[:ort] = lansomv(m)
           article[:ingress] = rensa_fel(build_ingress(m))
           article[:brodtext] = rensa_fel(build_brodtext(m))
           article[:priority] = m[@need[1]]
           article[:udid] = m['Id']
           article[:uid] = d['Id']
-          article[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
-          article[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
+          geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
+          geometry[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
           article[:data_created_at] = m['CreationTime']
           article[:version_time] = m['VersionTime']
-
-          tags[:main] = "Vädervarning"
-          tags[:other1] = "SMHI"
-          tags[:other2] = m[@need[7]]
-          article[:tags] = tags
-          digest = checksum("#{article[:uid]}#{article[:udid]}#{article[:ingress]}#{article[:brodtext]}")
+          tags << ["ID" => "Number", "Text" => "Trafikvarning"]
+          tags << ["ID" => "Number", "Text" => "Trafikverket"]
+          tags << ["ID" => "Number", "Text" => m[@need[7]]]
+          article[:tags] = ["tag" => tags]
+          article[:geometry] = geometry
+          digest = checksum("#{article[:uid]}#{article[:ingress]}")
           next if digest == redis.get(article[:udid])
           res[:articles] << article
           redis.set(article[:udid], digest)
           # slacking(article)
           count += 1
+          slack(m, article)
         end
       end
       # puts "Antal artiklar skickade: #{count}"
-      # redis.flushall
-      create_event payload: res
-      res
+      if res[:articles].length > 0 then create_event payload: res end
+      return res
   	end
 
     def build_headline(m)
@@ -135,17 +134,20 @@ module Agents
     end
 
     def build_ingress(m)
-        "#{Agents::TRAFIKVERKET::Tv::BESKR[m[@need[0]]]} orsakar problem för trafikanter vid #{m[@need[3]]}, Trafikverket går ut och varnar trafikanter i området."
+        "#{Agents::TRAFIKVERKET::Tv::BESKR[m[@need[0]]]} orsakar problem för trafikanter vid #{m[@need[3]]}."
     end
 
     def build_brodtext(m)
       meddelande = m[@need[4]]
       versionstid = DateTime.parse(m[@need[2]])
       dag = Agents::TRAFIKVERKET::Tv::DAGAR[versionstid.wday]
-      sluttid = DateTime.parse(m[@useful[1]])
-      "Varningen gäller #{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]].downcase} och det som orsakar störningen är #{meddelande[0].downcase + meddelande[1..-1].gsub("\r\n", "")}. Det hela påverkar #{m[@need[3]]}.
-Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(versionstid, sluttid)}
-Den här artikeln är skriven av Mittmedias textrobot med hjälp av öppen data från Trafikverket."
+      if not m[@useful[1]].nil?
+        sluttid = DateTime.parse(m[@useful[1]])
+      else
+        sluttid = versionstid
+      end
+      "#{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]]} skapar störningar i trafiken och orsaken är #{meddelande[0].downcase + meddelande[1..-1].gsub("\r\n", "")}. Det hela påverkar #{m[@need[3]]}.
+  Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
     end
 
     def sluttid_n(version, slut)
@@ -160,15 +162,93 @@ Den här artikeln är skriven av Mittmedias textrobot med hjälp av öppen data 
     	end
     end
 
-    def uppdatera_rubrik(rubrik, m)
+    def update_headline(rubrik, m)
       if not m[@useful[0]].nil?
         if m[@useful[0]][0] == "E"
           "#{rubrik} på #{m[@useful[0]].split[0]}#{m[@useful[0]].split[1]}"
+        elsif m[@useful[0]] == "Väg 6"
+          "#{rubrik} på E6"
         else
           "#{rubrik} på #{m[@useful[0]].downcase}"
         end
       else
         rubrik
+      end
+    end
+
+    def headline_place(rubrik, m)
+      place = m[@need[3]].gsub("Cirkulationsplats ", "")
+                         .gsub("Trafikplats ", "")
+                         .gsub("Länsgräns ", "")
+                         .gsub("Tpl ", "")
+                         .gsub("Länsgr. ", "")
+                         .gsub("Motorbana", "motorbana")
+                         .gsub(/\([^()]*\)/, "")
+                         .gsub(/\[[^()]*\]/, "")
+                         .gsub("  ", " ")
+                       
+      from_position = []
+      three_word_place = place.match(/(från|mellan)\s([A-ZÅÄÖ][a-zåäö]+)\s([A-ZÅÄÖ][a-zåäö]+)\s([A-ZÅÄÖ][a-zåäö]+)/)
+      three_word_to = place.match(/(till|och|vid)\s([A-ZÅÄÖ][a-zåäö]+)\s([A-ZÅÄÖ][a-zåäö]+)\s([A-ZÅÄÖ][a-zåäö]+)/)
+      two_word_place = place.match(/(från|mellan)\s([A-ZÅÄÖ][a-zåäö]+)\s([A-ZÅÄÖ][a-zåäö]+)/)
+      two_word_to = place.match(/(till|och|vid)\s([A-ZÅÄÖ][a-zåäö]+)\s([A-ZÅÄÖ][a-zåäö]+)/)
+      from_place = place.match(/(från|mellan)\s([A-ZÅÄÖ][a-zåäö]+)/)
+      to_place = place.match(/(till|och|vid)\s([A-ZÅÄÖ][a-zåäö]+)/)
+      at_place = place.match(/(vid)\s([A-ZÅÄÖ][a-zåäö]+)/)
+      
+      if three_word_place.nil? == false
+        if three_word_to
+          # p "three"
+          if "#{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]}" == "#{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
+            return "#{update_headline(rubrik, m)} vid #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]}"
+          else
+            return "#{update_headline(rubrik, m)} mellan #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]} och #{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
+          end
+        elsif two_word_to
+          return "#{update_headline(rubrik, m)} mellan #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]} och #{two_word_to[2]} #{two_word_to[3]}"
+        elsif to_place
+          return "#{update_headline(rubrik, m)} mellan #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]} och #{to_place[2]}"
+        else
+          update_headline(rubrik, m)
+        end
+      elsif two_word_place.nil? == false
+        # p "två"
+        if three_word_to 
+          return "#{update_headline(rubrik, m)} mellan #{two_word_place[2]} #{two_word_place[3]} och #{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
+        elsif two_word_to
+          if "#{two_word_place[2]} #{two_word_place[3]}" == "#{two_word_to[2]} #{two_word_to[3]}"
+            return "#{update_headline(rubrik, m)} vid #{two_word_place[2]} #{two_word_place[3]}"
+          else
+            return "#{update_headline(rubrik, m)} mellan #{two_word_place[2]} #{two_word_place[3]} och #{two_word_to[2]} #{two_word_to[3]}"
+          end
+        elsif to_place
+          return "#{update_headline(rubrik, m)} mellan #{two_word_place[2]} #{two_word_place[3]} och #{to_place[2]}"
+        else
+          update_headline(rubrik, m)
+        end
+      elsif from_place.nil? == false
+        # p "hejsan!"
+        if three_word_to
+          return "#{update_headline(rubrik, m)} mellan #{from_place[2]} och #{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
+        elsif two_word_to
+          return "#{update_headline(rubrik, m)} mellan #{from_place[2]} och #{two_word_to[2]} #{two_word_to[3]}"
+        elsif to_place.nil? == false
+          if from_place[2] == to_place[2]
+            return "#{update_headline(rubrik, m)} vid #{to_place[2]}"
+          else
+            return "#{update_headline(rubrik, m)} mellan #{from_place[2]} och #{to_place[2]}"
+          end
+        else  
+        update_headline(rubrik, m)
+        end
+      elsif at_place.nil? == false
+        if at_place[2][-1] == ","
+          return "#{update_headline(rubrik, m)} vid #{at_place[2][0..-2]}"
+        else
+          return "#{update_headline(rubrik, m)} vid #{at_place[2]}"
+        end
+      else
+        update_headline(rubrik, m)
       end
     end
 
@@ -228,10 +308,34 @@ Den här artikeln är skriven av Mittmedias textrobot med hjälp av öppen data 
         .gsub(/(\d\d):(\d\d)/, '\1.\2')
         .gsub(/(\d+)([\a-zåäöÅÄÖ]+)/, '\1 \2')
         .gsub(/(\D)\.(\S)/, '\1. \2')
+        .gsub("Gävlei", "Gävle i")
+        .gsub("\r\n", "")
+        .gsub("en händelse som och det som", "en händelse som")
+        .gsub(/(E) (\d+)/, '\1\2')
+        .gsub("km/h", "kilometer i timmen")
+        .gsub(/\[[^()]*\]/, "")
+        .gsub(/(E\d{1,2})(.)(\d{2,3})/, '\1')
     end
 
     def checksum(json)
       Digest::MD5.hexdigest(json.to_s).to_s
+    end
+
+    def slack(m, article)
+      omrkod = m[@need[5]]
+      message = {
+      title: article[:title],
+      pretext: "Ny varning från Trafikverket",
+      text: "#{article[:omr]}\n#{article[:ingress]}\n#{article[:brodtext]}",
+      mrkdwn_in: ["text", "pretext"]
+      }
+      omrkod.each do |i|
+        if i != 2
+          Agents::TRAFIKVERKET::Tv::CHANNEL2[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
+            Agents::SLACK::MESSAGE.slacking(c, article, message)
+          end
+        end
+      end
     end
 
     def check
