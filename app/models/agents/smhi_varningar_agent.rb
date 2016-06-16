@@ -191,7 +191,7 @@ module Agents
     end
 
     def redis
-      @redis ||= Redis.new(url: ENV.fetch('REDIS_URL'))
+      @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
     end
   end
 end
