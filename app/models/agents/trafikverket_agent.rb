@@ -78,7 +78,6 @@ module Agents
     def filter_and_text
       # $redis.flushall
       data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], @post_body)
-      count = 0
       lan = []
       res = {articles:[]}
       data['RESPONSE']['RESULT'][0]['Situation'].each do |d|
@@ -111,7 +110,7 @@ module Agents
           res[:articles] << article
           $redis.set(article[:udid], digest)
           # slacking(article)
-          count += 1
+          @article_counter = $redis.incr("Trafikverket_article_count")
           slack(m, article)
         end
       end
@@ -142,7 +141,7 @@ module Agents
       else
         sluttid = versionstid
       end
-      "#{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]]} skapar störningar i trafiken och orsaken är #{meddelande[0].downcase + meddelande[1..-1].gsub("\r\n", "")}. Det hela påverkar #{m[@need[3]]}.
+      "#{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]]} skapar störningar i trafiken och orsaken är #{meddelande[0].downcase + meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}.
   Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
     end
 

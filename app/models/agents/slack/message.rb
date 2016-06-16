@@ -6,8 +6,8 @@ module Agents::SLACK::MESSAGE
 	def self.slacking(c, article, message)
     notifier = Slack::Notifier.new "https://hooks.slack.com/services/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",
       channel: c,
-      username: 'Mittmediabotten'
-      # Meddelande formaterat som följer: 
+      username: 'Mittmedias Textrobot'
+    # Meddelande formaterat som följer: 
     # message = {
     #   title: article[:rubrik],
     #   pretext: "Ny vädervarning från SMHI",
