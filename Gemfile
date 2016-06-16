@@ -39,7 +39,7 @@ gem 'hypdf', '~> 1.0.10'          # PDFInfoAgent
 gem 'redis', '2.1.1'              # SmhiVarningarAgent
 gem 'hash_diff'                   # SmhiVarningarAgent
 gem "factory_girl_rails", "~> 4.0" # TrafikverketAgent
-gem "digest/md5"
+
 
 # Weibo Agents
 gem 'weibo_2', github: 'cantino/weibo_2', branch: 'master'
