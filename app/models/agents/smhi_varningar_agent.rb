@@ -1,9 +1,7 @@
 require 'httparty'
 require 'json'
 require 'date'
-require 'slack-notifier'
 require 'digest/md5'
-require 'redis'
 
 module Agents
   class SmhiVarningarAgent < Agent

@@ -3,7 +3,6 @@ require "active_support/time"
 require "json"
 require 'net/http'
 require 'slack-notifier'
-require "redis"
 require 'digest/md5'
 
 module Agents
