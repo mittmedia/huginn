@@ -76,7 +76,7 @@ module Agents
     end
 
     def filter_and_text
-      # $redis.flushall
+      # redis.flushall
       data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], @post_body)
       lan = []
       res = {articles:[]}
@@ -106,11 +106,11 @@ module Agents
           article[:tags] = ["tag" => tags]
           article[:geometry] = geometry
           digest = checksum("#{article[:uid]}#{article[:ingress]}")
-          next if digest == $redis.get(article[:udid])
+          next if digest == redis.get(article[:udid])
           res[:articles] << article
-          $redis.set(article[:udid], digest)
+          redis.set(article[:udid], digest)
           # slacking(article)
-          @article_counter = $redis.incr("Trafikverket_article_count")
+          @article_counter = redis.incr("Trafikverket_article_count")
           slack(m, article)
         end
       end
@@ -369,6 +369,10 @@ module Agents
 
     def working?
       !recent_error_logs?
+    end
+
+    def redis
+      @redis ||= Redis.new(url: ENV.fetch('REDIS_URL'))
     end
 	end
 end

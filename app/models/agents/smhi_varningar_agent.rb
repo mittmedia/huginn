@@ -92,7 +92,7 @@ module Agents
     end
 
     def check
-      # $redis.flushall
+      # redis.flushall
       handelser = SMHI::API.warnings(options['warnings_url'])
       res = {articles:[]}
       if handelser.nil? == false
@@ -124,10 +124,10 @@ module Agents
           article[:geometry] = geometry
           next unless system_version_control(article, a)
           digest = checksum(article[:id], article[:ingress])
-          next if digest == $redis.get(article[:id])
+          next if digest == redis.get(article[:id])
           res[:articles] << article
-          $redis.set(article[:id], digest)
-          @article_counter = $redis.incr("SMHI_article_count")
+          redis.set(article[:id], digest)
+          @article_counter = redis.incr("SMHI_article_count")
           slack(omrkod, article)
         end
         if res[:articles].length > 0 then create_event payload: res end
@@ -190,6 +190,10 @@ module Agents
 
     def working?
      !recent_error_logs?
+    end
+
+    def redis
+      @redis ||= Redis.new(url: ENV.fetch('REDIS_URL'))
     end
   end
 end

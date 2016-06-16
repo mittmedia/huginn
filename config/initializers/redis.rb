@@ -1,1 +1,0 @@
-$redis = Redis.new(url: Rails.configuration.redis_url)
