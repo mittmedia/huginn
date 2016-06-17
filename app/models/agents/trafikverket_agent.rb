@@ -104,7 +104,7 @@ module Agents
           tags << ["ID" => "Number", "Text" => m[@need[7]]]
           article[:tags] = ["tag" => tags]
           article[:geometry] = geometry
-          digest = checksum("#{article[:uid]}#{article[:ingress]}")
+          digest = checksum("#{article[:udid]}")
           next if digest == redis.get(article[:udid])
           res[:articles] << article
           redis.set(article[:udid], digest)
@@ -336,7 +336,7 @@ module Agents
       @post_body =
         "<REQUEST>
          <LOGIN authenticationkey='#{options["api_key"]}' />
-         <QUERY objecttype='Situation' limit='1000'>
+         <QUERY objecttype='Situation'>
           <FILTER>
             <OR>
 							<ELEMENTMATCH>

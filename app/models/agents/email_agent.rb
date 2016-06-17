@@ -50,7 +50,7 @@ module Agents
               from: interpolated(event)['from'],
               subject: interpolated(event)['subject'],
               headline: interpolated(event)['headline'],
-              body: interpolated(event)['body'],
+              body: event.payload,
               content_type: interpolated(event)['content_type'],
               groups: [present(event.payload)]
             ).deliver_now
