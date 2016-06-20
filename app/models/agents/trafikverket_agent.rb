@@ -67,7 +67,7 @@ module Agents
     end
 
     def roadwork_repeat(m)
-      if m[@need[0]] == "roadworks"
+      if m[@need[0]] == "roadworks" || m[@need[0]] == "maintenanceWork"
         return false
       else
         return true
@@ -140,7 +140,7 @@ module Agents
       else
         sluttid = versionstid
       end
-      "#{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]]} skapar störningar i trafiken och enligt Trafikverket är orsaken #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]}.
+      "#{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]]} skapar störningar i trafiken och enligt Trafikverket är orsaken #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}.
   Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
     end
 
@@ -339,7 +339,7 @@ module Agents
       message = {
       title: article[:title],
       pretext: "Ny varning från Trafikverket",
-      text: "#{article[:omr]}\n#{article[:ingress]}\n#{article[:brodtext]}",
+      text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:brodtext]}",
       mrkdwn_in: ["text", "pretext"]
       }
       omrkod.each do |i|
@@ -392,5 +392,6 @@ module Agents
     def redis
       @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
     end
+
 	end
 end
