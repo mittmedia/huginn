@@ -128,7 +128,7 @@ module Agents
     end
 
     def build_ingress(m)
-        "#{Agents::TRAFIKVERKET::Tv::BESKR[m[@need[0]]]} orsakar problem för trafikanter vid #{m[@need[3]]}."
+        "#{Agents::TRAFIKVERKET::Tv::BESKR[m[@need[0]]]} orsakar problem i trafiken på #{m[@need[3]]}."
     end
 
     def build_brodtext(m)
