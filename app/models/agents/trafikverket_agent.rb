@@ -146,10 +146,10 @@ module Agents
 
     def enett(m)
       type = m[@need[4]].split
-      if Trafik::ENETT[type[0]].nil?
+      if Agents::Trafikverket::Tv::ENETT[type[0]].nil?
         m[@need[4]][0].downcase    
       else
-        Trafik::ENETT[type[0]]
+        Agents::Trafikverket::Tv::ENETT[type[0]]
       end
     end
 
