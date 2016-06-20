@@ -299,7 +299,7 @@ module Agents::TRAFIKVERKET::Tv
         "Risk" => "en r",
         "Nedfallet" => "ett n",
         "Påkört" => "ett p",
-        "Påkörd" => "en p",
+        "Påkörd" => "en p", 
         "Nedfallna" => "ett antal n",
         "Träskiva" => "en t",
         "Slitbana" => "en s",
