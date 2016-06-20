@@ -140,8 +140,17 @@ module Agents
       else
         sluttid = versionstid
       end
-      "#{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]]} skapar störningar i trafiken och orsaken är #{meddelande[0].downcase + meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}.
+      "#{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]]} skapar störningar i trafiken och enligt Trafikverket är orsaken #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]}.
   Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
+    end
+
+    def enett(m)
+      type = m[@need[4]].split
+      if Trafik::ENETT[type[0]].nil?
+        m[@need[4]][0].downcase    
+      else
+        Trafik::ENETT[type[0]]
+      end
     end
 
     def sluttid_n(version, slut)
@@ -278,6 +287,7 @@ module Agents
         .gsub("jvstn", "järnvägsstation")
         .gsub("Tpl", "Trafikplats")
         .gsub("Länsgräns AB/C", "länsgränsen mellan Stockholm och Uppsala")
+        .gsub("Länsgräns U/W", "länsgränsen mellan Dalarna och Västmanland")
         .gsub(" S ", " södra ")
         .gsub(" N ", " norra ")
         .gsub(" Ö ", " östra ")
@@ -286,6 +296,7 @@ module Agents
         .gsub("automatiskt kömeddelande : I riktning (S)       .", "långa köer i sydlig riktning")
         .gsub("automatiskt kömeddelande : I riktning (Ö)       .", "långa köer i östlig riktning")
         .gsub("automatiskt kömeddelande : I riktning (V)       .", "långa köer i västlig riktning")
+        .gsub("automatiskt kömeddelande : I riktning ", "långa köer")
         .gsub(" - ", "-")
         .gsub("/1", " januari")
         .gsub("/2", " februari")
@@ -309,6 +320,14 @@ module Agents
         .gsub("km/h", "kilometer i timmen")
         .gsub(/\[[^()]*\]/, "")
         .gsub(/(E\d{1,2})(.)(\d{2,3})/, '\1')
+        .gsub(/(E\d{1,2}) (.) (\d{2,3})/, '\1')
+        .gsub("Lednings/telearb.", "lednings- och telearbete")
+        .gsub("pga", "på grund av")
+        .gsub("Väg", "väg")
+        .gsub("Länsgräns AB/D", "länsgränsen mellan Stockholm och Södermanland")
+        .gsub("jord/Sten", "jord och sten på vägen")
+        .gsub("Länsgr. H/K", "länsgränsen mellan Kalmar och Blekinge")
+        .gsub("Länsgräns H/K", "länsgränsen mellan Kalmar och Blekinge")
     end
 
     def checksum(json)
