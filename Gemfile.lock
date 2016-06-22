@@ -29,6 +29,14 @@ GIT
       delayed_job (>= 3.0, < 5)
 
 GIT
+  remote: git://github.com/guilleiguaran/fakeredis.git
+  revision: e667da89b585f39ebd678618301426667c650b5c
+  branch: 0-3-x
+  specs:
+    fakeredis (0.3.3)
+      redis (~> 2.2.0)
+
+GIT
   remote: git://github.com/lostisland/faraday_middleware.git
   revision: c5836ae55857272732b33eb0e0a98d60e995a376
   branch: master
@@ -436,7 +444,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    redis (2.1.1)
+    redis (2.2.2)
     ref (2.0.0)
     responders (2.1.1)
       railties (>= 4.2.0, < 5.1)
@@ -612,6 +620,7 @@ DEPENDENCIES
   em-http-request (~> 1.1.2)
   evernote_oauth
   factory_girl_rails (~> 4.0)
+  fakeredis!
   faraday (~> 0.9.0)
   faraday_middleware!
   feed-normalizer
@@ -661,7 +670,7 @@ DEPENDENCIES
   rack-livereload (~> 0.3.16)
   rails (= 4.2.5.2)
   rails_12factor
-  redis (= 2.1.1)
+  redis (~> 2.2.0)
   rr
   rspec (~> 3.2)
   rspec-collection_matchers (~> 1.1.0)

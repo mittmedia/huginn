@@ -36,9 +36,9 @@ gem 'xmpp4r',  '~> 0.5.6'         # JabberAgent
 gem 'mqtt'                        # MQTTAgent
 gem 'slack-notifier', '~> 1.0.0'  # SlackAgent
 gem 'hypdf', '~> 1.0.10'          # PDFInfoAgent
-gem 'redis', '2.1.1'              # SmhiVarningarAgent
+gem 'redis', '~> 2.2.0'              # SmhiVarningarAgent
 gem 'hash_diff'                   # SmhiVarningarAgent
-gem "factory_girl_rails", "~> 4.0" # TrafikverketAgent
+gem "factory_girl_rails", "~> 4.0" # TrafikverketAgent  
 
 
 # Weibo Agents
@@ -158,6 +158,7 @@ group :development do
     gem 'shoulda-matchers'
     gem 'vcr'
     gem 'webmock', '~> 1.17.4', require: false
+    gem "fakeredis", :git => "git://github.com/guilleiguaran/fakeredis.git", :branch => "0-3-x"
   end
 end
 

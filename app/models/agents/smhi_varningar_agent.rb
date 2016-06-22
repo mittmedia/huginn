@@ -12,24 +12,7 @@ module Agents
     MD
 
     event_description <<-MD
-      fylls i när strukturen som passar OC är känd.
-
-      Annars ser den ut så här just nu:
-      {article:{
-        :systemversion:,
-        :id,
-        :point,
-        :lat,
-        :long,
-        :poly,
-        :prio,
-        :rubrik,
-        :omr,
-        :ingress,
-        :brodtext
-        :exact_poly,
-        }
-      }
+      
       MD
 
     def default_options
@@ -105,20 +88,18 @@ module Agents
           article[:updated_at] = Time.parse(a['code'][1][14..-1]) if a['code'][1].present?
           article[:systemversion] = a['code'][2][-1].to_i
           article[:id] = a['identifier']
-          article[:prio] = SMHI::Rubrik::PRIO[a['info']['eventCode'][0]['value']]  # Nyhetsprio 2,4 eller 6
-          article[:rubrik] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
+          article[:priority = SMHI::Rubrik::PRIO[a['info']['eventCode'][0]['value']]  # Nyhetsprio 2,4 eller 6
+          article[:title] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
           article[:omr] = area_transformation(omrkod)
           article[:ingress] = build_ingress(a, article)
-          article[:brodtext] = build_brodtext(a, article)
+          article[:body] = build_brodtext(a, article)
           geometry[:point] = SMHI::Geometri::POINT[omrkod[0..2]]
           geometry[:lat] = geometry[:point].split[0][6..-1]
           geometry[:long] = geometry[:point].split[1][0..-2]
           geometry[:poly] = a['info']['area']['polygon'] if a['info']['area'].has_key? 'polygon'
           geometry[:exact_poly] = SMHI::Geometri::POLYGON[omrkod]
-          tags << ["ID" => "Number", "Text" => "Vädervarning"]
-          tags << ["ID" => "Number", "Text" => "SMHI"]
-          tags << ["ID" => "Number", "Text" => a['info']['eventCode'][1]['value']]
-          article[:tags] = ["tag" => tags]
+          article[:tags] = ['id': 'some_number', 'name': 'SMHI', 'type': a['info']['eventCode'][0]['value']]
+          article[:categories] = ['id': 'some_number', 'name': 'Vädervarning']
           article[:geometry] = geometry
           next unless system_version_control(article, a)
           digest = checksum(article[:id], article[:ingress])
@@ -135,15 +116,15 @@ module Agents
 
     def clean_up_text(text)
       text.gsub("\"", "")
-        .gsub("m/s", "meter per sekund")
-        .gsub(". .", ".")
-        .gsub(/(\D)\.(\S)/, '\1. \2')
-        .gsub(". .", ". ")
-        .gsub("ca", "cirka")
-        .gsub("idag", "i dag")
-        .gsub("Idag", "I dag")
-        .gsub("blir i eftermiddag stor", "blir stor i eftermiddag")
-        .gsub("siljan", "Siljan")
+          .gsub("m/s", "meter per sekund")
+          .gsub(". .", ".")
+          .gsub(/(\D)\.(\S)/, '\1. \2')
+          .gsub(". .", ". ")
+          .gsub("ca", "cirka")
+          .gsub("idag", "i dag")
+          .gsub("Idag", "I dag")
+          .gsub("blir i eftermiddag stor", "blir stor i eftermiddag")
+          .gsub("siljan", "Siljan")
     end
 
     def build_ingress(a, article)
@@ -165,9 +146,9 @@ module Agents
 
     def slack(omrkod, article)
       message = {
-      title: article[:rubrik],
+      title: article[:title],
       pretext: "Ny vädervarning från SMHI",
-      text: "#{article[:omr]}\n#{article[:ingress]}\n#{article[:brodtext]}",
+      text: "#{article[:omr]}\n#{article[:ingress]}\n#{article[:body]}",
       mrkdwn_in: ["text", "pretext"]
       }
       if omrkod.length > 3

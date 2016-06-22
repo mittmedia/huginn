@@ -29,7 +29,6 @@ module Agents
         'webhook_url' => 'https://hooks.slack.com/services/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',
         'channel' => '#robottest',
         'username' => "Mittmediabotten",
-        'message' => "Hey there, It's Huginn",
         'icon' => ':robot:',
       }
     end

@@ -2,12 +2,18 @@ require 'rails_helper'
 require 'factory_girl_rails'
 
 describe Agents::TrafikverketAgent do
+  before do
+    ENV['REDIS_URL'] = 'foo'
+  end
+
   before(:each) do
     @valid_options = { 
     "url_string" => "http://api.trafikinfo.trafikverket.se/v1.1/data.json",
     "api_key" => "984fb975e4c540ccae03ec5558b2e657" 
     }
     stub_request(:any, /trafikverket.se/).to_return(:body => File.read(Rails.root.join("spec/data_fixtures/trafikverket.json")), :status => 200, headers: { 'Content-Type' => 'application/json' })
+
+
     
 # > build :some_name, foo: "foobar" #will give you
 # > { foo: "foobar", baz: "baff" }
@@ -57,54 +63,56 @@ describe Agents::TrafikverketAgent do
     }.to change { agent.events.count }.by(1) 
     end
     it "evaluates the number of keys in the JSON object" do
-      expect(agent.check[:articles][0].length).to eq(13)
+      expect(agent.check[:articles][0].length).to eq(15)
     end
     it "makes sure no nil values are sent" do
       agent.check[:articles][0].each do |a|
       expect(a[1]).not_to be(nil)
     end
   end
+
   describe "headline_place(rubrik, m)"
     def check_headline(location)
       m = build(:trafikverket_warning, LocationDescriptor: location).stringify_keys
-      a = agent.check
-      agent.headline_place(a[:articles][0][:title], m)  
+      # p m
+      a = agent.build_headline(m)
+      agent.headline_place(a, m)  
     end
     it "extracts place names from location description and puts it in the headline" do
       headline = check_headline("E6 från Äldre Södra Allmännet (87) till Som Sa Sönder (86) i riktning mot Malmö i Västra Götalands län (O)")
-      expect(headline).to eq("Allvarlig olycka skapar stora trafikstörningar mellan Äldre Södra Allmännet och Som Sa Sönder")
+      expect(headline).to eq("Djur på vägen orsakade störningar i trafiken mellan Äldre Södra Allmännet och Som Sa Sönder")
     end
         it "extracts place names from location description and puts it in the headline" do
-      headline = check_headline("E6 från Äldre Södra Allmännet (87) till Sa Sönder (86) i riktning mot Malmö i Västra Götalands län (O)")
-      expect(headline).to eq("Allvarlig olycka skapar stora trafikstörningar mellan Äldre Södra Allmännet och Sa Sönder")
+      headline = check_headline("E6 från Äldre Södra Allmännet  (87) till Sa Sönder (86) i riktning mot Malmö i Västra Götalands län (O)")
+      expect(headline).to eq("Djur på vägen orsakade störningar i trafiken mellan Äldre Södra Allmännet och Sa Sönder")
     end
         it "extracts place names from location description and puts it in the headline" do
       headline = check_headline("E6 från Äldre Södra Allmännet (87) till Sönder (86) i riktning mot Malmö i Västra Götalands län (O)")
-      expect(headline).to eq("Allvarlig olycka skapar stora trafikstörningar mellan Äldre Södra Allmännet och Sönder")
+      expect(headline).to eq("Djur på vägen orsakade störningar i trafiken mellan Äldre Södra Allmännet och Sönder")
     end
         it "extracts place names from location description and puts it in the headline" do
       headline = check_headline("E6 från Äldre Södra (87) till Som Sa Sönder (86) i riktning mot Malmö i Västra Götalands län (O)")
-      expect(headline).to eq("Allvarlig olycka skapar stora trafikstörningar mellan Äldre Södra och Som Sa Sönder")
+      expect(headline).to eq("Djur på vägen orsakade störningar i trafiken mellan Äldre Södra och Som Sa Sönder")
     end
         it "extracts place names from location description and puts it in the headline" do
       headline = check_headline("E6 från Äldre Södra (87) till Sa Sönder (86) i riktning mot Malmö i Västra Götalands län (O)")
-      expect(headline).to eq("Allvarlig olycka skapar stora trafikstörningar mellan Äldre Södra och Sa Sönder")
+      expect(headline).to eq("Djur på vägen orsakade störningar i trafiken mellan Äldre Södra och Sa Sönder")
     end
         it "extracts place names from location description and puts it in the headline" do
       headline = check_headline("E6 från Äldre Södra (87) till Som (86) i riktning mot Malmö i Västra Götalands län (O)")
-      expect(headline).to eq("Allvarlig olycka skapar stora trafikstörningar mellan Äldre Södra och Som")
+      expect(headline).to eq("Djur på vägen orsakade störningar i trafiken mellan Äldre Södra och Som")
     end
         it "extracts place names from location description and puts it in the headline" do
       headline = check_headline("E6 från Allmännet (87) till Som Sa Sönder (86) i riktning mot Malmö i Västra Götalands län (O)")
-      expect(headline).to eq("Allvarlig olycka skapar stora trafikstörningar mellan Allmännet och Som Sa Sönder")
+      expect(headline).to eq("Djur på vägen orsakade störningar i trafiken mellan Allmännet och Som Sa Sönder")
     end
         it "extracts place names from location description and puts it in the headline" do
       headline = check_headline("E6 från Allmännet (87) till Sa Sönder (86) i riktning mot Malmö i Västra Götalands län (O)")
-      expect(headline).to eq("Allvarlig olycka skapar stora trafikstörningar mellan Allmännet och Sa Sönder")
+      expect(headline).to eq("Djur på vägen orsakade störningar i trafiken mellan Allmännet och Sa Sönder")
     end
         it "extracts place names from location description and puts it in the headline" do
       headline = check_headline("E6 från Allmännet (87) till Sönder (86) i riktning mot Malmö i Västra Götalands län (O)")
-      expect(headline).to eq("Allvarlig olycka skapar stora trafikstörningar mellan Allmännet och Sönder")
+      expect(headline).to eq("Djur på vägen orsakade störningar i trafiken mellan Allmännet och Sönder")
     end
   end
 end

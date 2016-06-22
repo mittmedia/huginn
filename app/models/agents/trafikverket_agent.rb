@@ -67,7 +67,7 @@ module Agents
     end
 
     def roadwork_repeat(m)
-      if m[@need[0]] == "roadworks" || m[@need[0]] == "maintenanceWork"
+      if m[@need[0]] == "roadworks" || m[@need[0]] == "resurfacingWork"
         return false
       else
         return true
@@ -83,26 +83,28 @@ module Agents
         d['Deviation'].each do |m|
           article = {}
           geometry = {}
-          tags = []
+          info = []
           next unless valid_alert?(m)
           next unless roadwork_repeat(m)
-          article[:Trafikverket_agent] = "1.0"
+          article[:Trafikverket_agent_version] = "1.0"
           article[:generated_at] = Time.now
           article[:title] = headline_place(build_headline(m), m)
           article[:ort] = lansomv(m)
           article[:ingress] = rensa_fel(build_ingress(m))
-          article[:brodtext] = rensa_fel(build_brodtext(m))
+          article[:body] = rensa_fel(build_brodtext(m))
           article[:priority] = m[@need[1]]
-          article[:udid] = m['Id']
-          article[:uid] = d['Id']
+          article[:udid] = m['Id'] # unikt id för situationen
+          article[:uid] = d['Id'] # unikt deviation-id
+          @need.each do |i|
+            info << m[i]
+          end
+          article[:info] = info
+          article[:tags] = ['id': 'some_number', 'name': 'Trafikverket', 'type': m[@need[7]]]
+          article[:categories] = ['id': 'some_number', 'name': 'Trafikvarning']
           geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
           geometry[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
           article[:data_created_at] = m['CreationTime']
           article[:version_time] = m['VersionTime']
-          tags << ["ID" => "Number", "Text" => "Trafikvarning"]
-          tags << ["ID" => "Number", "Text" => "Trafikverket"]
-          tags << ["ID" => "Number", "Text" => m[@need[7]]]
-          article[:tags] = ["tag" => tags]
           article[:geometry] = geometry
           digest = checksum("#{article[:udid]}")
           next if digest == redis.get(article[:udid])
@@ -110,16 +112,15 @@ module Agents
           redis.set(article[:udid], digest)
           # slacking(article)
           @article_counter = redis.incr("Trafikverket_article_count")
-          slack(m, article)
+          # slack(m, article)
         end
       end
-      # puts "Antal artiklar skickade: #{count}"
       if res[:articles].length > 0 then create_event payload: res end
       return res
   	end
 
     def build_headline(m)
-      rubrik = Agents::TRAFIKVERKET::Tv::RUBRIKER[Agents::TRAFIKVERKET::Tv::PRIONIV[m[@need[1]]]][Agents::TRAFIKVERKET::Tv::LEVEL[m[@need[0]]]]
+      rubrik = Agents::TRAFIKVERKET::Tv::RUBRIKER[Agents::TRAFIKVERKET::Tv::PRIONIV[m['SeverityCode']]][Agents::TRAFIKVERKET::Tv::LEVEL[m['MessageCodeValue']]]
       if rubrik.nil?
         # Här borde skickas felmeddelande till Slackkanal mded följande info: p m[@need[0]] + m[@need[4]]
         rubrik = "Trafikverket går ut med varning till allmänheten"
@@ -140,16 +141,16 @@ module Agents
       else
         sluttid = versionstid
       end
-      "#{Agents::TRAFIKVERKET::Tv::MEDDELANDETYP[m[@need[7]]]} skapar störningar i trafiken och enligt Trafikverket är orsaken #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}.
-  Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
+      "Trafikverket rapporterar störningar i trafiken #{update_headline("", m)}och orsaken är #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}.
+Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
     end
 
     def enett(m)
       type = m[@need[4]].split
-      if Agents::TRAFIKVERKET::Tv::ENETT[type[0]].nil?
-        m[@need[4]][0].downcase    
+      if Agents::TRAFIKVERKET::Tv::ENETT[type[0].gsub(".", "").downcase].nil?
+        type[0][0].downcase    
       else
-        Agents::TRAFIKVERKET::Tv::ENETT[type[0]]
+        Agents::TRAFIKVERKET::Tv::ENETT[type[0].gsub(".", "").downcase]
       end
     end
 
@@ -166,10 +167,10 @@ module Agents
     end
 
     def update_headline(rubrik, m)
-      if not m[@useful[0]].nil?
-        if m[@useful[0]][0] == "E"
-          "#{rubrik} på #{m[@useful[0]].split[0]}#{m[@useful[0]].split[1]}"
-        elsif m[@useful[0]] == "Väg 6"
+      if not m['RoadNumber'].nil?
+        if m['RoadNumber'][0] == "E"
+          "#{rubrik} på #{m['RoadNumber'].split[0]}#{m['RoadNumber'].split[1]}"
+        elsif m['RoadNumber'] == "Väg 6"
           "#{rubrik} på E6"
         else
           "#{rubrik} på #{m[@useful[0]].downcase}"
@@ -180,7 +181,7 @@ module Agents
     end
 
     def headline_place(rubrik, m)
-      place = m[@need[3]].gsub("Cirkulationsplats ", "")
+      place = m['LocationDescriptor'].gsub("Cirkulationsplats ", "")
                          .gsub("Trafikplats ", "")
                          .gsub("Länsgräns ", "")
                          .gsub("Tpl ", "")
@@ -328,6 +329,7 @@ module Agents
         .gsub("jord/Sten", "jord och sten på vägen")
         .gsub("Länsgr. H/K", "länsgränsen mellan Kalmar och Blekinge")
         .gsub("Länsgräns H/K", "länsgränsen mellan Kalmar och Blekinge")
+        .gsub("väg 6", "E6")
     end
 
     def checksum(json)
@@ -339,7 +341,7 @@ module Agents
       message = {
       title: article[:title],
       pretext: "Ny varning från Trafikverket",
-      text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:brodtext]}",
+      text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
       mrkdwn_in: ["text", "pretext"]
       }
       omrkod.each do |i|
