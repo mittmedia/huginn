@@ -173,7 +173,7 @@ Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(
         elsif m['RoadNumber'] == "Väg 6"
           "#{rubrik} på E6"
         else
-          "#{rubrik} på #{m[@useful[0]].downcase}"
+          "#{rubrik} på #{m['RoadNumber'].downcase}"
         end
       else
         rubrik

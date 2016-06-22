@@ -88,7 +88,7 @@ module Agents
           article[:updated_at] = Time.parse(a['code'][1][14..-1]) if a['code'][1].present?
           article[:systemversion] = a['code'][2][-1].to_i
           article[:id] = a['identifier']
-          article[:priority = SMHI::Rubrik::PRIO[a['info']['eventCode'][0]['value']]  # Nyhetsprio 2,4 eller 6
+          article[:priority] = SMHI::Rubrik::PRIO[a['info']['eventCode'][0]['value']]  # Nyhetsprio 2,4 eller 6
           article[:title] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
           article[:omr] = area_transformation(omrkod)
           article[:ingress] = build_ingress(a, article)
