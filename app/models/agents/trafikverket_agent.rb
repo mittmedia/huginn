@@ -354,22 +354,22 @@ Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(
       end
     end
 
-     def slacka(m, article)
-      omrkod = m[@need[5]]
-      message = {
-      title: article[:title],
-      pretext: "Ny varning från Trafikverket",
-      text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
-      mrkdwn_in: ["text", "pretext"]
-      }
-      omrkod.each do |i|
-        if i != 2
-          Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
-            create_event payload: message
-          end
-        end
-      end
-    end
+    # def slacka(m, article)
+    #   omrkod = m[@need[5]]
+    #   message = {
+    #   title: article[:title],
+    #   pretext: "Ny varning från Trafikverket",
+    #   text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
+    #   mrkdwn_in: ["text", "pretext"]
+    #   }
+    #   omrkod.each do |i|
+    #     if i != 2
+    #       Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
+    #         create_event payload: message
+    #       end
+    #     end
+    #   end
+    # end
 
     def check
       @post_body =
