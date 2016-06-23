@@ -57,7 +57,7 @@ module Agents
         #   mrkdwn_in: ["text", "pretext"]
         #   }
         
-        slack_notifier.ping event
+        slack_notifier.ping "", attachments: [event]
       end
     end
   end
