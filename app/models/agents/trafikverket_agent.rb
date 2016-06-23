@@ -113,7 +113,7 @@ module Agents
           # slacking(article)
           @article_counter = redis.incr("Trafikverket_article_count")
           slack(m, article)
-          slacka(m, article)
+          # slacka(m, article)
         end
       end
       if res[:articles].length > 0 then create_event payload: res end
