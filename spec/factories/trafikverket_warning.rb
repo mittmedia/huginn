@@ -3,7 +3,7 @@ FactoryGirl.define do
       defaults = {
         :MessageCodeValue => "animalsOnTheRoad", 
         :SeverityCode => 5,
-        :VersionTime => "2016-06-22T08:53:33", 
+        :VersionTime => "2016-06-23T14:53:33", 
         :LocationDescriptor => "E6.20 vid Gnistängstunneln i riktning mot Frölunda i Västra Götalands län (O)", 
         :Message => "Gnistängstunneln, södergående tunnelrör mot Frölunda avstängt. Trafiken överleds.\nMötande trafik i norrgående rör.\n", 
         :CountyNo => [2, 1], 
@@ -11,8 +11,8 @@ FactoryGirl.define do
         :MessageType => "Trafikmeddelande", 
         :ManagedCause => true, 
         :Id => "111111111111111111111111111",
-        :CreationTime => "2016-06-22T08:52:49",
-        :StartTime => "2016-06-22T08:51:00"
+        :CreationTime => "2016-06-23T14:52:49",
+        :StartTime => "2016-06-23T14:51:00"
       }
       initialize_with{ defaults.merge(attributes) }
     end
