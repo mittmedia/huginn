@@ -59,8 +59,8 @@ module Agents
         #   mrkdwn_in: ["text", "pretext"]
         #   }
         if event.has_key? 'pretext'
-          message = event
-          slack_notifier.ping "", attachments: [message]
+          # message = event
+          slack_notifier.ping "", attachments: [event]
         end
       end
     end

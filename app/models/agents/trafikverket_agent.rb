@@ -330,7 +330,7 @@ Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(
         .gsub("jord/Sten", "jord och sten på vägen")
         .gsub("Länsgr. H/K", "länsgränsen mellan Kalmar och Blekinge")
         .gsub("Länsgräns H/K", "länsgränsen mellan Kalmar och Blekinge")
-        .gsub("väg 6", "E6")
+        .gsub("väg 6 ", "E6")
     end
 
     def checksum(json)
