@@ -143,7 +143,7 @@ module Agents
         sluttid = versionstid
       end
       "Trafikverket rapporterar störningar i trafiken #{update_headline("", m)}och orsaken är #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}.
-Varningen gick ut på #{dag} klockan #{versionstid.strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
+Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
     end
 
     def enett(m)
