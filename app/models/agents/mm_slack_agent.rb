@@ -2,7 +2,7 @@ module Agents
   class MmSlackAgent < Agent
 
     cannot_be_scheduled!
-    cannot_create_events!
+    # cannot_create_events!
     no_bulk_receive!
 
     gem_dependency_check { defined?(Slack) }
@@ -49,6 +49,8 @@ module Agents
 
     def receive(incoming_events)
       incoming_events.each do |event|
+        
+        create_event payload: event
         # Meddelande formaterat som följer: 
         # message = {
         #   title: event[article[:title]],
