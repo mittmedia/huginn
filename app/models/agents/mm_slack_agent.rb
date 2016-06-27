@@ -49,7 +49,7 @@ module Agents
 
     def receive(incoming_events)
       incoming_events.each do |event|
-        
+
         create_event payload: event
         # Meddelande formaterat som följer: 
         # message = {
@@ -58,8 +58,10 @@ module Agents
         #   text: "#{event[article[:ort]]}\n#{event[article[:ingress]]}\n#{event[article[:body]]}",
         #   mrkdwn_in: ["text", "pretext"]
         #   }
-        
-        slack_notifier.ping "", attachments: [event]
+        if event.has_key? 'pretext'
+          message = event
+          slack_notifier.ping "", attachments: [message]
+        end
       end
     end
   end
