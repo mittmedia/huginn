@@ -52,7 +52,7 @@ module Agents
 
         # create_event payload: event
         # Meddelande formaterat som följer: 
-        if event['channel'].present?
+        if event['channel']
           message = {
             title: event['title'],
             pretext: event['pretext'],
