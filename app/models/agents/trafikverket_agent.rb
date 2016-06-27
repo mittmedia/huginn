@@ -116,7 +116,7 @@ module Agents
           slacka(m, article)
         end
       end
-      if res[:articles].length > 0 then create_event payload: res[:articles] end
+      if res[:articles].length > 0 then create_event payload: res end
       return res
   	end
 
