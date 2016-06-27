@@ -7,7 +7,7 @@ describe Agents::MmSlackAgent do
     @valid_params = {
                       'webhook_url' => 'https://hooks.slack.com/services/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',
                       'channel' => '#robottest',
-                      'username' => "{{username}}",
+                      'username' => "username",
                       'message' => "hej",
                       'attachments' => @attachments
                     }
@@ -18,7 +18,16 @@ describe Agents::MmSlackAgent do
 
     @event = Event.new
     @event.agent = agents(:bob_weather_agent)
-    @event.payload = { :channel => '#robottest', :message => 'Looks like its going to rain', username: "Huggin user", fallback: @fallback}
+    @event.payload = {
+  "title": "Just nu: område ännu inte avspärrat efter olycka på väg 50 mellan Fågelsta och Skänninge Norra",
+  "pretext": "Ny varning från Trafikverket",
+  "text": "Östergötland\nEn olycka där man ännu inte har kunnat spärra av vägen orsakar problem i trafiken på väg 50  från Trafikplats Fågelsta till Trafikplats Skänninge Norra i riktning mot Mjölby i Östergötlands län.\nTrafikverket rapporterar störningar i trafiken på väg 50 och orsaken är singeloycka. Det hela påverkar väg 50 från Trafikplats Fågelsta till Trafikplats Skänninge Norra i riktning mot Mjölby i Östergötlands län.\nVarningen gick ut på måndagen klockan 15.36. Man beräknar att trafiken kommer påverkas fram till klockan 16.00.",
+  "mrkdwn_in": [
+    "text",
+    "pretext"
+  ],
+  "channel": "#robottest"
+}
     @event.save!
     # @event
     # p @event
@@ -52,14 +61,15 @@ describe Agents::MmSlackAgent do
   describe "#receive" do
     it "receive an event without errors" do
       any_instance_of(Slack::Notifier) do |obj|
-        mock(obj).ping(@event.payload[:message],
-                       attachments: [{'fallback' => @fallback}],
-                       channel: @event.payload[:channel],
-                       username: @event.payload[:username]
-                      )
+        mock(obj).ping                      
       end
       expect { @checker.receive([@event]) }.not_to raise_error
     end
+    it "should evaluate event and go forward with the one formatted as a Slack message" do
+    	m = @checker.receive([@event])
+    	# p m[0]['payload']['channel']
+    end
+
   end
 
   describe "#working?" do

@@ -52,7 +52,7 @@ module Agents
 
         # create_event payload: event
         # Meddelande formaterat som följer: 
-        if event['channel']
+        if event[0]['payload']['channel']
           message = {
             title: event['title'],
             pretext: event['pretext'],
@@ -61,6 +61,7 @@ module Agents
             }
           slack_notifier.ping "", channel: "#robottest", attachments: [message]
           create_event payload: message
+          event
         end
       end
     end
