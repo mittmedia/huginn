@@ -52,14 +52,14 @@ module Agents
 
         # create_event payload: event
         # Meddelande formaterat som följer: 
-        if event.has_key? 'pretext'
+        if event['channel'].present?
           message = {
             title: event['title'],
             pretext: event['pretext'],
             text: event['text'],
             mrkdwn_in: ["text", "pretext"]
             }
-          slack_notifier.ping "", attachments: [message]
+          slack_notifier.ping "", channel: event['channel'], attachments: [message]
         end
       end
     end
