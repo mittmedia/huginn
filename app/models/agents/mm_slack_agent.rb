@@ -50,17 +50,16 @@ module Agents
     def receive(incoming_events)
       incoming_events.each do |event|
 
-        create_event payload: event
+        # create_event payload: event
         # Meddelande formaterat som följer: 
-        # message = {
-        #   title: event[article[:title]],
-        #   pretext: options(:pretext),
-        #   text: "#{event[article[:ort]]}\n#{event[article[:ingress]]}\n#{event[article[:body]]}",
-        #   mrkdwn_in: ["text", "pretext"]
-        #   }
         if event.has_key? 'pretext'
-          # message = event
-          slack_notifier.ping "", attachments: [event]
+          message = {
+            title: event['title'],
+            pretext: event['pretext'],
+            text: event['text'],
+            mrkdwn_in: ["text", "pretext"]
+            }
+          slack_notifier.ping "", attachments: [message]
         end
       end
     end
