@@ -48,21 +48,18 @@ module Agents
     end
 
     def receive(incoming_events)
-      for i in incoming_events do |event|
-        p i
-        # create_event payload: event
+      if incoming_events['payload'].has_key? 'channel'
+        p incoming_events['payload']['channel']
         # Meddelande formaterat som följer: 
-        if event[0]['payload']['channel']
-          message = {
-            title: event['title'],
-            pretext: event['pretext'],
-            text: event['text'],
-            mrkdwn_in: ["text", "pretext"]
-            }
-          slack_notifier.ping "", channel: "#robottest", attachments: [message]
-          create_event payload: message
-          event
-        end
+        message = {
+          title: incoming_events['payload']['title'],
+          pretext: incoming_events['payload']['pretext'],
+          text: incoming_events['payload']['text'],
+          mrkdwn_in: ["text", "pretext"]
+          }
+        slack_notifier.ping "", channel: "#robottest", attachments: [message]
+        create_event payload: message
+        event
       end
     end
   end

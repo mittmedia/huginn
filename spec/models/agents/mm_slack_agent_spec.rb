@@ -66,7 +66,10 @@ describe Agents::MmSlackAgent do
       expect { @checker.receive([@event]) }.not_to raise_error
     end
     it "should evaluate event and go forward with the one formatted as a Slack message" do
-    	m = @checker.receive([@event])
+    	any_instance_of(Slack::Notifier) do |obj|
+        mock(obj).ping                      
+      end
+    	m = @checker.receive(@event)
     	# p m[0]['payload']['channel']
     end
 
