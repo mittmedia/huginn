@@ -49,7 +49,7 @@ module Agents
 
     def receive(incoming_events)
       incoming_events.each do |event|
-
+        p event
         # create_event payload: event
         # Meddelande formaterat som följer: 
         if event[0]['payload']['channel']
