@@ -59,7 +59,8 @@ module Agents
             text: event['text'],
             mrkdwn_in: ["text", "pretext"]
             }
-          slack_notifier.ping "", channel: event['channel'], attachments: [message]
+          create_event payload: message
+          slack_notifier.ping "", channel: "#robottest", attachments: [message]
         end
       end
     end
