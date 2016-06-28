@@ -125,7 +125,7 @@ module Agents::TRAFIKVERKET::Tv
           :anvisning => "Trafiken leds om – Trafikverket manar till försiktighet",
           :brand => "Allvarlig brand påverkar trafiken",
           :lastbil => "Lastbilsolycka ger stora trafikstörningar",
-          :eftersok => "Jägare söker efter skadat djur",
+          :eftersok => "Trafikverket varnar – människor kan finnas på vägen",
           :fallnatrad => "Fallna träd skapar problem för trafiken",
           :asfalt => '"Blödande" asfalt stör trafiken'
         },
@@ -160,7 +160,7 @@ module Agents::TRAFIKVERKET::Tv
           :anvisning => "Trafiken leds om – Trafikverket manar till försiktighet",
           :brand => "Brand påverkar trafiken",
           :lastbil => "Lastbilsolycka ger stora trafikstörningar",
-          :eftersok => "Jägare söker efter skadat djur",
+          :eftersok => "Trafikverket varnar – människor kan finnas på vägen",
           :fallnatrad => "Fallna träd skapar problem för trafiken",
           :asfalt => '"Blödande" asfalt ger stora störningar i trafiken'
         }
