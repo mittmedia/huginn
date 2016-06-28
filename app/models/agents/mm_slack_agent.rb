@@ -49,7 +49,7 @@ module Agents
 
     def receive(incoming_events)
       if incoming_events['payload'].has_key? 'channel'
-        p incoming_events['payload']['channel']
+        # p incoming_events['payload']['channel']
         # Meddelande formaterat som följer: 
         message = {
           title: incoming_events['payload']['title'],
@@ -59,7 +59,7 @@ module Agents
           }
         slack_notifier.ping "", channel: "#robottest", attachments: [message]
         create_event payload: message
-        event
+        # event
       end
     end
   end
