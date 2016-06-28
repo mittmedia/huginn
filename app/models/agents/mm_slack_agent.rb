@@ -48,7 +48,7 @@ module Agents
     end
 
     def receive(incoming_events)
-      puts incoming_events.to_s
+      puts incoming_events.pretty_print
         # p incoming_events['payload']['channel']
         # Meddelande formaterat som följer: 
         message = {
