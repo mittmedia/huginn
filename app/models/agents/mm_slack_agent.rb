@@ -54,10 +54,9 @@ module Agents
         event = JSON.parse(event[1..-2])
         new_event[:event] = event
         new_event[:event_class] = event.class
+        new_event[:payload] = event['payload']
+        new_event[:keys] = event['payload'].keys
 
-
-        new_event[:payload] = event['payload'].to_json
-        # new_event[:keys] = event['payload'].to_json.keys
         
         # Meddelande formaterat som följer: 
         # message = {
