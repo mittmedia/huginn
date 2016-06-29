@@ -332,6 +332,9 @@ Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftim
         .gsub("Länsgräns H/K", "länsgränsen mellan Kalmar och Blekinge")
         .gsub("väg 6 ", "E6")
         .gsub("/", ", ")
+        .gsub("köerMot", "köer mot")
+        .gsub(/(\i )([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
+        .gsub(/(\i )([A-ZÅÄÖ][a-zåäö]+) ([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
     end
 
     def checksum(json)
