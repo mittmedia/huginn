@@ -48,7 +48,6 @@ module Agents
     end
 
     def receive(incoming_events)
-        incoming_events.each do |f|
         new_event = {}
         event = f.to_json_with_active_support_encoder
         new_event[:event] = event.class
