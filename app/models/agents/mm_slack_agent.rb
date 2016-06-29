@@ -49,9 +49,9 @@ module Agents
 
     def receive(incoming_events)
 
-        puts "HEJHEJ"
-        puts incoming_events.to_json_with_active_support_encoder
-        puts incoming_events['payload']
+        event = incoming_events.to_json_with_active_support_encoder
+        puts event['payload']
+        puts "hehejejhehejhe"
         # Meddelande formaterat som följer: 
         # message = {
         #   title: incoming_events['payload']['title'],
