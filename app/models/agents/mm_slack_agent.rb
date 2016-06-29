@@ -51,7 +51,7 @@ module Agents
         new_event = {}
         event = incoming_events.to_json_with_active_support_encoder
         event = event.gsub("\"", "")
-        event = event[1..-2].to_json
+        event = JSON.parse(event[1..-2])
         new_event[:event] = event
         new_event[:event_class] = event.class
 
