@@ -33,7 +33,7 @@ module Agents
       }
     end
 
-    def validate_options 
+    def validate_options
       errors.add(:base, "webhook_url is required") unless options['webhook_url'].present?
       errors.add(:base, "username is required") unless options['username'].present?
       errors.add(:base, "channel i required") unless options['channel'].present?
@@ -48,7 +48,8 @@ module Agents
     end
 
     def receive(incoming_events)
-      puts incoming_events[0]
+      
+      puts incoming_events[0].payload
         # p incoming_events['payload']['channel']
         # Meddelande formaterat som följer: 
         # message = {
