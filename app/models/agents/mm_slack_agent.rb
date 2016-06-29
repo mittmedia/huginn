@@ -53,8 +53,8 @@ module Agents
         event = event.gsub("\"", "")
         event = event[1..-2].to_json
         new_event[:event] = event
-        new_event[:payload] = event["payload"]
-        new_event[:keys] = event['payload'].keys
+        new_event[:payload] = event["payload"].to_json
+        new_event[:keys] = event['payload'].to_json.keys
         
         # Meddelande formaterat som följer: 
         # message = {
