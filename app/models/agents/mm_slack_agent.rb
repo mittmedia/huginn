@@ -48,10 +48,11 @@ module Agents
     end
 
     def receive(incoming_events)
-
+        new_event = {}
         event = incoming_events.to_json_with_active_support_encoder
-        puts event['payload']
-        puts "hehejejhehejhe"
+        new_event[:event] = event
+        new_event[:payload] = "payload"
+        
         # Meddelande formaterat som följer: 
         # message = {
         #   title: incoming_events['payload']['title'],
@@ -60,7 +61,7 @@ module Agents
         #   mrkdwn_in: ["text", "pretext"]
         #   }
         # slack_notifier.ping "", channel: "#robottest", attachments: [message]
-        # create_event payload: message
+        create_event payload: new_event
         # event
       
     end
