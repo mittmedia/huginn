@@ -50,7 +50,7 @@ module Agents
     def receive(incoming_events)
         new_event = {}
         event = incoming_events.to_json_with_active_support_encoder
-        event = event.gsub("\"", "")
+        # event = event.gsub("\"", "")
         event = JSON.parse(event[1..-2])
         new_event[:event] = event
         new_event[:event_class] = event.class
