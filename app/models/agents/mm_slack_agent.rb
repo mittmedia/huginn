@@ -48,17 +48,17 @@ module Agents
     end
 
     def receive(incoming_events)
-      puts incoming_events.message
+      puts incoming_events['payload']
         # p incoming_events['payload']['channel']
         # Meddelande formaterat som följer: 
-        message = {
-          title: incoming_events['payload']['title'],
-          pretext: incoming_events['payload']['pretext'],
-          text: incoming_events['payload']['text'],
-          mrkdwn_in: ["text", "pretext"]
-          }
-        slack_notifier.ping "", channel: "#robottest", attachments: [message]
-        create_event payload: message
+        # message = {
+        #   title: incoming_events['payload']['title'],
+        #   pretext: incoming_events['payload']['pretext'],
+        #   text: incoming_events['payload']['text'],
+        #   mrkdwn_in: ["text", "pretext"]
+        #   }
+        # slack_notifier.ping "", channel: "#robottest", attachments: [message]
+        # create_event payload: message
         # event
       
     end
