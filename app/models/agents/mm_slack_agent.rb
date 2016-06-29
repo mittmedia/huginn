@@ -50,8 +50,11 @@ module Agents
     def receive(incoming_events)
         new_event = {}
         event = incoming_events.to_json_with_active_support_encoder
-        new_event[:event] = event.class
-        new_event[:payload] = "payload"
+        event = event.gsub("\"", "")
+        event = event[1..-2].to_json
+        new_event[:event] = event
+        new_event[:payload] = event["payload"]
+        new_event[:keys] = event['payload'].keys
         
         # Meddelande formaterat som följer: 
         # message = {
