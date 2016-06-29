@@ -50,7 +50,7 @@ module Agents
     def receive(incoming_events)
 
         puts "HEJHEJ"
-        puts incoming_events.methods
+        puts incoming_events.to_json_with_active_support_encoder
         puts incoming_events['payload']
         # Meddelande formaterat som följer: 
         # message = {
