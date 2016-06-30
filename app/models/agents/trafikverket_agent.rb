@@ -112,7 +112,7 @@ module Agents
           redis.set(article[:udid], digest)
           # slacking(article)
           @article_counter = redis.incr("Trafikverket_article_count")
-          slack(m, article)
+          # slack(m, article)
           slacka(m, article)
         end
       end
