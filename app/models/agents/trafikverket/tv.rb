@@ -90,7 +90,8 @@ module Agents::TRAFIKVERKET::Tv
         "peopleOnRoadway" => :eftersok,
         "fallenTrees" => :fallnatrad,
         "blackIceHalt" => :asfalt,
-        "blackIce" => :asfalt
+        "blackIce" => :asfalt,
+        "vehicleOnWrongCarriageway" => :felsida
     }
 # =begin
     RUBRIKER = {
@@ -127,7 +128,8 @@ module Agents::TRAFIKVERKET::Tv
           :lastbil => "Lastbilsolycka ger stora trafikstörningar",
           :eftersok => "Trafikverket varnar – människor kan finnas på vägen",
           :fallnatrad => "Fallna träd skapar problem för trafiken",
-          :asfalt => '"Blödande" asfalt stör trafiken'
+          :asfalt => '"Blödande" asfalt stör trafiken',
+          :felsida => 'Trafikanter varnas för bil på fel sida av vägen'
         },
         PRIONIV[5] => {
           :belagg => "Stora störningar i trafiken på grund av vägarbete",
@@ -162,7 +164,8 @@ module Agents::TRAFIKVERKET::Tv
           :lastbil => "Lastbilsolycka ger stora trafikstörningar",
           :eftersok => "Trafikverket varnar – människor kan finnas på vägen",
           :fallnatrad => "Fallna träd skapar problem för trafiken",
-          :asfalt => '"Blödande" asfalt ger stora störningar i trafiken'
+          :asfalt => '"Blödande" asfalt ger stora störningar i trafiken',
+          :felsida => 'Trafikanter varnas för bil på fel sida av vägen'
         }
     }
 
@@ -202,7 +205,8 @@ module Agents::TRAFIKVERKET::Tv
         "fallenTrees" => "Nerfallna träd",
         "accidentInvolvingHeavyLorries" => "En lastbilsolycka",
         "peopleOnRoadway" => "Människor på vägbanan",
-        "blackIce" => '"Blödande" asfalt'
+        "blackIce" => '"Blödande" asfalt',
+        "vehicleOnWrongCarriageway" => "Ett fordon på fel sida av vägbanan"
 
     }
 
