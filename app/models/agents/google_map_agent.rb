@@ -61,7 +61,7 @@ module Agents
 		end
 
 		def get_data(url)
-			HTTParty.get(url).parsed_response
+			HTTParty.get(url).parsed_response.force_encoding("UTF-8")
 	  end
 
 	  def write_image_file(response)
