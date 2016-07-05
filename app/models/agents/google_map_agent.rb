@@ -74,7 +74,7 @@ module Agents
 	  def receive(incoming_events)
 	    event = incoming_events.to_json_with_active_support_encoder
 	    event = JSON.parse(event[1..-2])
-	    if event['payload']['articles'].nil? == false
+	    if event['payload']['title'].nil? == false
 	      message = {
 	        title: event['payload']['title'],
 	        channel: "#robottest", #event['payload']['channel'],
