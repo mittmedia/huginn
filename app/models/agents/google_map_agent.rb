@@ -34,7 +34,7 @@ module Agents
 			@lat = event['payload']['lat']
     	@long = event['payload']['long']
 			# Google Static Maps API		
-			return build_url(base_url, params, markers, api_key)
+			return get_data(build_url(base_url, params, markers, api_key))
 		end
 
 		def params
