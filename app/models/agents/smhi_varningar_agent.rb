@@ -75,22 +75,24 @@ module Agents
     def check
       # redis.flushall
       handelser = SMHI::API.warnings(options['warnings_url'])
+      mess_response = SMHI::API.message(options['message_url'])
       res = {articles:[]}
       if handelser.nil? == false
         handelser.each do |a| 
           article = {}
           tags = []
           geometry = {}
+          article[:systemversion] = a['code'][2][-1].to_i
+          article[:updated_at] = Time.parse(a['code'][1][14..-1]) if a['code'][1].present?
+          next unless system_version_control(article, a)
           omrkod = a['info']['area']['areaDesc']
           article[:SMHI_agent_version] = "1.0"
           article[:article_created_at] = Time.zone.now
           article[:data_posted_at] = Time.parse(a['sent'])
-          article[:updated_at] = Time.parse(a['code'][1][14..-1]) if a['code'][1].present?
-          article[:systemversion] = a['code'][2][-1].to_i
           article[:id] = a['identifier']
           article[:priority] = SMHI::Rubrik::PRIO[a['info']['eventCode'][0]['value']]  # Nyhetsprio 2,4 eller 6
           article[:title] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
-          article[:omr] = area_transformation(omrkod)
+          article[:ort] = area_transformation(omrkod)
           article[:ingress] = build_ingress(a, article)
           article[:body] = build_brodtext(a, article)
           geometry[:point] = SMHI::Geometri::POINT[omrkod[0..2]]
@@ -101,7 +103,6 @@ module Agents
           article[:tags] = ['id': 'some_number', 'name': 'SMHI', 'type': a['info']['eventCode'][0]['value']]
           article[:categories] = ['id': 'some_number', 'name': 'Vädervarning']
           article[:geometry] = geometry
-          next unless system_version_control(article, a)
           digest = checksum(article[:id], article[:ingress])
           next if digest == redis.get(article[:id])
           res[:articles] << article
@@ -133,24 +134,19 @@ module Agents
       ingress = clean_up_text(ingress)
     end
 
-    def build_brodtext(a, article)
+    def build_brodtext(a, article, mess_response)
       d = DateTime.parse(a['sent'])
       veckodag = SMHI::Datumsv::DAGAR[d.wday]
       klockslag = d.strftime("%R").gsub(":", ".")
       mess1 = a['info']['description']
       mess2 = a['info']['eventCode'][1]['value']
       brodtext = "Varningen skickades ut klockan #{klockslag} på #{veckodag} och man meddelar att #{mess1.downcase.strip}
-#{SMHI::API.message(options['message_url'])} #{warning_text(article[:prio])}"
+#{mess_response} #{warning_text(article[:prio])}"
       brodtext = clean_up_text(brodtext)
     end
 
     def slack(omrkod, article)
-      message = {
-      title: article[:title],
-      pretext: "Ny vädervarning från SMHI",
-      text: "#{article[:omr]}\n#{article[:ingress]}\n#{article[:body]}",
-      mrkdwn_in: ["text", "pretext"]
-      }
+      
       if omrkod.length > 3
         area = omrkod.split(",")
       else
@@ -158,7 +154,17 @@ module Agents
       end
       area.each do |i|      
         Agents::SMHI::Distrikt::CHANNEL[Agents::SMHI::Distrikt::OMR[i]].each do |c|
-          Agents::SLACK::MESSAGE.slacking(c, article, message)
+          message = {
+            title: article[:title],
+            pretext: "Ny vädervarning från SMHI",
+            text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
+            mrkdwn_in: ["text", "pretext"],
+            channel: c,
+            lat: article[:geometry][:lat],
+            long: article[:geometry][:long]
+            }
+          create_event payload: message
+        # Agents::SLACK::MESSAGE.slacking(c, article, message)
         end
       end
     end

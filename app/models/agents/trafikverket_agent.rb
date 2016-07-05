@@ -341,22 +341,22 @@ Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftim
       Digest::MD5.hexdigest(json.to_s).to_s
     end
 
-    def slack(m, article)
-      omrkod = m[@need[5]]
-      message = {
-      title: article[:title],
-      pretext: "Ny varning från Trafikverket",
-      text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
-      mrkdwn_in: ["text", "pretext"]
-      }
-      omrkod.each do |i|
-        if i != 2
-          Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
-            Agents::SLACK::MESSAGE.slacking(c, article, message)
-          end
-        end
-      end
-    end
+    # def slack(m, article)
+    #   omrkod = m[@need[5]]
+    #   message = {
+    #   title: article[:title],
+    #   pretext: "Ny varning från Trafikverket",
+    #   text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
+    #   mrkdwn_in: ["text", "pretext"]
+    #   }
+    #   omrkod.each do |i|
+    #     if i != 2
+    #       Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
+    #         Agents::SLACK::MESSAGE.slacking(c, article, message)
+    #       end
+    #     end
+    #   end
+    # end
 
     def slacka(m, article)
       omrkod = m[@need[5]]
@@ -369,6 +369,8 @@ Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftim
               text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
               mrkdwn_in: ["text", "pretext"],
               channel: c
+              lat: article[:geometry][:lat]
+              long: article[:geometry][:long]
               }
             create_event payload: message
           end
