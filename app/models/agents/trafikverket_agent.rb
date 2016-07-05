@@ -369,8 +369,8 @@ Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftim
               text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
               mrkdwn_in: ["text", "pretext"],
               channel: c,
-              lat: article[:geometry][:lat],
-              long: article[:geometry][:long]
+              lat: article['geometry'][:lat],
+              long: article['geometry'][:long]
               }
             create_event payload: message
           end
