@@ -368,8 +368,8 @@ Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftim
               pretext: "Ny varning från Trafikverket",
               text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
               mrkdwn_in: ["text", "pretext"],
-              channel: c
-              lat: article[:geometry][:lat]
+              channel: c,
+              lat: article[:geometry][:lat],
               long: article[:geometry][:long]
               }
             create_event payload: message
@@ -419,6 +419,5 @@ Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftim
     def redis
       @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
     end
-
 	end
 end
