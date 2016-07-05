@@ -61,13 +61,15 @@ module Agents
 		end
 
 		def get_data(url)
-			HTTParty.get(url).parsed_response.force_encoding("UTF-8")
+			response = HTTParty.get(url).parsed_response
+			write_image_file(response)
 	  end
 
 	  def write_image_file(response)
-		  File.open('..//image.jpg', 'w') do |file|
+		  File.open("#{Time.now}.jpg", 'w') do |file|
 	       # response.body.force_encoding("UTF-8")
 	       file.puts(response)
+	       file
 	    end
 	  end
 
