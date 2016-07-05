@@ -78,7 +78,7 @@ module Agents
 	      message = {
 	        title: event['payload']['title'],
 	        channel: "#robottest", #event['payload']['channel'],
-	        image: map(event)
+	        text: map(event)
 	        }
 	      create_event payload: message
 	    end
