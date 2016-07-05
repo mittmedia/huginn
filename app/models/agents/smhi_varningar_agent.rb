@@ -160,8 +160,8 @@ module Agents
             text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
             mrkdwn_in: ["text", "pretext"],
             channel: c,
-            lat: article['geometry'][:lat],
-            long: article['geometry'][:long]
+            lat: article[:geometry][:lat],
+            long: article[:geometry][:long]
             }
           create_event payload: message
         # Agents::SLACK::MESSAGE.slacking(c, article, message)
