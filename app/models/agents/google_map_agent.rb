@@ -4,73 +4,44 @@ module Agents
 		cannot_be_scheduled!
 
   	event_description <<-MD
-      Du kan välja karttyp genom att skriva in något av alternativen:
-      "roadmap"
-      "terrain"
-      "satellite"
-      "hybrid"
-
-      Här kan du också välja att byta up API-nyckeln.
-
+  			Set zoom level from 1-18.
       MD
 
     def default_options
-      { "maptype" => "hybrid",
-      	"api_key" => "AIzaSyCRQ-IqT5cFbaiGjsMc7aesZlXGdRPaGeo" }
+      { "zoom_level" => "14" }
     end
 
     def validate_options
-      errors.add(:base, "maptype is required") unless options['maptype'].present?
-      errors.add(:base, "api_key is required") unless options['api_key'].present?
+      errors.add(:base, "zoom_level is required") unless options['zoom_level'].present?
     end
 
 		def flatt(hash, kvdelim='', entrydelim='')
-	    hash.inject([]) { |a, b| a << b.join(kvdelim) }.join(entrydelim) #unless hash.values.class == Array
+	    hash.inject([]) { |a, b| a << b.join(kvdelim) }.join(entrydelim)
 		end
 
-		def map(event)
-			base_url = "https://maps.googleapis.com/maps/api/staticmap?"
-			api_key = options['api_key']
-			@lat = event['payload']['lat']
-    	@long = event['payload']['long']
-			# Google Static Maps API		
-			return get_data(build_url(base_url, params, markers, api_key))
-		end
-
-		def params
-			params = {
-				"center" => "#{@lat},#{@long}",
-				"zoom" => "16",
-				"size" => "640x400",
-				"maptype" => "hybrid",
-				"format" => "png32",
-	      "scale" => "2"
-			}
-		end
-
-		def markers
-			markers = [
-				"color:red",
-	      "size:mid",
-	      "#{@lat},#{@long}"
-			]
-		end
-
-		def build_url(base_url, params, markers, api_key)
-			"#{base_url}#{flatt(params, "=", "&")}&markers=#{markers.join("%7C")}&key=#{api_key}"
-		end
-
-		def get_data(url)
-			response = HTTParty.get(url).parsed_response
-			write_image_file(response)
+		def iframe(event)
+      @lat = event['payload']['lat']
+      @long = event['payload']['long']
+      code = "<iframe width='650' height='450' frameborder='0' style='border:0' src='#{map_embed}' </iframe>"
+      return code
 	  end
 
-	  def write_image_file(response)
-		  File.open("#{Time.now}.jpg", 'w') do |file|
-	       # response.body.force_encoding("UTF-8")
-	       file.puts(response)
-	       file
-	    end
+ 	 def params_embed
+     params = {
+      "q" => "#{@lat},#{@long}",
+      "z" => "14",
+      "maptype" => "satellite",
+      "output" => "embed"
+    }
+ 	  end
+
+		def map_embed
+	    base_url = "http://maps.google.com/maps?"
+	    build_embed(base_url, params_embed)
+	  end
+
+	  def build_embed(base_url, params_embed)
+	    "#{base_url}#{flatt(params_embed, "=", "&")}"
 	  end
 
 	  def receive(incoming_events)
@@ -80,7 +51,7 @@ module Agents
 	      message = {
 	        title: event['payload']['title'],
 	        channel: "#robottest", #event['payload']['channel'],
-	        text: map(event)
+	        text: iframe(event)
 	        }
 	      create_event payload: message
 	    end
