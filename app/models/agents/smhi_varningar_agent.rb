@@ -94,7 +94,7 @@ module Agents
           article[:title] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
           article[:ort] = area_transformation(omrkod)
           article[:ingress] = build_ingress(a, article)
-          article[:body] = build_brodtext(a, article)
+          article[:body] = build_brodtext(a, article, mess_response)
           geometry[:point] = SMHI::Geometri::POINT[omrkod[0..2]]
           geometry[:lat] = geometry[:point].split[0][6..-1]
           geometry[:long] = geometry[:point].split[1][0..-2]
