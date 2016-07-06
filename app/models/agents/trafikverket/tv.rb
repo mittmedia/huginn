@@ -319,7 +319,8 @@ module Agents::TRAFIKVERKET::Tv
         "plåtbit" => "en p",
         "stort" => "ett s",
         "häst" => "en h",
-        "Älgar" => "ä"
+        "Älgar" => "ä",
+        "tappad" => "en t"
     }
 
 end
