@@ -101,18 +101,17 @@ module Agents
           article[:info] = info
           article[:tags] = ['id': 'some_number', 'name': 'Trafikverket', 'type': m[@need[7]]]
           article[:categories] = ['id': 'some_number', 'name': 'Trafikvarning']
-          geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
-          geometry[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
           article[:data_created_at] = m['CreationTime']
           article[:version_time] = m['VersionTime']
+          geometry[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
+          geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
+          geometry[:map] = Agents::TRAFIKVERKET::MAP.iframe(geometry[:lat], geometry[:long])
           article[:geometry] = geometry
           digest = checksum("#{article[:udid]}")
           next if digest == redis.get(article[:udid])
           res[:articles] << article
           redis.set(article[:udid], digest)
-          # slacking(article)
           @article_counter = redis.incr("Trafikverket_article_count")
-          # slack(m, article)
           slacka(m, article)
         end
       end
@@ -366,11 +365,9 @@ Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftim
             message = {
               title: article[:title],
               pretext: "Ny varning från Trafikverket",
-              text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
+              text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}\n\nIframe-inbäddning: #{article[:geometry][:map]}",
               mrkdwn_in: ["text", "pretext"],
-              channel: c,
-              lat: article[:geometry][:lat],
-              long: article[:geometry][:long]
+              channel: c
               }
             create_event payload: message
           end
