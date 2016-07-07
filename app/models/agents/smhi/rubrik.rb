@@ -90,7 +90,7 @@ module Agents::SMHI::Rubrik
         :orkan2=> "Extremt väder väntas – SMHI utfärdar klass 3-varning för orkan",
         :regn => "SMHI varnar för kraftigt regn – stora mängder väntas",
         :regn2 => "Regnkaos väntar – SMHI går ut med kIass 2-varning",
-        :skogsb => "Klass 1-varning utfärdad – stor risk för skogsbränder",
+        :skogsb => "Varning utfärdad – stor risk för skogsbränder",
         :sno => "Stort snöoväder väntas – SMHI går ut med varning",
         :sno2 => "Extrema snömängder väntas – klass 2-varning från SMHI",
         :sno3=> "Stort snökaos drar in – SMHI går ut med klass 3-varning",
