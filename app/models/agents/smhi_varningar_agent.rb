@@ -130,7 +130,7 @@ module Agents
 
     def build_ingress(a, article)
       varning_for = SMHI::Rubrik::SVOVERS[a['info']['eventCode'][3]['value']]
-      ingress = "SMHI har gått ut med #{varning_for}. Meddelandet rör #{article[:omr]}."
+      ingress = "SMHI har gått ut med #{varning_for}. Meddelandet rör #{article[:ort]}."
       ingress = clean_up_text(ingress)
     end
 
