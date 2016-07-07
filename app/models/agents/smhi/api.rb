@@ -15,7 +15,7 @@ module Agents::SMHI::API
       ""
     else
       mess = message['message']['text']
-      "SMHI:s beskrivning av väderläget i stort är att #{mess[0].downcase + mess.gsub("\n\n", "")[1..-1]}."
+      "Väderläget i landet just nu är att #{mess[0].downcase + mess.gsub("\n\n", "")[1..-1]}."
     end
   end
 end
