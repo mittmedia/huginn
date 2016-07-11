@@ -112,11 +112,9 @@ module Agents
           res[:articles] << article
           redis.set(article[:udid], digest)
           @article_counter = redis.incr("Trafikverket_article_count")
-          slacka(m, article)
+          send_event(m, article)
         end
       end
-      if res[:articles].length > 0 then create_event payload: res end
-      return res
   	end
 
     def build_headline(m)
@@ -364,12 +362,13 @@ module Agents
     #   end
     # end
 
-    def slacka(m, article)
+    def send_event(m, article)
       omrkod = m[@need[5]]
       omrkod.each do |i|
         if i != 2
           Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
             message = {
+              article: article
               title: article[:title],
               pretext: "Ny varning från Trafikverket",
               text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}\n\nIframe-inbäddning: #{article[:geometry][:map]}",
