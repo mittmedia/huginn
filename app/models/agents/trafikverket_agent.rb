@@ -368,7 +368,7 @@ module Agents
         if i != 2
           Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
             message = {
-              article: article
+              article: article,
               title: article[:title],
               pretext: "Ny varning från Trafikverket",
               text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}\n\nIframe-inbäddning: #{article[:geometry][:map]}",
