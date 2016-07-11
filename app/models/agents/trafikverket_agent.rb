@@ -141,7 +141,7 @@ module Agents
       else
         sluttid = versionstid
       end
-      "Trafikverket rapporterar störningar i trafiken #{add_road_number("", m)}och orsaken är #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}. #{add_context}"
+      "Trafikverket rapporterar störningar i trafiken #{add_road_number("", m)}och orsaken är #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}. #{add_context(m)}"
     end
 
     def add_context(m)
