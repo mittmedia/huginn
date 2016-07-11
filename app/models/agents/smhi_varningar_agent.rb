@@ -77,43 +77,41 @@ module Agents
       handelser = SMHI::API.warnings(options['warnings_url'])
       mess_response = SMHI::API.message(options['message_url'])
       res = {articles:[]}
-      if handelser.nil? == false
-      p handelser.lengths
-        # handelser.each do |a| 
-          article = {}
-          tags = []
-          geometry = {}
-          article[:systemversion] = a['code'][2][-1].to_i
-          article[:updated_at] = Time.parse(a['code'][1][14..-1]) if a['code'][1].present?
-          next unless system_version_control(article, a)
-          omrkod = a['info']['area']['areaDesc']
-          article[:SMHI_agent_version] = "1.0"
-          article[:article_created_at] = Time.zone.now
-          article[:data_posted_at] = Time.parse(a['sent'])
-          article[:id] = a['identifier']
-          article[:priority] = SMHI::Rubrik::PRIO[a['info']['eventCode'][0]['value']]  # Nyhetsprio 2,4 eller 6
-          article[:title] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
-          article[:ort] = area_transformation(omrkod)
-          article[:ingress] = build_ingress(a, article)
-          article[:body] = build_brodtext(a, article, mess_response)
-          geometry[:point] = SMHI::Geometri::POINT[omrkod[0..2]]
-          geometry[:lat] = geometry[:point].split[0][6..-1]
-          geometry[:long] = geometry[:point].split[1][0..-2]
-          geometry[:poly] = a['info']['area']['polygon'] if a['info']['area'].has_key? 'polygon'
-          geometry[:exact_poly] = SMHI::Geometri::POLYGON[omrkod]
-          article[:tags] = ['id': 'some_number', 'name': 'SMHI', 'type': a['info']['eventCode'][0]['value']]
-          article[:categories] = ['id': 'some_number', 'name': 'Vädervarning']
-          article[:geometry] = geometry
-          digest = checksum(article[:id], article[:ingress])
-          next if digest == redis.get(article[:id])
-          res[:articles] << article
-          redis.set(article[:id], digest)
-          @article_counter = redis.incr("SMHI_article_count")
-          slack(omrkod, article)
-        end
-        if res[:articles].length > 0 then create_event payload: res end
-        return res
+      return if handelser.nil?
+      handelser.each do |a| 
+        article = {}
+        tags = []
+        geometry = {}
+        article[:systemversion] = a['code'][2][-1].to_i
+        article[:updated_at] = Time.parse(a['code'][1][14..-1]) if a['code'][1].present?
+        next unless system_version_control(article, a)
+        omrkod = a['info']['area']['areaDesc']
+        article[:SMHI_agent_version] = "1.0"
+        article[:article_created_at] = Time.zone.now
+        article[:data_posted_at] = Time.parse(a['sent'])
+        article[:id] = a['identifier']
+        article[:priority] = SMHI::Rubrik::PRIO[a['info']['eventCode'][0]['value']]  # Nyhetsprio 2,4 eller 6
+        article[:title] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
+        article[:ort] = area_transformation(omrkod)
+        article[:ingress] = build_ingress(a, article)
+        article[:body] = build_brodtext(a, article, mess_response)
+        geometry[:point] = SMHI::Geometri::POINT[omrkod[0..2]]
+        geometry[:lat] = geometry[:point].split[0][6..-1]
+        geometry[:long] = geometry[:point].split[1][0..-2]
+        geometry[:poly] = a['info']['area']['polygon'] if a['info']['area'].has_key? 'polygon'
+        geometry[:exact_poly] = SMHI::Geometri::POLYGON[omrkod]
+        article[:tags] = ['id': 'some_number', 'name': 'SMHI', 'type': a['info']['eventCode'][0]['value']]
+        article[:categories] = ['id': 'some_number', 'name': 'Vädervarning']
+        article[:geometry] = geometry
+        digest = checksum(article[:id], article[:ingress])
+        next if digest == redis.get(article[:id])
+        res[:articles] << article
+        redis.set(article[:id], digest)
+        @article_counter = redis.incr("SMHI_article_count")
+        slack(omrkod, article)
       end
+      if res[:articles].length > 0 then create_event payload: res end
+      return res
     end
 
     def clean_up_text(text)
@@ -146,8 +144,7 @@ module Agents
       brodtext = clean_up_text(brodtext)
     end
 
-    def slack(omrkod, article)
-      
+    def slack(omrkod, article)     
       if omrkod.length > 3
         area = omrkod.split(",")
       else
