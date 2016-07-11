@@ -134,6 +134,10 @@ module Agents
 
     def build_brodtext(m)
       meddelande = m[@need[4]]
+      "Trafikverket rapporterar störningar i trafiken #{add_road_number("", m)}och orsaken är #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}. #{add_context(m)}"
+    end
+
+    def add_context(m)
       versionstid = DateTime.parse(m[@need[2]])
       dag = Agents::TRAFIKVERKET::Tv::DAGAR[versionstid.wday]
       if not m[@useful[1]].nil?
@@ -141,10 +145,6 @@ module Agents
       else
         sluttid = versionstid
       end
-      "Trafikverket rapporterar störningar i trafiken #{add_road_number("", m)}och orsaken är #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}. #{add_context(m, dag)}"
-    end
-
-    def add_context(m, dag)
       if m[@need[0]] == "unprotectedAccidentArea"
         "Trafikverket uppgav klockan #{DateTime.parse(m['CreationTime']).strftime("%R")} att man ännu inte hunnit spärra av området och varnar därför trafikanter i området. #{sluttid_n(versionstid, sluttid)}"
       else
