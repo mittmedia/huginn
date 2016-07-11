@@ -78,7 +78,8 @@ module Agents
       mess_response = SMHI::API.message(options['message_url'])
       res = {articles:[]}
       if handelser.nil? == false
-        handelser.each do |a| 
+      p handelser.lengths
+        # handelser.each do |a| 
           article = {}
           tags = []
           geometry = {}

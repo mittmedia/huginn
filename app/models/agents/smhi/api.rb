@@ -3,10 +3,13 @@ require "httparty"
 module Agents::SMHI::API
   def self.warnings(url)
     response = HTTParty.get(url).parsed_response
-      if response == {}
-        puts "Inga varningar aktiva"
-      end
-      Array(response['alert'])
+    if response == {}
+      return
+    elsif response['alert'].class.name == 'Hash'
+      [response['alert']]
+    else
+    response['alert']
+    end
   end
 
   def self.message(url)
