@@ -106,7 +106,7 @@ module Agents
           geometry[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
           geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
           geometry[:map] = Agents::TRAFIKVERKET::MAP.iframe(geometry[:lat], geometry[:long])
-          article[:geometry] = geometry
+          article[:geometry] = geometry  
           digest = checksum("#{article[:udid]}")
           next if digest == redis.get(article[:udid])
           res[:articles] << article
@@ -141,8 +141,15 @@ module Agents
       else
         sluttid = versionstid
       end
-      "Trafikverket rapporterar störningar i trafiken #{update_headline("", m)}och orsaken är #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}.
-Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
+      "Trafikverket rapporterar störningar i trafiken #{add_road_number("", m)}och orsaken är #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}. #{add_context}"
+    end
+
+    def add_context(m)
+      if m[@need[0]] == "unprotectedAccidentArea"
+        "Trafikverket uppgav klockan #{DateTime.parse(m['CreationTime']).strftime("%R")} att man ännu inte hunnit spärra av området och varnar därför trafikanter i området. #{sluttid_n(versionstid, sluttid)}"
+      else
+        "Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftime("%R")}. #{sluttid_n(versionstid, sluttid)}"
+      end
     end
 
     def enett(m)
@@ -157,16 +164,16 @@ Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftim
     def sluttid_n(version, slut)
     	if slut > DateTime.now
         if slut.day != version.day
-          "Man beräknar att trafiken kommer påverkas fram till #{Agents::TRAFIKVERKET::Tv::DAGAR[slut.wday]} den #{slut.day} #{Agents::TRAFIKVERKET::Tv::MANAD[slut.month]} klockan #{slut.strftime("%R")}."
+          "Man beömder att trafiken kommer påverkas fram till #{Agents::TRAFIKVERKET::Tv::DAGAR[slut.wday]} den #{slut.day} #{Agents::TRAFIKVERKET::Tv::MANAD[slut.month]} klockan #{slut.strftime("%R")}."
         else
-          "Man beräknar att trafiken kommer påverkas fram till klockan #{slut.strftime("%R")}."
+          "Man bedömer att trafiken kommer påverkas fram till klockan #{slut.strftime("%R")}."
         end
     	else
         ""
     	end
     end
 
-    def update_headline(rubrik, m)
+    def add_road_number(rubrik, m)
       if not m['RoadNumber'].nil?
         if m['RoadNumber'][0] == "E"
           "#{rubrik} på #{m['RoadNumber'].split[0]}#{m['RoadNumber'].split[1]}"
@@ -204,55 +211,55 @@ Varningen gick ut på #{dag} klockan #{DateTime.parse(m['CreationTime']).strftim
         if three_word_to
           # p "three"
           if "#{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]}" == "#{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
-            return "#{update_headline(rubrik, m)} vid #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]}"
+            return "#{add_road_number(rubrik, m)} vid #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]}"
           else
-            return "#{update_headline(rubrik, m)} mellan #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]} och #{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
+            return "#{add_road_number(rubrik, m)} mellan #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]} och #{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
           end
         elsif two_word_to
-          return "#{update_headline(rubrik, m)} mellan #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]} och #{two_word_to[2]} #{two_word_to[3]}"
+          return "#{add_road_number(rubrik, m)} mellan #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]} och #{two_word_to[2]} #{two_word_to[3]}"
         elsif to_place
-          return "#{update_headline(rubrik, m)} mellan #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]} och #{to_place[2]}"
+          return "#{add_road_number(rubrik, m)} mellan #{three_word_place[2]} #{three_word_place[3]} #{three_word_place[4]} och #{to_place[2]}"
         else
-          update_headline(rubrik, m)
+          add_road_number(rubrik, m)
         end
       elsif two_word_place.nil? == false
         # p "två"
         if three_word_to 
-          return "#{update_headline(rubrik, m)} mellan #{two_word_place[2]} #{two_word_place[3]} och #{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
+          return "#{add_road_number(rubrik, m)} mellan #{two_word_place[2]} #{two_word_place[3]} och #{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
         elsif two_word_to
           if "#{two_word_place[2]} #{two_word_place[3]}" == "#{two_word_to[2]} #{two_word_to[3]}"
-            return "#{update_headline(rubrik, m)} vid #{two_word_place[2]} #{two_word_place[3]}"
+            return "#{add_road_number(rubrik, m)} vid #{two_word_place[2]} #{two_word_place[3]}"
           else
-            return "#{update_headline(rubrik, m)} mellan #{two_word_place[2]} #{two_word_place[3]} och #{two_word_to[2]} #{two_word_to[3]}"
+            return "#{add_road_number(rubrik, m)} mellan #{two_word_place[2]} #{two_word_place[3]} och #{two_word_to[2]} #{two_word_to[3]}"
           end
         elsif to_place
-          return "#{update_headline(rubrik, m)} mellan #{two_word_place[2]} #{two_word_place[3]} och #{to_place[2]}"
+          return "#{add_road_number(rubrik, m)} mellan #{two_word_place[2]} #{two_word_place[3]} och #{to_place[2]}"
         else
-          update_headline(rubrik, m)
+          add_road_number(rubrik, m)
         end
       elsif from_place.nil? == false
         # p "hejsan!"
         if three_word_to
-          return "#{update_headline(rubrik, m)} mellan #{from_place[2]} och #{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
+          return "#{add_road_number(rubrik, m)} mellan #{from_place[2]} och #{three_word_to[2]} #{three_word_to[3]} #{three_word_to[4]}"
         elsif two_word_to
-          return "#{update_headline(rubrik, m)} mellan #{from_place[2]} och #{two_word_to[2]} #{two_word_to[3]}"
+          return "#{add_road_number(rubrik, m)} mellan #{from_place[2]} och #{two_word_to[2]} #{two_word_to[3]}"
         elsif to_place.nil? == false
           if from_place[2] == to_place[2]
-            return "#{update_headline(rubrik, m)} vid #{to_place[2]}"
+            return "#{add_road_number(rubrik, m)} vid #{to_place[2]}"
           else
-            return "#{update_headline(rubrik, m)} mellan #{from_place[2]} och #{to_place[2]}"
+            return "#{add_road_number(rubrik, m)} mellan #{from_place[2]} och #{to_place[2]}"
           end
         else  
-        update_headline(rubrik, m)
+        add_road_number(rubrik, m)
         end
       elsif at_place.nil? == false
         if at_place[2][-1] == ","
-          return "#{update_headline(rubrik, m)} vid #{at_place[2][0..-2]}"
+          return "#{add_road_number(rubrik, m)} vid #{at_place[2][0..-2]}"
         else
-          return "#{update_headline(rubrik, m)} vid #{at_place[2]}"
+          return "#{add_road_number(rubrik, m)} vid #{at_place[2]}"
         end
       else
-        update_headline(rubrik, m)
+        add_road_number(rubrik, m)
       end
     end
 
