@@ -106,7 +106,7 @@ module Agents
           geometry[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
           geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
           geometry[:map] = Agents::TRAFIKVERKET::MAP.iframe(geometry[:lat], geometry[:long])
-          article[:geometry] = geometry  
+          article[:geometry] = geometry
           digest = checksum("#{article[:udid]}")
           next if digest == redis.get(article[:udid])
           res[:articles] << article
@@ -328,7 +328,7 @@ module Agents
         .gsub(/(E\d{1,2})(.)(\d{2,3})/, '\1')
         .gsub(/(E\d{1,2}) (.) (\d{2,3})/, '\1')
         .gsub("Lednings/telearb.", "lednings- och telearbete")
-        .gsub("pga", "på grund av")
+        .gsub(" pga", "på grund av")
         .gsub("Väg", "väg")
         .gsub("Länsgräns AB/D", "länsgränsen mellan Stockholm och Södermanland")
         .gsub("jord/Sten", "jord och sten på vägen")
@@ -373,7 +373,8 @@ module Agents
               pretext: "Ny varning från Trafikverket",
               text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}\n\nIframe-inbäddning: #{article[:geometry][:map]}",
               mrkdwn_in: ["text", "pretext"],
-              channel: c
+              channel: c,
+              article_count: @article_counter
               }
             create_event payload: message
           end
