@@ -351,11 +351,11 @@ module Agents
 
 
 	  def build_headline(s, sit)
-	    "#{Helper::HEADLINE[s['ReasonCodeText']]} orsakar tågförseningar #{find_stations(sit)}".gsub(/ (\d|\d\d|\d\d\d) stationer/, "")
+	    "#{Agents::TRAFIKVERKET::Helper::HEADLINE[s['ReasonCodeText']]} orsakar tågförseningar #{find_stations(sit)}".gsub(/ (\d|\d\d|\d\d\d) stationer/, "")
 	  end
 
 	  def build_ingress(s, sit)
-	    "Förseningar väntas i tågtrafiken på grund av #{Helper::CAUSE[s['ReasonCodeText']]}. 
+	    "Förseningar väntas i tågtrafiken på grund av #{Agents::TRAFIKVERKET::Helper::CAUSE[s['ReasonCodeText']]}. 
 	Störningen gäller #{find_stations(sit)}."
 	  end
 
