@@ -102,7 +102,7 @@ class Agent < ActiveRecord::Base
 
   # Implement me in your subclass to decide if your Agent is working.
   def working?
-    raise "Implement me in your subclass"
+    true
   end
 
   def build_event(event)
