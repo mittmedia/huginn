@@ -161,7 +161,7 @@ module Agents
 	  end
 
 	  def csv
-	    CSV.read(Rails.root.join('app/models/agents/trafikverket/stations_new.csv')
+	    CSV.read(Rails.root.join('app/models/agents/trafikverket/stations_new.csv'))
 	  end
 
 	  def check
