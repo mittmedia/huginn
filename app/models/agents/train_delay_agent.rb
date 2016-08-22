@@ -20,7 +20,7 @@ module Agents
 
 	  def default_options
 			{ "url_string" => "http://api.trafikinfo.trafikverket.se/v1.1/data.json",
-	      "api_key" = "984fb975e4c540ccae03ec5558b2e657" }
+	      "api_key" => "984fb975e4c540ccae03ec5558b2e657" }
 	  end
 
     def validate_options
