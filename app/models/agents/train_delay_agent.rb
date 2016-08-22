@@ -38,7 +38,6 @@ module Agents
 	    request.body = query(query_type)
 	    request.content_type = 'text/xml'
 	    response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request request }
-	    write_file("response", response.body)
 	    response.body
 	  end
 
