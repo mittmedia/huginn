@@ -161,7 +161,7 @@ module Agents
 	  end
 
 	  def csv
-	    CSV.read('trafikverket/stations_new.csv')
+	    CSV.read('./trafikverket/stations_new.csv')
 	  end
 
 	  def check
