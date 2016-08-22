@@ -13,7 +13,7 @@ module Agents
     	Tar emot data via en POST-request och returnerar ett JSON-objekt.
     MD
     event_description <<-MD
-      fylls i när strukturen som passar OC är känd.
+      fylls i när strukturen som passar är känd.
 
       Annars ser den ut så här just nu:
       {article:{

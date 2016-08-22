@@ -31,7 +31,7 @@
     end
 
     def working?
-      true
+      !recent_error_logs?
     end
   end
 end
