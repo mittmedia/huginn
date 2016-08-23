@@ -269,7 +269,7 @@ module Agents
       # For example [[54.23422114, 20.2345612],[54.675346587, 17.435736]]
       pl1 = ""
       pl2 = ""
-      if geo.length == d
+      if geo.length == 0
         return ""
       elsif geo.length == 1
         csv.each do |csv|
@@ -376,5 +376,9 @@ module Agents
 	      end
 	    end
 	  end
+
+    def working?
+      !recent_error_logs?
+    end
 	end
 end
