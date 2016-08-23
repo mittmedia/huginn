@@ -91,7 +91,8 @@ module Agents::TRAFIKVERKET::Tv
         "fallenTrees" => :fallnatrad,
         "blackIceHalt" => :asfalt,
         "blackIce" => :asfalt,
-        "vehicleOnWrongCarriageway" => :felsida
+        "vehicleOnWrongCarriageway" => :felsida,
+        "accidentInvolvingHazardousMaterials" => :olycka
     }
 # =begin
     RUBRIKER = {

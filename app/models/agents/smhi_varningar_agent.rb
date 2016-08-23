@@ -75,9 +75,9 @@ module Agents
     def check
       # redis.flushall
       handelser = SMHI::API.warnings(options['warnings_url'])
+      return if handelser.nil?
       mess_response = SMHI::API.message(options['message_url'])
       res = {articles:[]}
-      return if handelser.nil?
       handelser.each do |a| 
         article = {}
         tags = []
@@ -104,7 +104,7 @@ module Agents
         article[:categories] = ['id': 'some_number', 'name': 'Vädervarning']
         article[:geometry] = geometry
         digest = checksum(article[:id], article[:ingress])
-        next if digest == redis.get(article[:id])
+        # next if digest == redis.get(article[:id])
         res[:articles] << article
         redis.set(article[:id], digest)
         @article_counter = redis.incr("SMHI_article_count")

@@ -72,10 +72,10 @@ module Agents
 	    if DateTime.parse(s['StartDateTime']).today? == false
 	      # return true
 	      return false
-	    elsif Time.parse(s['LastUpdateDateTime'])- Time.now > 65
+	    elsif Time.parse(s['LastUpdateDateTime'])- Time.now < 7135
 	    # elsif Time.parse(s['LastUpdateDateTime']).today? == false
-	      # return false
-        return true # for testing
+	      return false
+        # return true # for testing
 	    else
 	      return true
 	    end
@@ -94,7 +94,6 @@ module Agents
 	      # p sentence
 	      sentence.to_s.strip.chomp
 	    elsif /Försenat|försenat|förseningar|Förseningar/.match(sentence)
-	      # /Försenat|försenat|förseningar|Förseningar/.match(sentence)
 	      sentence.to_s.strip.chomp
 	    elsif /Trafikverket har skickat/.match(sentence)
 	      sentence.to_s.strip.chomp
@@ -119,45 +118,45 @@ module Agents
 	      .gsub("/1", " januari")
 	      .gsub("/2", " februari")
 	      .gsub("/3", " mars")
-	      .gsub("/4", " april")
-	      .gsub("/5", " maj")
-	      .gsub("/6", " juni")
-	      .gsub("/7", " juli")
-	      .gsub("/8", " augusti")
-	      .gsub("/9", " september")
-	      .gsub("/10", " oktober")
-	      .gsub("/11", " november")
-	      .gsub("/12", " december")
-	      .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)\s\S\s([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
-	      .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
-	      .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1, \2 och \3. ')
-	      .gsub(/(\d\d):(\d\d)/, '\1.\2')
-	      .gsub(" pga", "på grund av")
-	      .gsub("jvstn", "järnvägsstation")
-	      .gsub(/^([A-ZÅÄÖ][a-zåäö]+)\S([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
-	      .gsub(/^([A-ZÅÄÖ][a-zåäö]+)\s\S\s([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
 	      .gsub(/(http:\/\/|)(www.|)([a-zåäö]+\.[a-zåäö]+)/, "") # regex för att ta bort web-adresser
-	      .gsub(/([A-ZÅÄÖ][a-zåäö]+)\s\S\s([\A-ZÅÄÖ][a-zåäö]+)/, '\1 och \2')
-	      .gsub(/([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)/, '\1 och \2')
-	      .gsub(/(\d\.)(\n\n|\n)/, '\1 ')
-	      .gsub(/([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)(\:)/, '\1 och \2')
-	      .gsub(/\n\n|\n/, "")
-	      .gsub("\r\n", " ")
-	      .gsub("/", ", ")
-	      .gsub(/(\d\d):(\d\d)/, '\1.\2')
-	      .gsub(" - ", " och ")
-	      .gsub("kl.", "klockan ")
-	      .gsub(/([A-ZÅÄÖ])-([A-ZÅÄÖ][a-zåäö]+)/, '\1 och \2')
-	      .gsub(/(\.)([A-ZÅÄÖ]|[a-zåäö])/, '\1 \2')
-	      .gsub("  ", " ")
-	      .gsub(" .", ".")
-	      .gsub(" , ", ", ")
-	      .gsub(".'.", "'.")
-	      .gsub(".,", ",")
-	      .gsub(" . ", ". ")
-	      .gsub(" '.", "'.")
-	      .gsub(":", ".")
-	      .gsub("..", ".")
+        .gsub("/4", " april")
+        .gsub("/5", " maj")
+        .gsub("/6", " juni")
+        .gsub("/7", " juli")
+        .gsub("/8", " augusti")
+        .gsub("/9", " september")
+        .gsub("/10", " oktober")
+        .gsub("/11", " november")
+        .gsub("/12", " december")
+        .gsub(/(\d\d):(\d\d)/, '\1.\2')
+        .gsub(" pga", "på grund av")
+        .gsub("jvstn", "järnvägsstation")
+        .gsub(/\n\n|\n/, "")
+        .gsub("\r\n", " ")
+        .gsub("/", ", ")
+        .gsub(/(\d\d):(\d\d)/, '\1.\2')
+        .gsub(" - ", " och ")
+        .gsub("kl.", "klockan ")
+        .gsub("  ", " ")
+        .gsub(" .", ".")
+        .gsub(" , ", ", ")
+        .gsub(".'.", "'.")
+        .gsub(".,", ",")
+        .gsub(" . ", ". ")
+        .gsub(" '.", "'.")
+        .gsub(/(\.)([A-ZÅÄÖ]|[a-zåäö])/, '\1 \2')
+        .gsub(/([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)(\:)/, '\1 och \2')
+        .gsub(/([A-ZÅÄÖ])-([A-ZÅÄÖ][a-zåäö]+)/, '\1 och \2')
+        .gsub(":", ".")
+        .gsub("..", ".")
+        .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
+        .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1, \2 och \3. ')
+        .gsub(/^([A-ZÅÄÖ][a-zåäö]+)\S([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
+        .gsub(/^([A-ZÅÄÖ][a-zåäö]+)\s\S\s([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
+        .gsub(/([A-ZÅÄÖ][a-zåäö]+)\s\S\s([\A-ZÅÄÖ][a-zåäö]+)/, '\1 och \2')
+        .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)\s\S\s([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
+        .gsub(/(\d\.)(\n\n|\n)/, '\1 ')
+        .gsub(/([\A-ZÅÄÖ][\a-zåäö]+)\s\S\s([\A-ZÅÄÖ][\a-zåäö]+)/, '\1 och \2')
 	  end
 
 	  def csv
@@ -176,6 +175,7 @@ module Agents
 	      stations_affected[:situation].each do |sit|
 	        unless sit.nil?
 	          article[:version] = "Trafikverket_Train_V1.0"
+            article[:raw] = s['ExternalDescription']
 	          article[:generated_at] = Time.now
 	          article[:sent] = s['ModifiedTime']
 	          article[:title] = build_headline(s, sit)
@@ -197,10 +197,10 @@ module Agents
             end
             article[:number_of_stations_affected] = article[:stations].length
             digest = checksum("#{article[:trafikverket_event_id]}")
-            # next if digest == redis.get(article[:trafikverket_event_id])
+            next if digest == redis.get(article[:trafikverket_event_id])
             result[:articles] << article unless article[:body].nil?
-            # redis.set(article[:trafikverket_event_id], digest)
-            # @article_counter = redis.incr("Trafikverket_train_article_count")
+            redis.set(article[:trafikverket_event_id], digest)
+            @article_counter = redis.incr("Trafikverket_train_article_count")
             send_event(find_channel(article), article)
           end        
         end
@@ -369,7 +369,6 @@ module Agents
 	        end
 	        body_text << extract_sentences(clean_text(sentence))
 	      end
-        print multiple_join(body_text)
 	      if multiple_join(body_text) == ""
           return nil
         else
