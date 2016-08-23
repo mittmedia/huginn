@@ -70,8 +70,8 @@ module Agents
 
 	  def version_controll(s)
 	    if DateTime.parse(s['StartDateTime']).today? == false
-	      return true
-	      # return false
+	      # return true
+	      return false
 	    elsif Time.parse(s['LastUpdateDateTime'])- Time.now > 65
 	    # elsif Time.parse(s['LastUpdateDateTime']).today? == false
 	      # return false
@@ -253,7 +253,7 @@ module Agents
         if lansnr == 2
           next
         else
-          list.push(Agents::TRAFIKVERKET::Trafik::LANSNUMMER[lansnr])
+          list.push(Agents::TRAFIKVERKET::Tv::LANSNUMMER[lansnr])
           if list.length > 1
             ort = list[0..-2].join(", ") + " och " + list[-1]
           else
@@ -369,10 +369,11 @@ module Agents
 	        end
 	        body_text << extract_sentences(clean_text(sentence))
 	      end
-	      if body_text.nil? == false
+        print multiple_join(body_text)
+	      if multiple_join(body_text) == ""
+          return nil
+        else
 	        "#{multiple_join(body_text)} Varningen skickades ut klockan #{DateTime.parse(s['ModifiedTime']).strftime("%R").gsub(/(\d\d):(\d\d)/, '\1.\2')}."
-	      else
-	        false
 	      end
 	    end
 	  end
