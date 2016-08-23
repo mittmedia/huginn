@@ -253,7 +253,7 @@ module Agents
         if lansnr == 2
           next
         else
-          list.push(Trafik::LANSNUMMER[lansnr])
+          list.push(Agents::TRAFIKVERKET::Trafik::LANSNUMMER[lansnr])
           if list.length > 1
             ort = list[0..-2].join(", ") + " och " + list[-1]
           else
