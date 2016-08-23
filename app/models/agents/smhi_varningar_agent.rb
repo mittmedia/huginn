@@ -104,7 +104,7 @@ module Agents
         article[:categories] = ['id': 'some_number', 'name': 'Vädervarning']
         article[:geometry] = geometry
         digest = checksum(article[:id], article[:ingress])
-        # next if digest == redis.get(article[:id])
+        next if digest == redis.get(article[:id])
         res[:articles] << article
         redis.set(article[:id], digest)
         @article_counter = redis.incr("SMHI_article_count")
