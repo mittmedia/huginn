@@ -1,0 +1,730 @@
+{
+  "RESPONSE": {
+    "RESULT": [
+      {
+        "TrainMessage": [
+          {
+            "EventId": 1736537,
+            "StartDateTime": "2015-07-10T18:55:00",
+            "LastUpdateDateTime": "2016-07-05T07:58:27",
+            "ExternalDescription": "Umeå-Boden: Mindre förseningar i tågtrafiken på sträckan. För ytterligare information om ditt tåg se trafikverket.se eller kontakta ditt järnvägsföretag.\nDetta på grund av ett spårfel och nedsatt hastighet.",
+            "ReasonCodeText": "spårfel",
+            "AffectedLocation": [
+              "Bst",
+              "Jrn"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (756634.5 7245406)",
+              "WGS84": "POINT (20.495130271842 65.2311831285098)"
+            },
+            "CountyNo": [
+              24
+            ],
+            "ModifiedTime": "2016-07-05T06:08:49.293Z"
+          },
+          {
+            "EventId": 1856943,
+            "StartDateTime": "2016-01-11T06:00:00",
+            "LastUpdateDateTime": "2016-04-24T09:26:06",
+            "ExternalDescription": "Göteborg–Skövde–Stockholm: Från 11/1 till 11/9 ställs vissa tåg under vissa tider in på sträckan Skövde-Falköping. Den inställda tågtrafiken ersätts av buss som avgår enligt särskilda tidtabeller. Räkna med längre restider än normalt. Under vissa dagar kan endast ett av spåren på sträckan trafikeras vilket kan medföra förseningar. Kontakta ditt tågbolag för mer information om din resa. Orsaken är omfattande arbeten med upprustning av kontaktledningen för att öka framkomligheten på banan.",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "A",
+              "Apn",
+              "Arb",
+              "Asd",
+              "Bkb",
+              "Bro",
+              "Bål",
+              "Cst",
+              "Dt",
+              "Ep",
+              "F",
+              "Fby",
+              "Fd",
+              "Flb",
+              "Fle",
+              "G",
+              "Gdö",
+              "Gn",
+              "Hpbg",
+              "Hr",
+              "Hu",
+              "Jkb",
+              "Jn",
+              "Jv",
+              "K",
+              "Kbä",
+              "Ke",
+              "Khä",
+              "Kp",
+              "Kän",
+              "Lr",
+              "Lå",
+              "Mö",
+              "Ns",
+              "P",
+              "Sk",
+              "Sn",
+              "Spå",
+              "Ss",
+              "Sst",
+              "Sub",
+              "Söö",
+              "T",
+              "Vbd",
+              "Vgå",
+              "Vr",
+              "Vå",
+              "Åbe",
+              "Äs"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (423854 6460894)",
+              "WGS84": "POINT (13.7014833138655 58.2824775048755)"
+            },
+            "CountyNo": [
+              14
+            ],
+            "ModifiedTime": "2016-06-12T23:09:02.32Z"
+          },
+          {
+            "EventId": 1859459,
+            "StartDateTime": "2016-01-04T09:11:00",
+            "LastUpdateDateTime": "2016-02-25T16:05:38",
+            "ExternalDescription": "Stockholms södra spår 1:\nArbeten med Citybanan på Stockholms södra medför att spår 1 är avstängt under hela 2016.\n\nMindre förseningar kan förekomma i tågtrafiken mellan Stockholms södra och Stockholms central.",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Sst"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (674193 6578955)",
+              "WGS84": "POINT (18.0605085396167 59.3134227390133)"
+            },
+            "CountyNo": [
+              2,
+              1
+            ],
+            "ModifiedTime": "2016-02-25T15:06:17.85Z"
+          },
+          {
+            "EventId": 1925607,
+            "StartDateTime": "2016-04-01T15:33:00",
+            "LastUpdateDateTime": "2016-07-14T07:31:16",
+            "ExternalDescription": "Resenärer från Danmark till Sverige måste passera en ID-kontroll både vid Copenhagen Airport och genomgå en Inre gränskontroll vid Hyllie station. Resande ska kunna visa upp en giltig ID-handling eller pass vid båda kontrollerna. För resor till Danmark sker ingen ID- eller gränskontroll.",
+            "ReasonCodeText": "sent från utlandet",
+            "AffectedLocation": [
+              "Av",
+              "Baa",
+              "Bdf",
+              "Bhb",
+              "Blv",
+              "Bml",
+              "Bor",
+              "Bån",
+              "Ck",
+              "Cr",
+              "Dis",
+              "E",
+              "Em",
+              "Fki",
+              "För",
+              "Gm",
+              "Gnb",
+              "Gss",
+              "Hd",
+              "Hie",
+              "Hjp",
+              "Hm",
+              "Hv",
+              "Hvp",
+              "Hö",
+              "Kac",
+              "Kg",
+              "Kh",
+              "Kr",
+              "Köp",
+              "Laov",
+              "Lh",
+              "Lo",
+              "Lu",
+              "Lup",
+              "M",
+              "Mo",
+              "Mrh",
+              "Mru",
+              "N",
+              "Nyb",
+              "O",
+              "Ox",
+              "Rb",
+              "Rdg",
+              "Rym",
+              "Röp",
+              "Sdy",
+              "Sea",
+              "Sg",
+              "Si",
+              "Smp",
+              "Srp",
+              "Stb",
+              "Ste",
+              "Stp",
+              "Sy",
+              "Sä",
+              "Sög",
+              "Söla",
+              "Tli",
+              "Tp",
+              "Tre",
+              "Tri",
+              "Tö",
+              "V",
+              "Vs",
+              "Vö",
+              "Vöv",
+              "Y",
+              "Åk",
+              "Åp",
+              "Ä",
+              "Äh",
+              "Ö",
+              "Önd",
+              "Örs"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (379216 6167154)",
+              "WGS84": "POINT (13.0812610336152 55.6352428081042)"
+            },
+            "CountyNo": [
+              12
+            ],
+            "ModifiedTime": "2016-07-14T05:34:29.831Z"
+          },
+          {
+            "EventId": 1889879,
+            "StartDateTime": "2016-02-08T00:01:00",
+            "LastUpdateDateTime": "2016-06-18T06:43:32",
+            "ExternalDescription": "Hässleholm-Lund:\nFörseningar kan uppstå i tågtrafiken för vissa tåg mellan Hässleholm och Sösdala.\nOrsaken är ett banarbete som medför att bara det ena spåret kan trafikeras på sträckan. Arbetet utförs i olika etapper fram till 31 augusti under kvällar och nätter.\n",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Av",
+              "Bhb",
+              "Blv",
+              "Bml",
+              "Ck",
+              "Cr",
+              "Dis",
+              "E",
+              "Em",
+              "Fki",
+              "Gm",
+              "Hie",
+              "Hjp",
+              "Hm",
+              "Hv",
+              "Hvp",
+              "Hö",
+              "Kac",
+              "Kh",
+              "Kr",
+              "Lo",
+              "Lu",
+              "M",
+              "Mru",
+              "Nyb",
+              "O",
+              "Rb",
+              "Sdy",
+              "Sg",
+              "Stb",
+              "Sög",
+              "Söla",
+              "Tre",
+              "Tri",
+              "Tö",
+              "Vs",
+              "Vö",
+              "Vöv",
+              "Åk",
+              "Äh",
+              "Ö",
+              "Önd",
+              "Örs"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (404617.5 6199665.5)",
+              "WGS84": "POINT (13.473222020788 55.9329096567296)"
+            },
+            "CountyNo": [
+              12
+            ],
+            "ModifiedTime": "2016-06-18T04:44:19.641Z"
+          },
+          {
+            "EventId": 1849533,
+            "StartDateTime": "2015-12-21T00:00:00",
+            "LastUpdateDateTime": "2016-07-07T10:58:16",
+            "ExternalDescription": "Förseningar kan förekomma mellan Älvsjö - Stockholm Södra på grund av arbeten med Citybanan måndag till natt mot fredag mellan klockan 00.00 - 05.00.\n\nDet påverkar SL pendeltåg på sträckorna Södertälje - Märsta/Arlanda C/Uppsala samt Nynäshamn - Bålsta samt fjärrtåg mellan Stockholm C - Uppsala, i båda riktningar.",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Arnc",
+              "Bkb",
+              "Bro",
+              "Bål",
+              "Cst",
+              "Fas",
+              "Flb",
+              "Hel",
+              "Hfa",
+              "Hgv",
+              "Hnd",
+              "Hu",
+              "Jbo",
+              "Jkb",
+              "Ke",
+              "Khä",
+              "Kn",
+              "Kän",
+              "Mr",
+              "Nvk",
+              "Nyh",
+              "R",
+              "Rs",
+              "Skg",
+              "So",
+              "Sol",
+              "Spå",
+              "Sst",
+              "Ssä",
+              "Sub",
+              "Söc",
+              "Söd",
+              "Ts",
+              "Tu",
+              "Tul",
+              "Tåd",
+              "U",
+              "Udl",
+              "Upv",
+              "Vhe",
+              "Åbe",
+              "Äs",
+              "Öso",
+              "Öte"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (672880 6576953)",
+              "WGS84": "POINT (18.0358757899596 59.2960089367812)"
+            },
+            "CountyNo": [
+              2,
+              1
+            ],
+            "ModifiedTime": "2016-07-07T09:01:23.158Z"
+          },
+          {
+            "EventId": 1981409,
+            "StartDateTime": "2016-07-04T07:45:00",
+            "LastUpdateDateTime": "2016-07-21T16:34:54",
+            "ExternalDescription": "Sundvall-Gävle: Tågtrafiken påverkas på sträckan på grund av ett planerat banarbete mellan Sundsvall och Hudiksvall dagtid från den 4 juli till den 20 augusti. Kontakta ditt tågbolag för mer information om din resa.",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Gnp",
+              "Gä",
+              "Hkl",
+              "Id",
+              "Lse",
+              "Shv",
+              "Suc"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (615572.5 6882352)",
+              "WGS84": "POINT (17.2108807141339 62.0556696692981)"
+            },
+            "CountyNo": [
+              21
+            ],
+            "ModifiedTime": "2016-07-21T14:35:15.102Z"
+          },
+          {
+            "EventId": 1981523,
+            "StartDateTime": "2016-06-27T19:00:00",
+            "LastUpdateDateTime": "2016-07-14T12:25:04",
+            "ExternalDescription": "Ett flertal arbeten mellan Flemingsberg och Tumba/Södertälje centrum veckor 26-33:\n\nArbeten pågår vardagar från 27/6 till den 19/8 kl.19.00-kl.04.00.\nBegränsad framkomlighet samt spårändringar förekommer kl.19.00-kl.23.00.\nHelt avstängt på sträckan kl.23.00-04.00, bussar ersätter Flemingsberg-Tumba i båda riktningar.\n\nFrån vecka 30 utökas arbeten även i Rönningetunnlarna och avstängningen förlängs Flemingsberg-Södertälje c.\nFör mer information om ersättningstrafiken se sl.se",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Cst",
+              "Flb",
+              "Hu",
+              "Sst",
+              "Söc",
+              "Söd",
+              "Tu",
+              "Tul",
+              "Åbe",
+              "Äs",
+              "Öte"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (663742.5 6565988.5)",
+              "WGS84": "POINT (17.8673799733357 59.201306345633)"
+            },
+            "CountyNo": [
+              2,
+              1
+            ],
+            "ModifiedTime": "2016-07-14T10:25:35.705Z"
+          },
+          {
+            "EventId": 1990486,
+            "StartDateTime": "2016-07-18T19:00:00",
+            "LastUpdateDateTime": "2016-07-14T10:44:28",
+            "ExternalDescription": "Banarbete med Strömstunnlarna Järna-Södertälje Hamn under veckor 29-34 perioden 18/7-25/8 utförs under kvällar /morgnar.\nVardagar veckor 29-34 medför arbeten enkelspårsdrift och spårändringar på sträckan Järna-Södertälje Hamn från kl.19.00 och det är helt avstängt kl.23.05-03.45.\nFör mer information om ersättningstrafik och drabbade avgångar se www.sl.se. ",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Gn",
+              "Jn",
+              "Mö",
+              "Söc",
+              "Söd",
+              "Söu"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (649207 6558081.5)",
+              "WGS84": "POINT (17.6077534673423 59.1357326849024)"
+            },
+            "CountyNo": [
+              2,
+              1
+            ],
+            "ModifiedTime": "2016-07-14T08:44:32.131Z"
+          },
+          {
+            "EventId": 1995616,
+            "StartDateTime": "2016-07-24T00:00:00",
+            "LastUpdateDateTime": "2016-07-21T12:26:25",
+            "ExternalDescription": "Göteborg-Strömstad: Från 24/7 till 9/10 ställs vissa tåg in under vissa dagar och tider på delar av eller hela sträckan Göteborg-Uddevalla. Den inställda tågtrafiken ersätts med buss som avgår enligt särskilda tidtabeller. Observera att bussar kan komma att avgå tidigare än ordinarie tågs tidtabell. Kontakta Västtrafik för mer information om din resa. Orsaken är arbeten med att förlänga plattformarna på vissa stationer utmed sträckan.",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Dl",
+              "G",
+              "Hlv",
+              "Kde",
+              "Lj",
+              "Mkl",
+              "Rbh",
+              "Ske",
+              "Smd",
+              "Snu",
+              "Sth",
+              "Svg",
+              "Tnu",
+              "Uv",
+              "Uö",
+              "Yb",
+              "Övb"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (319667 6448919)",
+              "WGS84": "POINT (11.9361407789286 58.1447165547658)"
+            },
+            "CountyNo": [
+              14
+            ],
+            "ModifiedTime": "2016-07-21T10:27:02.651Z"
+          },
+          {
+            "EventId": 1998093,
+            "StartDateTime": "2016-08-15T19:45:00",
+            "LastUpdateDateTime": "2016-07-26T10:26:50",
+            "ExternalDescription": "Teckomatorp-Kävlinge\nPågatågen är inställda mellan Teckomatorp och Kävlinge kvälls och nattetid från måndag 15 augusti till torsdag 18 augusti. Pågatågen kör direkt mellan Ramlösa och Kävlinge utan uppehåll. Buss ersätter till och från Gantofta, Vallåkra, Tågarp, Billeberga och Teckomatorp. Orsaken är ett underhållsarbete. För mer information om din resa se www.skanetrafiken.se",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Dös",
+              "Glv",
+              "Gss",
+              "Hb",
+              "Hbgb",
+              "Häp",
+              "Kg",
+              "Köp",
+              "Lkö",
+              "Lup",
+              "Mrh",
+              "Ox",
+              "Rdg",
+              "Ryä",
+              "Sea",
+              "Si",
+              "Smp",
+              "Srp",
+              "Ste",
+              "Tli",
+              "Y"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (380807 6189077)",
+              "WGS84": "POINT (13.0969623372779 55.832512656299)"
+            },
+            "CountyNo": [
+              12
+            ],
+            "ModifiedTime": "2016-07-26T08:27:12.295Z"
+          },
+          {
+            "EventId": 2002344,
+            "StartDateTime": "2016-08-22T19:45:00",
+            "LastUpdateDateTime": "2016-08-09T09:47:21",
+            "ExternalDescription": "Teckomatorp - Kävlinge\nPågatågen är inställda Teckomatorp till Kävlinge kvälls och nattetid 22 augusti till 25 augusti. Pågatågen kör direkt Ramlösa till Kävlinge utan uppehåll. Buss ersätter till och från Gantofta, Vallåkra, Tågarp, Billeberga och Teckomatorp. Orsaken är underhållsarbete. För mer information se www.skanetrafiken.se",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Dös",
+              "Glv",
+              "Gss",
+              "Hb",
+              "Hbgb",
+              "Häp",
+              "Kg",
+              "Köp",
+              "Lkö",
+              "Lup",
+              "Mrh",
+              "Ox",
+              "Rdg",
+              "Ryä",
+              "Sea",
+              "Si",
+              "Smp",
+              "Srp",
+              "Ste",
+              "Tli",
+              "Y"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (380807 6189077)",
+              "WGS84": "POINT (13.0969623372779 55.832512656299)"
+            },
+            "CountyNo": [
+              12
+            ],
+            "ModifiedTime": "2016-08-09T07:48:19.266Z"
+          },
+          {
+            "EventId": 2007589,
+            "StartDateTime": "2016-08-13T04:00:00",
+            "LastUpdateDateTime": "2016-08-12T15:20:43",
+            "ExternalDescription": "Tågtrafik Sala - Västerås:\nBanarbete mellan Tillberga och Ransta vilket innebär att sträckan är avstängd från lördag 13 augusti kl 04:00 till måndag 5 september kl 05:00. \n\nSamtliga tåg ersätts med buss på sträckan Sala-Västerås och omvänt. \nResande till och från Ransta hänvisas till att resa med VL. \n\nFör mer information om hur din resa påverkas se på www.sj.se och www.tågkompaniet.se\n",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Rt",
+              "Sl",
+              "Vå"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (591712.5 6624565.5)",
+              "WGS84": "POINT (16.6320043915453 59.7488083864891)"
+            },
+            "CountyNo": [
+              19
+            ],
+            "ModifiedTime": "2016-08-12T13:21:31.295Z"
+          },
+          {
+            "EventId": 2009558,
+            "StartDateTime": "2016-08-08T04:59:00",
+            "LastUpdateDateTime": "2016-08-13T09:03:24",
+            "ExternalDescription": "Det är tekniska problem med informationsutrustningen i Bålsta och Barkarby.\n\nFelavhjälpning pågår men prognos saknas på när felen kan vara åtgärdade. \n\n",
+            "ReasonCodeText": "teletekniskt fel",
+            "AffectedLocation": [
+              "Bkb",
+              "Bål"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (662554 6588698)",
+              "WGS84": "POINT (17.8636783437106 59.4054464125127)"
+            },
+            "CountyNo": [
+              2,
+              1
+            ],
+            "ModifiedTime": "2016-08-13T07:04:50.201Z"
+          },
+          {
+            "EventId": 2010405,
+            "StartDateTime": "2016-08-14T19:00:00",
+            "LastUpdateDateTime": "2016-08-09T11:02:10",
+            "ExternalDescription": "Malmö - Köpenhamn 14-19 augusti\nÖresundstågen från Malmö C till Köpenhamn Österport och från Copenhagen Airport till Malmö C är inställda sena kvällar och nätter från söndag 14 augusti till torsdag 18 augusti. Bussar ersätter inställda tåg. Orsaken är underhållsarbete.",
+            "ReasonCodeText": "sent från utlandet",
+            "AffectedLocation": [
+              "Hie",
+              "M",
+              "Tri"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (364566.5 6164223)",
+              "WGS84": "POINT (12.8501586409144 55.605066477311)"
+            },
+            "CountyNo": [
+              12
+            ],
+            "ModifiedTime": "2016-08-09T09:04:20.738Z"
+          },
+          {
+            "EventId": 2011116,
+            "StartDateTime": "2016-08-15T10:25:00",
+            "LastUpdateDateTime": "2016-08-10T12:54:11",
+            "ExternalDescription": "Göteborg-Trollhättan-Karlstad: Från 15/8 till 18/8 10:25-13:25 dagligen ställs tågtrafiken in mellan Mellerud och Öxnered. Tågen ersätts av buss i båda riktningarna på delar av sträckan Göteborg-Trollhättan-Karlstad. Bussarna går enligt särskilda tidtabeller, vissa innan tågets ordinarie avgångstid. För mer information om din resa, kontakta ditt trafikbolag. Orsaken är underhållsarbeten.",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Bhs",
+              "G",
+              "Gms",
+              "Kil",
+              "Ks",
+              "Ml",
+              "Nol",
+              "Nöe",
+              "Sfl",
+              "Sue",
+              "Thn",
+              "Vdb",
+              "Ål",
+              "Än",
+              "Öx"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (346764.5 6490648.5)",
+              "WGS84": "POINT (12.3682212382302 58.5293432673026)"
+            },
+            "CountyNo": [
+              14
+            ],
+            "ModifiedTime": "2016-08-10T10:57:34.867Z"
+          },
+          {
+            "EventId": 2011136,
+            "StartDateTime": "2016-08-22T09:35:00",
+            "LastUpdateDateTime": "2016-08-10T13:27:45",
+            "ExternalDescription": "Göteborg-Åmål-Karlstad: Från 22/8 till 25/8 09:35-14:20 dagligen ställs tågtrafiken in mellan Mellerud och Karlstad. Tågen ställs in och ersätts av buss i båda riktningarna på delar av sträckan Göteborg-Åmål-Karlstad. Bussarna går enligt särskilda tidtabeller, vissa innan tågets ordinarie avgångstid. För mer information om din resa, kontakta ditt trafikbolag. Orsaken är underhållsarbeten.",
+            "ReasonCodeText": "banarbete",
+            "AffectedLocation": [
+              "Bhs",
+              "G",
+              "Gms",
+              "Kil",
+              "Ks",
+              "Ml",
+              "Nol",
+              "Nöe",
+              "Sfl",
+              "Sue",
+              "Thn",
+              "Vdb",
+              "Ål",
+              "Än",
+              "Öx"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (383914 6546361)",
+              "WGS84": "POINT (12.9768414874737 59.040872125182)"
+            },
+            "CountyNo": [
+              17
+            ],
+            "ModifiedTime": "2016-08-10T11:28:35.386Z"
+          },
+          {
+            "EventId": 2012813,
+            "StartDateTime": "2016-08-12T18:00:00",
+            "LastUpdateDateTime": "2016-08-15T08:45:59",
+            "ExternalDescription": "Malmöfestivalen\nRäkna med förseningar under Malmöfestivalen då uppehållstiderna kan komma att överskridas på grund av många resande. För mer information om din resa, se www.skanetrafiken.se",
+            "ReasonCodeText": "försenad lastning/växling",
+            "AffectedLocation": [
+              "Blv",
+              "Hie",
+              "Hjp",
+              "Lu",
+              "M",
+              "Tri",
+              "Åk"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (374034 6164458)",
+              "WGS84": "POINT (13.0002297723415 55.6097181959599)"
+            },
+            "CountyNo": [
+              12
+            ],
+            "ModifiedTime": "2016-08-15T06:48:48.452Z"
+          },
+          {
+            "EventId": 2014484,
+            "StartDateTime": "2016-08-16T07:08:00",
+            "LastUpdateDateTime": "2016-08-16T13:07:54",
+            "ExternalDescription": "Det är förseningar för tågtrafiken på sträckan Sala - Uppsala på grund av ett befarat spårfel mellan Morgongåva och Sala. Detta påverkar tågtrafiken på sträckan Stockholm - Falun/Borlänge. Reparation av felet pågår och prognos är att felet ska vara åtgärdat den 17/8 kl 05:00.",
+            "ReasonCodeText": "spårfel",
+            "AffectedLocation": [
+              "Avky",
+              "Cst",
+              "Hel",
+              "Hgv",
+              "Hy",
+              "Ke",
+              "Kn",
+              "Mr",
+              "Må",
+              "Nvk",
+              "R",
+              "Rs",
+              "Sl",
+              "So",
+              "Sol",
+              "U",
+              "Udl",
+              "Upv"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (593573.5 6644988)",
+              "WGS84": "POINT (16.674284321759 59.9316986715286)"
+            },
+            "CountyNo": [
+              19
+            ],
+            "ModifiedTime": "2016-08-16T11:08:28.928Z"
+          },
+          {
+            "EventId": 2014647,
+            "StartDateTime": "2016-08-16T12:16:00",
+            "LastUpdateDateTime": "2016-08-16T14:39:55",
+            "ExternalDescription": "Det är förseningar för tågtrafiken på sträckan Stockholm - Norrköping via Nyköping och omvänt på grund av ett spårfel mellan Hölö och Vagnhärad. Reparation av felet pågår.",
+            "ReasonCodeText": "spårfel",
+            "AffectedLocation": [
+              "Cst",
+              "Flb",
+              "Hu",
+              "Jn",
+              "Kon",
+              "Nk",
+              "Nr",
+              "Sst",
+              "Söö",
+              "Vhd",
+              "Åbe",
+              "Äs"
+            ],
+            "Geometry": {
+              "SWEREF99TM": "POINT (644632 6541203.5)",
+              "WGS84": "POINT (17.5167767931391 58.9858857734762)"
+            },
+            "CountyNo": [
+              2,
+              1
+            ],
+            "ModifiedTime": "2016-08-16T12:40:28.413Z"
+          }
+        ]
+      }
+    ]
+  }
+}
