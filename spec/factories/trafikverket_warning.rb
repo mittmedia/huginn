@@ -16,4 +16,4 @@ FactoryGirl.define do
       }
       initialize_with{ defaults.merge(attributes) }
     end
-  end 
+  end
