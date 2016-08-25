@@ -69,10 +69,11 @@ module Agents
 	  end
 
 	  def version_controll(s)
-	    if DateTime.parse(s['StartDateTime']).today? == false
+	    if DateTime.parse(s['LastUpdateDateTime']).today? == false
 	      # return true
+        # p "#{s['LastUpdateDateTime']} är inte i dag"
 	      return false
-	    elsif Time.parse(s['LastUpdateDateTime'])- Time.now < 7135
+	    elsif Time.zone.now - Time.parse(s['LastUpdateDateTime']) > 55
 	    # elsif Time.parse(s['LastUpdateDateTime']).today? == false
 	      return false
         # return true # for testing
@@ -118,7 +119,7 @@ module Agents
 	      .gsub("/1", " januari")
 	      .gsub("/2", " februari")
 	      .gsub("/3", " mars")
-	      .gsub(/(http:\/\/|)(www.|)([a-zåäö]+\.[a-zåäö]+)/, "") # regex för att ta bort web-adresser
+	      .gsub(/(http:\/\/|)(www\.|)([a-zåäö]+\.[a-zåäö]+)/, "") # regex för att ta bort web-adresser
         .gsub("/4", " april")
         .gsub("/5", " maj")
         .gsub("/6", " juni")
@@ -145,23 +146,24 @@ module Agents
         .gsub(" . ", ". ")
         .gsub(" '.", "'.")
         .gsub(/(\.)([A-ZÅÄÖ]|[a-zåäö])/, '\1 \2')
-        .gsub(/([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)(\:)/, '\1 och \2')
         .gsub(/([A-ZÅÄÖ])-([A-ZÅÄÖ][a-zåäö]+)/, '\1 och \2')
         .gsub(":", ".")
         .gsub("..", ".")
-        .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
-        .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1, \2 och \3. ')
-        .gsub(/^([A-ZÅÄÖ][a-zåäö]+)\S([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
-        .gsub(/^([A-ZÅÄÖ][a-zåäö]+)\s\S\s([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
-        .gsub(/([A-ZÅÄÖ][a-zåäö]+)\s\S\s([\A-ZÅÄÖ][a-zåäö]+)/, '\1 och \2')
-        .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)\s\S\s([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
+        .gsub(/^([A-ZÅÄÖ][a-zåäö]+)-([A-ZÅÄÖ][a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
+        .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)-([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1, \2 och \3. ')
+        .gsub(/^([A-ZÅÄÖ][a-zåäö]+)-([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
+        .gsub(/^([A-ZÅÄÖ][a-zåäö]+) - ([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
+        .gsub(/([A-ZÅÄÖ][a-zåäö]+) - ([A-ZÅÄÖ][a-zåäö]+)/, '\1 och \2')
+        .gsub(/^([A-ZÅÄÖ][\a-zåäö]+) - ([A-ZÅÄÖ][a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
         .gsub(/(\d\.)(\n\n|\n)/, '\1 ')
-        .gsub(/([\A-ZÅÄÖ][\a-zåäö]+)\s\S\s([\A-ZÅÄÖ][\a-zåäö]+)/, '\1 och \2')
-	  end
+        .gsub(/([A-ZÅÄÖ][a-zåäö]+) - ([A-ZÅÄÖ][a-zåäö]+)/, '\1 och \2')
+        .gsub(/([a-zåäö]\.)([A-Z])/, '\1 \2')
+        .gsub(/([A-ZÅÄÖ][a-zåäö]+)( C | C| C)(\/|,| )/, '\1 central\3')
+    end
 
-	  def csv
-	    CSV.read(Rails.root.join('app/models/agents/trafikverket/stations_new.csv'))
-	  end
+    def csv
+      CSV.read(Rails.root.join('app/models/agents/trafikverket/stations_new.csv'))
+    end
 
 	  def check
 	    result = {articles:[]}
@@ -176,7 +178,7 @@ module Agents
 	        unless sit.nil?
 	          article[:version] = "Trafikverket_Train_V1.0"
             article[:raw] = s['ExternalDescription']
-	          article[:generated_at] = Time.now
+	          article[:generated_at] = Time.zone.now
 	          article[:sent] = s['ModifiedTime']
 	          article[:title] = build_headline(s, sit)
 	          article[:ingress] = build_ingress(s, sit)
@@ -210,7 +212,7 @@ module Agents
     def array_of_stations(s)
       affected = []
       if s['AffectedLocation'].nil?
-        return ""
+        return nil
       else
         s['AffectedLocation'].each do |f|
           csv.each do |csv|
