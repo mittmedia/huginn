@@ -179,7 +179,7 @@ module Agents
 	          article[:version] = "Trafikverket_Train_V1.0"
             article[:raw] = s['ExternalDescription']
 	          article[:generated_at] = Time.zone.now
-	          article[:sent] = s['ModifiedTime']
+	          article[:sent] = s['LastUpdateDateTime']
 	          article[:title] = build_headline(s, sit)
 	          article[:ingress] = build_ingress(s, sit)
 	          article[:body] = build_body(s)
@@ -238,7 +238,7 @@ module Agents
         message = {
           article: article,
           title: article[:title],
-          pretext: "Ny varning från Trafikverket",
+          pretext: "Ny notis från Mittmedias Textrobot",
           text: "#{article[:ingress]}\n#{article[:body]}\n\n#{article[:author]}",
           mrkdwn_in: ["text", "pretext"],
           channel: c,
@@ -358,7 +358,7 @@ module Agents
 
 	  def build_ingress(s, sit)
 	    "Förseningar väntas i tågtrafiken på grund av #{Agents::TRAFIKVERKET::Helper::CAUSE[s['ReasonCodeText']]}. 
-	Störningen gäller #{find_stations(sit)}."
+Störningen gäller #{find_stations(sit)}."
 	  end
 
 	  def build_body(s)
@@ -374,7 +374,7 @@ module Agents
 	      if multiple_join(body_text) == ""
           return nil
         else
-	        "#{multiple_join(body_text)} Varningen skickades ut klockan #{DateTime.parse(s['ModifiedTime']).strftime("%R").gsub(/(\d\d):(\d\d)/, '\1.\2')}."
+	        "#{multiple_join(body_text)} Varningen skickades ut klockan #{Time.zone.parse(s['LastUpdateDateTime']).strftime("%R").gsub(/(\d\d):(\d\d)/, '\1.\2')}."
 	      end
 	    end
 	  end
