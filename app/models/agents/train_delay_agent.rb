@@ -388,9 +388,9 @@ Störningen gäller #{find_stations(sit)}."
       elsif (time.today?) && time > Time.zone.now
         "Arbetet med att få igång trafiken igen påbörjas senare i dag vid klockan #{time.strftime("%R").gsub(/(\d\d):(\d\d)/, '\1.\2')}."
       elsif time < Time.zone.now
-        "Arbetet med att få igång trafiken igen påbörjades på #{Trafik::DAGAR[time.wday]}."
+        "Arbetet med att få igång trafiken igen påbörjades på #{Agents::TRAFIKVERKET::Tv::DAGAR[time.wday]} den #{time.day} #{Agents::TRAFIKVERKET::Tv::MANAD[time.month]}."
       elsif time > Time.zone.now
-        "Det planerade arbetet kommer att påbörjas på #{Trafik::DAGAR[time.wday][0..-3]} klockan #{time.strftime("%R").gsub(/(\d\d):(\d\d)/, '\1.\2')}."
+        "Det planerade arbetet kommer att påbörjas på #{Agents::TRAFIKVERKET::Tv::DAGAR[time.wday]} den #{time.day} #{Agents::TRAFIKVERKET::Tv::MANAD[time.month]}"
       end
     end
 
