@@ -75,8 +75,8 @@ module Agents
 	      return false
 	    elsif Time.zone.now - Time.parse(s['LastUpdateDateTime']) > 70
 	    # elsif Time.parse(s['LastUpdateDateTime']).today? == false
-	      return false
-        # return true # for testing
+	      # return false
+        return true # for testing
 	    else
 	      return true
 	    end
@@ -376,10 +376,23 @@ Störningen gäller #{find_stations(sit)}."
 	      if multiple_join(body_text) == ""
           return nil
         else
-	        "#{multiple_join(body_text)} Varningen skickades ut klockan #{Time.zone.parse(s['LastUpdateDateTime']).strftime("%R").gsub(/(\d\d):(\d\d)/, '\1.\2')}."
+	        "#{multiple_join(body_text)} #{start_time(s)}"
 	      end
 	    end
 	  end
+
+    def start_time(s)
+      time = Time.zone.parse(s['StartDateTime'])
+      if (time.today?) && (time < Time.zone.now)
+        "Arbetet med att få igång trafiken igen påbörjades i dag klockan #{time.strftime("%R").gsub(/(\d\d):(\d\d)/, '\1.\2')}."
+      elsif (time.today?) && time > Time.zone.now
+        "Arbetet med att få igång trafiken igen påbörjas senare i dag vid klockan #{time.strftime("%R").gsub(/(\d\d):(\d\d)/, '\1.\2')}."
+      elsif time < Time.zone.now
+        "Arbetet med att få igång trafiken igen påbörjades på #{Trafik::DAGAR[time.wday]}."
+      elsif time > Time.zone.now
+        "Det planerade arbetet kommer att påbörjas på #{Trafik::DAGAR[time.wday][0..-3]} klockan #{time.strftime("%R").gsub(/(\d\d):(\d\d)/, '\1.\2')}."
+      end
+    end
 
     def working?
       !recent_error_logs?
