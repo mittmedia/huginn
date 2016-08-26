@@ -75,8 +75,8 @@ module Agents
 	      return false
 	    elsif Time.zone.now - Time.parse(s['LastUpdateDateTime']) > 70
 	    # elsif Time.parse(s['LastUpdateDateTime']).today? == false
-	      # return false
-        return true # for testing
+	      return false
+        # return true # for testing
 	    else
 	      return true
 	    end
@@ -199,19 +199,16 @@ module Agents
             end
             article[:number_of_stations_affected] = article[:stations].length
             digest = checksum("#{s['ExternalDescription']}")
-            print "-----------------digest =  #{digest}"
-
-            print redis
-            print "redis =========== #{redis.get(article[:trafikverket_event_id])}"
             next if redis.get(article[:trafikverket_event_id]).present?
             result[:articles] << article unless article[:body].nil?
             redis.set(article[:trafikverket_event_id], digest)
-            print "NY REDIS = #{redis.get(article[:trafikverket_event_id])}"
             @article_counter = redis.incr("Trafikverket_train_article_count")
             send_event(find_channel(article), article)
           end        
         end
       end
+    ensure
+      redis.quit
     end
 
     def array_of_stations(s)

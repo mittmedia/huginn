@@ -112,6 +112,8 @@ module Agents
       end
       if res[:articles].length > 0 then create_event payload: res end
       return res
+      ensure
+        redis.quit
     end
 
     def clean_up_text(text)

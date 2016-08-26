@@ -36,6 +36,8 @@ module Agents
 	        }
 	      create_event payload: message
 	    end
+    ensure
+      redis.quit
 	  end
 
 	  def working?
