@@ -230,7 +230,7 @@ module Agents
 	  def find_channel(article)
 	    list = []
       article[:stations].each do |s|
-        list << Agents::TRAFIKVERKET::Municipalities::SLACK2[s[:municipality]] unless list.include?(Agents::TRAFIKVERKET::Municipalities::SLACK2[s[:municipality]])
+        list << Agents::TRAFIKVERKET::Municipalities::SLACK[s[:municipality]] unless list.include?(Agents::TRAFIKVERKET::Municipalities::SLACK[s[:municipality]])
       end
       list
 	  end
