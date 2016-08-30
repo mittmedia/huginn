@@ -291,7 +291,7 @@ module Agents::TRAFIKVERKET::Municipalities
 		"Olofström" => "#larm_ovriga_landet",
 		"Ronneby" => "#larm_ovriga_landet",
 		"Sölvesborg" => "#larm_ovriga_landet",
-
+    
 	}
 
 	SLACK2 = {

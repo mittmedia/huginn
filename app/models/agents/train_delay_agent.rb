@@ -75,8 +75,8 @@ module Agents
 	      return false
 	    elsif Time.zone.now - Time.parse(s['LastUpdateDateTime']) > 70
 	    # elsif Time.parse(s['LastUpdateDateTime']).today? == false
-	      # return false
-        return true # for testing
+	      return false
+        # return true # for testing
 	    else
 	      return true
 	    end
@@ -232,6 +232,7 @@ module Agents
       article[:stations].each do |s|
         list << Agents::TRAFIKVERKET::Municipalities::SLACK[s[:municipality]] unless list.include?(Agents::TRAFIKVERKET::Municipalities::SLACK[s[:municipality]])
       end
+      list << "#robot_tagforseningar"
       list
 	  end
 

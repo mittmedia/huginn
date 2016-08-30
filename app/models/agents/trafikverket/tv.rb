@@ -245,7 +245,8 @@ module Agents::TRAFIKVERKET::Tv
     "Västernorrland" => ["#larm_vasternorrland"],
     "Jämtland" => ["#larm_jamtland"],
     "Västerbotten" => ["#larm_ovriga_landet"],
-    "Norrbotten" => ["#larm_ovriga_landet"]
+    "Norrbotten" => ["#larm_ovriga_landet"],
+    "#robot_trafikinfo" => ["#robot_trafikinfo"]
     }
 
     CHANNEL2 = {
@@ -270,7 +271,8 @@ module Agents::TRAFIKVERKET::Tv
     "Västernorrland" => ["#robottest"],
     "Jämtland" => ["#robottest"],
     "Västerbotten" => ["#robottest"],
-    "Norrbotten" => ["#robottest"]
+    "Norrbotten" => ["#robottest"],
+    "#robot_trafikinfo" => ["#robot_trafikinfo"]
     }
 
     ENETT = {

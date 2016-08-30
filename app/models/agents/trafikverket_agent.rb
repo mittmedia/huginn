@@ -349,6 +349,7 @@ module Agents
 
       def send_event(m, article)
         omrkod = m[@need[5]]
+        omrkod << "#robot_trafikinfo"
         omrkod.each do |i|
           if i != 2
             Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|

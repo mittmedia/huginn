@@ -178,7 +178,8 @@ module Agents::SMHI::Distrikt
         "Dalarnas län, Dalafjällen" => ["#larm_dalarna", "#robottest"],
         "Uppsala län utom Upplandskusten" => ["#larm_ovriga_landet"],
         "Västra Götalands län, sydväst Vänern" => ["#larm_ovriga_landet"],
-        "Norrbottens län, norra Lapplandsfjällen" => ["#larm_ovriga_landet"]
+        "Norrbottens län, norra Lapplandsfjällen" => ["#larm_ovriga_landet"],
+        "#robot_tagforseningar" => ["#robot_tagforseningar"]
     }
     CHANNEL2 = {
         "Öresund" => ["#robottest"],
@@ -238,6 +239,7 @@ module Agents::SMHI::Distrikt
         "Dalarnas län, Dalafjällen" => ["#robottest", "#robottest"],
         "Uppsala län utom Upplandskusten" => ["#robottest"],
         "Västra Götalands län, sydväst Vänern" => ["#robottest"],
-        "Norrbottens län, norra Lapplandsfjällen" => ["#robottest"]
+        "Norrbottens län, norra Lapplandsfjällen" => ["#robottest"],
+        "#robot_tagforseningar" => ["#robot_tagforseningar"]
     }
 end
