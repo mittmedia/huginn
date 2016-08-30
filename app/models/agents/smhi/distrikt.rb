@@ -59,6 +59,7 @@ module Agents::SMHI::Distrikt
         "029" => "Uppsala län utom Upplandskusten",
         "027" => "Västra Götalands län, sydväst Vänern",
         "001" => "Norrbottens län, norra Lapplandsfjällen",
+        "00023" => "#robot_vadervarningar"
     }
     LANDHAV = {
         "055" => :sea,
@@ -179,7 +180,7 @@ module Agents::SMHI::Distrikt
         "Uppsala län utom Upplandskusten" => ["#larm_ovriga_landet"],
         "Västra Götalands län, sydväst Vänern" => ["#larm_ovriga_landet"],
         "Norrbottens län, norra Lapplandsfjällen" => ["#larm_ovriga_landet"],
-        "#robot_tagforseningar" => ["#robot_tagforseningar"]
+        "#robot_vadervarningar" => ["#robot_vadervarningar"]
     }
     CHANNEL2 = {
         "Öresund" => ["#robottest"],

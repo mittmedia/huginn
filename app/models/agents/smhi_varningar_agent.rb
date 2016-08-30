@@ -151,7 +151,7 @@ module Agents
         area = omrkod.split(",")
       else
         area = [omrkod]
-        area << "#robot_tagforseningar"
+        area << "00023" 
       end
       area.each do |i|      
         Agents::SMHI::Distrikt::CHANNEL[Agents::SMHI::Distrikt::OMR[i]].each do |c|
