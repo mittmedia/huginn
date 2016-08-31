@@ -75,8 +75,8 @@ module Agents
 	      return false
 	    elsif Time.zone.now - Time.parse(s['LastUpdateDateTime']) > 70
 	    # elsif Time.parse(s['LastUpdateDateTime']).today? == false
-	      # return false
-        return true # for testing
+	      return false
+        # return true # for testing
 	    else
 	      return true
 	    end
