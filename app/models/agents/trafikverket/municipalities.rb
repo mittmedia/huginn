@@ -291,6 +291,7 @@ module Agents::TRAFIKVERKET::Municipalities
 		"Olofström" => "#larm_ovriga_landet",
 		"Ronneby" => "#larm_ovriga_landet",
 		"Sölvesborg" => "#larm_ovriga_landet",
+    "#robot_vma" => "#robot_vma"
     
 	}
 
@@ -586,6 +587,7 @@ module Agents::TRAFIKVERKET::Municipalities
 		"Olofström" => "#robottest",
 		"Ronneby" => "#robottest",
 		"Sölvesborg" => "#robottest",
+    "#robot_vma" => "#robot_vma"
 
 	}
 end
