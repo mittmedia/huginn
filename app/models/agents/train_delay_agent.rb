@@ -75,8 +75,8 @@ module Agents
 	      return false
 	    elsif Time.zone.now - Time.parse(s['LastUpdateDateTime']) > 70
 	    # elsif Time.parse(s['LastUpdateDateTime']).today? == false
-	      return false
-        # return true # for testing
+	      # return false
+        return true # for testing
 	    else
 	      return true
 	    end
@@ -152,7 +152,7 @@ module Agents
         .gsub(":", ".")
         .gsub("..", ".")
         .gsub(/^([A-ZÅÄÖ][a-zåäö]+)-([A-ZÅÄÖ][a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
-        .gsub(/^([\A-ZÅÄÖ][\a-zåäö]+)-([\A-ZÅÄÖ][\a-zåäö]+)\S([\A-ZÅÄÖ][\a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1, \2 och \3. ')
+        .gsub(/^([A-ZÅÄÖ][a-zåäö]+)-([A-ZÅÄÖ][a-zåäö]+)-([A-ZÅÄÖ][a-zåäö]+)\:/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1, \2 och \3. ')
         .gsub(/^([A-ZÅÄÖ][a-zåäö]+)-([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
         .gsub(/^([A-ZÅÄÖ][a-zåäö]+) - ([A-ZÅÄÖ][a-zåäö]+)(|\n|\n\n)/, 'Ett meddelande har gått ut om en tågförsening på sträckan mellan \1 och \2')
         .gsub(/([A-ZÅÄÖ][a-zåäö]+) - ([A-ZÅÄÖ][a-zåäö]+)/, '\1 och \2')
