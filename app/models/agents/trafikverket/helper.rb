@@ -9,7 +9,8 @@ module Agents::TRAFIKVERKET::Helper
 		"tillbud" => "ett tillbud i anslutning till spåret",
 		"anläggningsfel" => "ett anläggningsfel",
 		"försenad lastning/växling" => "någon form av lastningsproblem",
-    "djur i spåret" => "djur på spåret"
+    "djur i spåret" => "djur på spåret",
+    "akut kontroll av spår/fordon" => "ett tekniskt fel" 
 	}
 
 	HEADLINE = {
@@ -22,7 +23,8 @@ module Agents::TRAFIKVERKET::Helper
 		"tillbud" => "Ett tillbud",
 		"anläggningsfel" => "Anläggningsfel",
 		"försenad lastning/växling" => "Lastproblem",
-    "djur i spåret" => "Djur på spåret"
+    "djur i spåret" => "Djur på spåret",
+    "akut kontroll av spår/fordon" => "Tekniska problem"
 	}
 end
 
