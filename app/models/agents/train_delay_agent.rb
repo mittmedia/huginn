@@ -86,6 +86,8 @@ module Agents
 	    if /kontakta|Kontakta/.match(sentence)
 	      # print sentence
 	      return ""
+      elsif /(\d|\d\d)-(\d|\d\d) (januari|februari|mars|april|maj|juni|juli|augusti|september|oktober|november|december)/.match(sentence)
+        sentence.to_s.strip.chomp
 	    elsif /Orsaken|På grund av|på grund av|orsak|Orsak|orsaken/.match(sentence)
 	      # p /På grund av|på grund av|orsak|Orsak|orsaken|Orsaken/.match(sentence)
 	      # p sentence
