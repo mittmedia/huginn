@@ -57,6 +57,7 @@ module Agents
             channel << find_channel(a[:Area]) unless channel.include?(find_channel(a[:Area]))
           end
         end
+        channel << "#robot_krisinfo"
         @article_counter = redis.incr("Krisinfo_article_count")
         res[:articles] << {article: article, channel:channel}
       end
