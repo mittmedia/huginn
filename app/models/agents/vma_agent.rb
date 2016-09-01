@@ -4,7 +4,7 @@ module Agents
   class VmaAgent < Agent        #Byt ut AgentName mot namn på din agent
     default_schedule "every_5m"
     description <<-MD
-      Här ska man skriva beskrivningen av vad agenten gör
+      Hämtar VMA från Sveriges Radios API och skickar ut direkt i Slack.
     MD
     event_description <<-MD
       fylls i när strukturen som passar är känd.
@@ -61,20 +61,23 @@ module Agents
           article[:urgency] = data['urgency']
           article[:url] = data['web']
           article[:author] = "Mittmedias Textrobot"
-          alert['info'][0]['area'].each do |geography|
+          data['area'].each do |geography|
             article[:geo] = []
             article[:geo] << {'municipality' => geography['geocode'][3]['value']}
             article[:geo] << {'county' => geography['geocode'][1]['value']}
           end
           res[:article] << article
+          digest = checksum(article[:url] + article[:id])
+          next if digest == redis.get(article[:id])
+          redis.set(article[:id], digest)
           @article_counter = redis.incr("Vma_article_count")
         end
       end
       send_event(find_channel(article), article)
     end
 
-    def https_call 
-      uri = URI.parse(options['url_string'])
+    def https_call
+      uri = URI.parse(options['url_string'])  #URI.parse("https://vma.sverigesradio.se/api/complete.json")
       # uri = URI.parse("https://vmatest.sr.se/api/complete.json")    # Test-url
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
