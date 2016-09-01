@@ -276,6 +276,55 @@ module Agents::TRAFIKVERKET::Tv
     "#robot_trafikinfo" => ["#robot_trafikinfo"]
     }
 
+    LANSKANAL = {
+    "Stockholms län" => "#larm_stockholm",
+    "Uppsala län" => "#larm_ovriga_landet",
+    "Södermanlands län" => "#larm_ovriga_landet",
+    "Östergötlands län" => "#larm_ovriga_landet",
+    "Jönköpings län" => "#larm_ovriga_landet",
+    "Kronobergs län" => "#larm_ovriga_landet",
+    "Kalmar län" => "#larm_ovriga_landet",
+    "Gotlands län" => "#larm_ovriga_landet",
+    "Blekinge län" => "#larm_ovriga_landet",
+    "Skåne län" => "#larm_ovriga_landet",
+    "Hallands län" => "#larm_ovriga_landet",
+    "Västra Götalands län" => "#larm_ovriga_landet",
+    "Värmlands län" => "#larm_ovriga_landet",
+    "Örebro län" => "#larm_orebro",
+    "Västmanlands län" => "#larm_vastmanland",
+    "Dalarnas län" => "#larm_dalarna",
+    "Gävleborgs län" => "#larm_gavleborg",
+    "Västernorrlands län" => "#larm_vasternorrland",
+    "Jämtlands län" => "#larm_jamtland",
+    "Västerbottens län" => "#larm_ovriga_landet",
+    "Norrbottens län" => "#larm_ovriga_landet"
+    }
+
+
+    LANSKANAL2 = {
+    "Stockholms län" => "#robottest",
+    "Uppsala län" => "#robottest",
+    "Södermanlands län" => "#robottest",
+    "Östergötlands län" => "#robottest",
+    "Jönköpings län" => "#robottest",
+    "Kronobergs län" => "#robottest",
+    "Kalmar län" => "#robottest",
+    "Gotlands län" => "#robottest",
+    "Blekinge län" => "#robottest",
+    "Skåne län" => "#robottest",
+    "Hallands län" => "#robottest",
+    "Västra Götalands län" => "#robottest",
+    "Värmlands län" => "#robottest",
+    "Örebro län" => "#robottest",
+    "Västmanlands län" => "#robottest",
+    "Dalarnas län" => "#robottest",
+    "Gävleborgs län" => "#robottest",
+    "Västernorrlands län" => "#robottest",
+    "Jämtlands län" => "#robottest",
+    "Västerbottens län" => "#robottest",
+    "Norrbottens län" => "#robottest"
+  }
+
     ENETT = {
         "begränsad" => "att det råder b",
         "dieselutsläpp" => "ett d",
