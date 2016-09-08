@@ -71,9 +71,9 @@ module Agents
           next if digest == redis.get(article[:id])
           redis.set(article[:id], digest)
           @article_counter = redis.incr("Vma_article_count")
+          find_channel(article)
         end
       end
-      find_channel(article)
     end
 
     def https_call
