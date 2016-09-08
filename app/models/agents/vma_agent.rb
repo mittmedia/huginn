@@ -73,7 +73,7 @@ module Agents
           @article_counter = redis.incr("Vma_article_count")
         end
       end
-      send_event(find_channel(article), article)
+      find_channel(article)
     end
 
     def https_call
