@@ -151,21 +151,34 @@ module Agents
         area = omrkod.split(",")
       else
         area = [omrkod]
-        area << "00023" 
+        area << "00023"
       end
-      area.each do |i|      
-        Agents::SMHI::Distrikt::CHANNEL[Agents::SMHI::Distrikt::OMR[i]].each do |c|
+      area.each do |i|
+        if Agents::SMHI::Distrikt::CHANNEL[Agents::SMHI::Distrikt::OMR[i]].nil? == true
           message = {
             title: article[:title],
-            pretext: "Ny vädervarning från SMHI",
-            text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
+            pretext: "Felmeddelande SMHI:robot",
+            text: article,
             mrkdwn_in: ["text", "pretext"],
-            channel: c,
-            lat: article[:geometry][:lat],
-            long: article[:geometry][:long]
-            }
+            channel: "#robottest",
+            lat: "article[:geometry][:lat]",
+            long: "article[:geometry][:long]"
+          }
           create_event payload: message
-        # Agents::SLACK::MESSAGE.slacking(c, article, message)
+        else
+          Agents::SMHI::Distrikt::CHANNEL[Agents::SMHI::Distrikt::OMR[i]].each do |c|
+            message = {
+              title: article[:title],
+              pretext: "Ny vädervarning från SMHI",
+              text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}",
+              mrkdwn_in: ["text", "pretext"],
+              channel: c,
+              lat: article[:geometry][:lat],
+              long: article[:geometry][:long]
+              }
+            create_event payload: message
+            # Agents::SLACK::MESSAGE.slacking(c, article, message)
+          end
         end
       end
     end
@@ -179,7 +192,8 @@ module Agents
     end
 
     def redis
-      @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
+      # @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
+      @redis = Redis.new(:host => "127.0.0.1", :port => 6379, :db => 15) # for testing
     end
   end
 end

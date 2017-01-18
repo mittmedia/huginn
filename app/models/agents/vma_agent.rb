@@ -71,8 +71,8 @@ module Agents
           next if digest == redis.get(article[:id])
           redis.set(article[:id], digest)
           @article_counter = redis.incr("Vma_article_count")
-          find_channel(article)
-        end
+          find_channel(article
+ )       end
       end
     end
 

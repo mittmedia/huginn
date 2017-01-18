@@ -176,7 +176,7 @@ module Agents::SMHI::Distrikt
         "Skåne län utom Österlen" => ["#larm_ovriga_landet"],
         "Värmlands län" => ["#larm_ovriga_landet"],
         "Västmanlands län" => ["#larm_vastmanland"],
-        "Dalarnas län, Dalafjällen" => ["#larm_dalarna", "#robottest"],
+        "Dalarnas län, Dalafjällen" => ["#larm_dalarna"],
         "Uppsala län utom Upplandskusten" => ["#larm_ovriga_landet"],
         "Västra Götalands län, sydväst Vänern" => ["#larm_ovriga_landet"],
         "Norrbottens län, norra Lapplandsfjällen" => ["#larm_ovriga_landet"],

@@ -1,0 +1,80 @@
+{
+  "headers": {
+    "Received": [
+      "from mailgw.ornskoldsvik.se (unknown [127.0.0.1]) by IMSVA (Postfix) with ESMTP id 6840D9205E for <0ee924ac7f03e7e5fa4b@cloudmailin.net>; Tue, 17 Jan 2017 08:07:29 +0100",
+      "from 172.20.18.11 (unknown [172.20.18.11]) by uxx1.ornskoldsvik.se (Postfix) with ESMTP id 563FD92085 for <0ee924ac7f03e7e5fa4b@cloudmailin.net>; Tue, 17 Jan 2017 08:07:29 +0100"
+    ],
+    "Date": "Tue, 17 Jan 2017 08:07:24 +0100",
+    "From": "\"Miljö och Vatten i Örnsköldsvik AB\" <info@miva.se>",
+    "To": "0ee924ac7f03e7e5fa4b@cloudmailin.net",
+    "Message-ID": "<354906579.49145.1484636844881.JavaMail.NTX01A$@ntx01a>",
+    "Subject": "Driftinformation från Miljö och Vatten i Örnsköldsvik AB",
+    "Mime-Version": "1.0",
+    "Content-Type": "multipart/mixed; boundary=\"----=_Part_49144_1528646757.1484636844880\"",
+    "X-TM-AS-GCONF": "00",
+    "X-TM-AS-Product-Ver": "IMSVA-9.0.0.1549-8.0.0.1202-22828.004",
+    "X-TM-AS-Result": "No--6.151-7.0-31-10",
+    "X-imss-scan-details": "No--6.151-7.0-31-10",
+    "X-TMASE-Version": "IMSVA-9.0.0.1549-8.0.1202-22828.004",
+    "X-TMASE-Result": "10--6.150700-10.000000",
+    "X-TMASE-MatchedRID": "2UwwcHKl5CGGYAKJjm5IPZObxJgN/hOxBDU2iHL+ibrZUPjIeju3YJL7 3W3BBZ7r72f1jC4WePxftuJwrFEhTbcClLxx8lxlp99PkDRqbmbsqVV33HUEZOTCMddcL/gjOwB XM346/+xDt2i9hbCLNbQtLYZJg/HfhLNutHPrdfPZcaPAuoQkZgV8KUiCGBEL",
+    "X-TMASE-SNAP-Result": "1.811037.0001-0-1-22:0,12:0"
+  },
+  "envelope": {
+    "to": "0ee924ac7f03e7e5fa4b@cloudmailin.net",
+    "recipients": [
+      "0ee924ac7f03e7e5fa4b@cloudmailin.net"
+    ],
+    "from": "info@miva.se",
+    "helo_domain": "mailgw.ornskoldsvik.se",
+    "remote_ip": "192.36.230.80",
+    "spf": {
+      "result": "pass",
+      "domain": "miva.se"
+    }
+  },
+  "plain": "\nDriftstörning Orrvägen i Domsjö\n\nhttp://miva.se/5.3ba835d21594750b5ba1de20.html\n\nFölj Miva på Facebook för att få information om när läckan är åtgärdad!\nGilla oss på www.facebook.se/mivaovik\n\nMiljö och Vatten i Örnsköldsvik AB\nPostadress: Box 385, 891 28 Örnsköldsvik\nBesöksadress: Sjögatan 4A\nVäxel: 0660-330 300. Kundservice: 0660-330 400\nwww.miva.se\n",
+  "html": null,
+  "reply_plain": null,
+  "attachments": null,
+  "web_request": {
+    "headers": {
+      "Received": [
+        "from mailgw.ornskoldsvik.se (unknown [127.0.0.1]) by IMSVA (Postfix) with ESMTP id 6840D9205E for <0ee924ac7f03e7e5fa4b@cloudmailin.net>; Tue, 17 Jan 2017 08:07:29 +0100",
+        "from 172.20.18.11 (unknown [172.20.18.11]) by uxx1.ornskoldsvik.se (Postfix) with ESMTP id 563FD92085 for <0ee924ac7f03e7e5fa4b@cloudmailin.net>; Tue, 17 Jan 2017 08:07:29 +0100"
+      ],
+      "Date": "Tue, 17 Jan 2017 08:07:24 +0100",
+      "From": "\"Miljö och Vatten i Örnsköldsvik AB\" <info@miva.se>",
+      "To": "0ee924ac7f03e7e5fa4b@cloudmailin.net",
+      "Message-ID": "<354906579.49145.1484636844881.JavaMail.NTX01A$@ntx01a>",
+      "Subject": "Driftinformation från Miljö och Vatten i Örnsköldsvik AB",
+      "Mime-Version": "1.0",
+      "Content-Type": "multipart/mixed; boundary=\"----=_Part_49144_1528646757.1484636844880\"",
+      "X-TM-AS-GCONF": "00",
+      "X-TM-AS-Product-Ver": "IMSVA-9.0.0.1549-8.0.0.1202-22828.004",
+      "X-TM-AS-Result": "No--6.151-7.0-31-10",
+      "X-imss-scan-details": "No--6.151-7.0-31-10",
+      "X-TMASE-Version": "IMSVA-9.0.0.1549-8.0.1202-22828.004",
+      "X-TMASE-Result": "10--6.150700-10.000000",
+      "X-TMASE-MatchedRID": "2UwwcHKl5CGGYAKJjm5IPZObxJgN/hOxBDU2iHL+ibrZUPjIeju3YJL7 3W3BBZ7r72f1jC4WePxftuJwrFEhTbcClLxx8lxlp99PkDRqbmbsqVV33HUEZOTCMddcL/gjOwB XM346/+xDt2i9hbCLNbQtLYZJg/HfhLNutHPrdfPZcaPAuoQkZgV8KUiCGBEL",
+      "X-TMASE-SNAP-Result": "1.811037.0001-0-1-22:0,12:0"
+    },
+    "envelope": {
+      "to": "0ee924ac7f03e7e5fa4b@cloudmailin.net",
+      "recipients": [
+        "0ee924ac7f03e7e5fa4b@cloudmailin.net"
+      ],
+      "from": "info@miva.se",
+      "helo_domain": "mailgw.ornskoldsvik.se",
+      "remote_ip": "192.36.230.80",
+      "spf": {
+        "result": "pass",
+        "domain": "miva.se"
+      }
+    },
+    "plain": "\nDriftstörning Orrvägen i Domsjö\n\nhttp://miva.se/5.3ba835d21594750b5ba1de20.html\n\nFölj Miva på Facebook för att få information om när läckan är åtgärdad!\nGilla oss på www.facebook.se/mivaovik\n\nMiljö och Vatten i Örnsköldsvik AB\nPostadress: Box 385, 891 28 Örnsköldsvik\nBesöksadress: Sjögatan 4A\nVäxel: 0660-330 300. Kundservice: 0660-330 400\nwww.miva.se\n",
+    "html": null,
+    "reply_plain": null,
+    "attachments": null
+  }
+}

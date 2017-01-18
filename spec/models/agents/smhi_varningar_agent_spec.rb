@@ -44,4 +44,13 @@ describe Agents::SmhiVarningarAgent do
       end
     end
   end  
+
+  describe "slack" do
+    it "should send error message if wrongly formatted list of places is sent" do
+      stub_request(:any, /alerts.json/).to_return(:body => File.read(Rails.root.join("spec/data_fixtures/smhi_alerts_felsok.json")), :status => 200, headers: { 'Content-Type' => 'application/json' })
+      stub_request(:any, /messages.json/).to_return(:body => File.read(Rails.root.join("spec/data_fixtures/message.json")), :status => 200, headers: { 'Content-Type' => 'application/json' })
+      response = agent.check
+      p response
+    end
+  end
 end
