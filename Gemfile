@@ -33,6 +33,7 @@ end
 # gem 'rturk', '~> 2.12.1'          # HumanTaskAgent
 # gem 'hipchat', '~> 1.2.0'         # HipchatAgent
 # gem 'xmpp4r',  '~> 0.5.6'         # JabberAgent
+gem 'time_tracker'
 gem 'mqtt'                        # MQTTAgent
 gem 'slack-notifier', '~> 1.0.0'  # SlackAgent
 gem 'hypdf', '~> 1.0.10'          # PDFInfoAgent
@@ -40,6 +41,7 @@ gem 'redis', '~> 2.2.0'           # SmhiVarningarAgent
 gem 'hash_diff'                   # SmhiVarningarAgent
 gem "factory_girl_rails", "~> 4.0" # TrafikverketAgent  
 gem 'timecop', '~>0.8.1'                  # For rspec testing
+
 
 
 # Weibo Agents
@@ -77,6 +79,7 @@ gem 'aws-sdk-core', '~> 2.2.15'
 # Optional Services.
 gem 'omniauth-37signals'          # BasecampAgent
 gem 'omniauth-wunderlist', github: 'wunderlist/omniauth-wunderlist', ref: 'd0910d0396107b9302aa1bc50e74bb140990ccb8'
+
 
 # Bundler <1.5 does not recognize :x64_mingw as a valid platform name.
 # Unfortunately, it can't self-update because it errors when encountering :x64_mingw.

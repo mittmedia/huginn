@@ -134,7 +134,7 @@ module Agents
 
       def build_brodtext(m)
         meddelande = m[@need[4]]
-        "Trafikverket rapporterar störningar i trafiken #{add_road_number("", m)}och orsaken är #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. Det hela påverkar #{m[@need[3]]}. #{add_context(m)}"
+        "Trafikverket rapporterar störningar i trafiken #{add_road_number("", m)}och man uppger att #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")} är orsaken. Det hela påverkar #{m[@need[3]]}. #{add_context(m)}"
       end
 
       def add_context(m)

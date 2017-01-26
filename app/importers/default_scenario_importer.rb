@@ -1,7 +1,7 @@
 require 'open-uri'
 class DefaultScenarioImporter
   def self.import(user)
-    return unless ENV['IMPORT_DEFAULT_SCENARIO_FOR_ALL_USERS'] == 'true'
+    return unless ENV['IMPORT_DEFAULT_SCENARIO_FOR_ALL_USERS'] == 'false'
     seed(user)
   end
 
