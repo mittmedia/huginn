@@ -355,9 +355,9 @@ module Agents
             Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
               message = {
                 article: article,
-                title: article[:title],
-                pretext: "Ny varning från Trafikverket",
-                text: "#{article[:ort]}\n#{article[:ingress]}\n#{article[:body]}\n\nIframe-inbäddning: #{article[:geometry][:map]}",
+                title: article[:ingress],
+                pretext: article[:title],
+                text: "#{article[:body]}\n\nIframe-inbäddning: #{article[:geometry][:map]}",
                 mrkdwn_in: ["text", "pretext"],
                 channel: c,
                 article_count: @article_counter
