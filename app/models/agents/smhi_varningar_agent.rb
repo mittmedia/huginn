@@ -192,8 +192,8 @@ module Agents
     end
 
     def redis
-      # @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
-      @redis = Redis.new(:host => "127.0.0.1", :port => 6379, :db => 15) # for testing
+      @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
+      # @redis = Redis.new(:host => "127.0.0.1", :port => 6379, :db => 15) # for testing
     end
   end
 end
