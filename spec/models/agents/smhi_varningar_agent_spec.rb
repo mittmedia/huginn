@@ -9,6 +9,10 @@ describe Agents::SmhiVarningarAgent do
             'expected_update_period_in_days' => "2"
           }
   end  
+
+  before do
+    ENV['REDIS_URL'] = 'foo'
+  end
   
   let(:agent) do
     _agent = Agents::SmhiVarningarAgent.new(:name => "SmhiVarningarAgent", :options => @valid_options)
@@ -36,7 +40,7 @@ describe Agents::SmhiVarningarAgent do
       stub_request(:any, /messages.json/).to_return(:body => File.read(Rails.root.join("spec/data_fixtures/message.json")), :status => 200, headers: { 'Content-Type' => 'application/json' })
       response = agent.check
       # p response
-      expect(response[:articles][34][:ingress]).to eq("SMHI har gått ut med en klass 1-varning för kulingvindar. Meddelandet rör Skagerack.")
+      expect(response[:articles][0][:ingress]).to eq("SMHI har gått ut med en klass 1-varning för kulingvindar. Meddelandet rör Skagerack.")
       response[:articles].each do |a|
         if a[:systemversion] > 1
           p a[:rubrik] + a[:ingress] + a[:brodtext]
