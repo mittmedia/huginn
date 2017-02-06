@@ -1,7 +1,7 @@
 require 'json'
 
 module Agents
-  class VmaAgent < Agent        #Byt ut AgentName mot namn på din agent
+  class VmaAgent < Agent       
     default_schedule "every_5m"
     description <<-MD
       Hämtar VMA från Sveriges Radios API och skickar ut direkt i Slack.
@@ -71,8 +71,8 @@ module Agents
           next if digest == redis.get(article[:id])
           redis.set(article[:id], digest)
           @article_counter = redis.incr("Vma_article_count")
-          find_channel(article
- )       end
+          find_channel(article)
+        end
       end
     end
 
@@ -83,8 +83,6 @@ module Agents
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
       data = http.get(uri.request_uri).body
-      # data.force_encoding('UTF-8').encode('UTF-8')
-      # p data.encoding
       JSON.parse(data)
     end
 
@@ -94,6 +92,7 @@ module Agents
         list << Agents::TRAFIKVERKET::Municipalities::SLACK[geo['municipality']] unless list.include?(Agents::TRAFIKVERKET::Municipalities::SLACK[geo['municipality']])
       end
       list.each do |f|
+        # for future use of multiple channels
       end
       list << "#robot_vma"
       send_event(list, article)
