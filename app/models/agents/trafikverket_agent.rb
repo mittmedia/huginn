@@ -164,7 +164,7 @@ module Agents
       def sluttid_n(version, slut)
       	if slut > DateTime.now
           if slut.day != version.day
-            "Man beömder att trafiken kommer påverkas fram till #{Agents::TRAFIKVERKET::Tv::DAGAR[slut.wday]} den #{slut.day} #{Agents::TRAFIKVERKET::Tv::MANAD[slut.month]} klockan #{slut.strftime("%R")}."
+            "Man bedömer att trafiken kommer påverkas fram till #{Agents::TRAFIKVERKET::Tv::DAGAR[slut.wday]} den #{slut.day} #{Agents::TRAFIKVERKET::Tv::MANAD[slut.month]} klockan #{slut.strftime("%R")}."
           else
             "Man bedömer att trafiken kommer påverkas fram till klockan #{slut.strftime("%R")}."
           end
