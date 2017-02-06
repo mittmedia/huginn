@@ -163,7 +163,7 @@ group :development do
     gem 'shoulda-matchers'
     gem 'vcr'
     gem 'webmock', '~> 1.17.4', require: false
-    gem "fakeredis", :git => "git://github.com/guilleiguaran/fakeredis.git", :branch => "0-3-x"
+    # gem "fakeredis", :git => "git://github.com/guilleiguaran/fakeredis.git", :branch => "0-3-x"
   end
 end
 

@@ -29,14 +29,6 @@ GIT
       delayed_job (>= 3.0, < 5)
 
 GIT
-  remote: git://github.com/guilleiguaran/fakeredis.git
-  revision: e667da89b585f39ebd678618301426667c650b5c
-  branch: 0-3-x
-  specs:
-    fakeredis (0.3.3)
-      redis (~> 2.2.0)
-
-GIT
   remote: git://github.com/lostisland/faraday_middleware.git
   revision: c5836ae55857272732b33eb0e0a98d60e995a376
   branch: master
@@ -589,7 +581,6 @@ DEPENDENCIES
   em-http-request (~> 1.1.2)
   evernote_oauth
   factory_girl_rails (~> 4.0)
-  fakeredis!
   faraday (~> 0.9.0)
   faraday_middleware!
   feed-normalizer
