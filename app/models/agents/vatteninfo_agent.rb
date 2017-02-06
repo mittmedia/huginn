@@ -1,5 +1,6 @@
 module Agents
   class VatteninfoAgent < Agent
+    default_schedule "every_1m"
     description <<-MD
       Leverar driftinfo från Miljö och Vatten i Örnsköldsvik AB.
     MD
@@ -20,9 +21,11 @@ module Agents
 
     def check
       data = extract_info
-      return if data == false
       data.each do |item|
-        send_event(find_data(parse_html(item[3])), item[3])
+        next unless time_filter(item[1]) == true
+        return nil if WRAPPERS::REDIS.digest(item[0], item) == false
+        send_event(find_data(item[3]), item[3])
+        
         # find_data(parse_html(item[3]))
       end
     end
@@ -30,20 +33,20 @@ module Agents
     def extract_info
       main_info = []
       enum = 0
-      @doc = parse_html("#{vars[:base_url]}#{vars[:sub_url]}")
-      time = @doc.xpath("//*[@class='sv-channel sv-defaultlist ']/li/span[1]/text()").text.gsub("[", "").gsub(".", ":").split("]")
-      status = @doc.xpath("//*[@class='sv-channel sv-defaultlist ']/li/span[2]/text()").text.split("ärdat")
-      head = @doc.xpath("//*[@class='sv-channel sv-defaultlist ']/li/a/span/text()")
-      @url = @doc.xpath("//*[@class='sv-channel sv-defaultlist ']/li/a/@href")
+      doc = parse_html("#{vars[:base_url]}#{vars[:sub_url]}")
+      time = doc.xpath("//*[@class='sv-channel sv-defaultlist ']/li/span[1]/text()").text.gsub("[", "").gsub(".", ":").split("]")
+      status = doc.xpath("//*[@class='sv-channel sv-defaultlist ']/li/span[2]/text()").text.split("ärdat")
+      head = doc.xpath("//*[@class='sv-channel sv-defaultlist ']/li/a/span/text()")
+      @url = doc.xpath("//*[@class='sv-channel sv-defaultlist ']/li/a/@href")
       time.each do |key|
-        return false unless time_filter(time[enum])
-        main_info << [head[enum].text, time[enum], status[enum], "#{vars[:base_url] }#{@url[enum]}"]
+        main_info << [head[enum].text, time[enum], status[enum], "#{vars[:base_url]}#{@url[enum].text}"]
         enum += 1 
       end
       return main_info
     end
 
-    def find_data(doc) 
+    def find_data(url)
+      doc = parse_html(url)
       data = {}
       data[:title] = doc.css('div.sv-text-portlet-content').css('h1').text
       data[:text] = doc.css('div.sv-text-portlet-content')[3].css('p')[0].text
@@ -58,16 +61,18 @@ module Agents
         d = to_hash(s.strip)
         data[:data][d[0]] = d[1] 
       end
-      return unless WRAPPERS::REDIS.digest(data)
       return data
     end
 
     def time_filter(time)
-      t = Time.parse(time) unless time.nil?
-      if t > Time.now-60
+      t = Time.parse(time)
+      span = t - Time.now
+      # p span
+      # if span < 10000 # for test
+      if (span >= 0.0) && (span <= 60.0)
         return true
       else
-        return false
+        return nil
       end    
     end
 
@@ -76,7 +81,7 @@ module Agents
     end
 
     def vars
-      {base_url: 'https://miva.se', sub_url: '/kundservice/driftinformation.4.6d76c78f124d9a7776580001345.html'}
+      {base_url: 'http://miva.se', sub_url: '/kundservice/driftinformation.4.6d76c78f124d9a7776580001345.html'}
     end
 
     def to_hash(string, arr_sep=',', key_sep=':')
@@ -88,6 +93,7 @@ module Agents
     end
 
     def send_event(data, url)
+      return if data.nil?
       message = {
         article: data,
         title: data[:text],
