@@ -64,6 +64,10 @@ module Agents
       return data
     end
 
+    def generate_text(data)
+      
+    end
+
     def time_filter(time)
       t = Time.parse(time)
       span = t - Time.zone.now
@@ -97,6 +101,7 @@ module Agents
       message = {
         article: data,
         title: data[:text],
+        channel: "#larm_vatten_ovik",
         pretext: data[:title],
         text: "#{data[:info][0]}\n#{data[:info][1]}\n#{data[:info][2]}\n#{data[:info][3]}\nLäs mer på #{url}",
         mrkdwn_in: ["text", "pretext"]
