@@ -66,10 +66,10 @@ module Agents
 
     def time_filter(time)
       t = Time.parse(time)
-      span = t - Time.now
-      # p span
+      span = t - Time.zone.now
+      p span
       # if span < 10000 # for test
-      if (span >= 0.0) && (span <= 60.0)
+      if (span <= 0.0) && (span >= -60.0)
         return true
       else
         return nil
