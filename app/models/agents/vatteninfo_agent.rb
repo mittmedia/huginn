@@ -1,6 +1,6 @@
 module Agents
   class VatteninfoAgent < Agent
-    default_schedule "every_1m"
+    cannot_be_scheduled!
     description <<-MD
       Leverar driftinfo från Miljö och Vatten i Örnsköldsvik AB.
     MD
@@ -19,16 +19,16 @@ module Agents
       !recent_error_logs?
     end
 
-    def check
-      data = extract_info
-      data.each do |item|
-        next unless time_filter(item[1]) == true
-        # next if WRAPPERS::REDIS.digest(item[0], item) == false
-        send_event(find_data(item[3]), item[3])
+    # def check
+    #   data = receive
+    #   data.each do |item|
+    #     next unless time_filter(item[1]) == true
+    #     # next if WRAPPERS::REDIS.digest(item[0], item) == false
+    #     send_event(find_data(item[3]), item[3])
         
-        # find_data(parse_html(item[3]))
-      end
-    end
+    #     # find_data(parse_html(item[3]))
+    #   end
+    # end
 
     def extract_info
       main_info = []
@@ -57,6 +57,7 @@ module Agents
       list.each do |i|
         data[:info] << i.text.gsub("kl.", "klockan").gsub("Kl.", "klockan")
       end
+      next if WRAPPERS::REDIS.digest(data[:title], data) == false
       data[:info].each do |s|
         d = to_hash(s.strip)
         data[:data][d[0]] = d[1] 
@@ -126,19 +127,7 @@ module Agents
       event = incoming_events.to_json_with_active_support_encoder
       event = JSON.parse(event[1..-2])
       link = event['payload']['plain'].match(/(http:\/\/miva.se\/\S*.html)/)
-      print "____________________"
-      print link
-      print "____________________"
-
-      # if event['payload']['title'].nil? == false
-      #   # Meddelande formaterat som följer: 
-      #   message = {
-      #     title: event['payload']['title'],
-      #     pretext: event['payload']['pretext'],
-      #     text: event['payload']['text'],
-      #     mrkdwn_in: ["text", "pretext"]
-      #     }
-      # end
+      send_event(find_data(link), link)
     end
 
     def send_event(data, url)
