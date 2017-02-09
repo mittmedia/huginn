@@ -125,7 +125,9 @@ module Agents
     def receive(incoming_events)
       event = incoming_events.to_json_with_active_support_encoder
       event = JSON.parse(event[1..-2])
-      print event['payload']
+      print "-----------------------------------------"
+      print event['payload']['headers']['plain']
+      print "--------------------------------------------"
       # if event['payload']['title'].nil? == false
       #   # Meddelande formaterat som följer: 
       #   message = {
@@ -142,7 +144,7 @@ module Agents
       message = {
         article: data,
         title: data[:title],
-        channel: options['channel'],
+        channel: options['channel'] ,
         pretext: "Driftinfo från MIVA",
         text: "#{generate_text(data)}\nLäs mer på #{url}",
         mrkdwn_in: ["text", "pretext"],
