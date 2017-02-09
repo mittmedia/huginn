@@ -127,7 +127,7 @@ module Agents
       event = incoming_events.to_json_with_active_support_encoder
       event = JSON.parse(event[1..-2])
       link = event['payload']['plain'].match(/(http:\/\/miva.se\/\S*.html)/)
-      send_event(find_data(link), link)
+      send_event(find_data(link[0]), link[0])
     end
 
     def send_event(data, url)
