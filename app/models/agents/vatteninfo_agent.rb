@@ -23,7 +23,7 @@ module Agents
       data = extract_info
       data.each do |item|
         next unless time_filter(item[1]) == true
-        return nil if WRAPPERS::REDIS.digest(item[0], item) == false
+        # return nil if WRAPPERS::REDIS.digest(item[0], item) == false
         send_event(find_data(item[3]), item[3])
         
         # find_data(parse_html(item[3]))
@@ -65,7 +65,35 @@ module Agents
     end
 
     def generate_text(data)
-      
+      text = {}
+      tid = omv_tid(data)
+      text[:title] = data[:title]
+      text[:body] = clean_text("Enligt MIVA är det en #{data[:title].split[0].downcase.strip} på #{data[:data]["Berört område"].strip} som även kan påverka #{data[:data]["Övriga berörda områden"].strip}\nArbetet påbörjades på #{Agents::TRAFIKVERKET::Tv::DAGAR[tid[0].wday]} och man räknar med att arbetet kommer fortgå åtminstone till #{tid_text(tid)}")
+      return text
+    end
+
+    def clean_text(text)
+      text.gsub("  ", " ")
+          .gsub(" .", ".")
+    end
+
+    def tid_text(tid)
+      if tid[0].wday != tid[1].wday
+        "#{Agents::TRAFIKVERKET::Tv::DAGAR[tid[1].wday]} den #{tid[1].day} #{Agents::TRAFIKVERKET::Tv::MANAD[tid[1].month]} klockan #{tid[1].strftime("%R")}."
+      else
+        "klockan #{tid[1].strftime("%R")}."
+      end
+    end
+
+    def omv_tid(data)
+      time = []
+      tm = data[:data]["Påbörjas"].split
+      tm2 = data[:data]["Beräknas åtgärdad"].split
+      tm[4] = "#{tm[4]}:00"
+      tm2[4] = "#{tm2[4]}:00"
+      time << Time.parse("#{tm[0]} #{tm[1]} #{tm[2]} #{tm[4]}")
+      time << Time.parse("#{tm2[0]} #{tm2[1]} #{tm2[2]} #{tm2[4]}")
+      return time
     end
 
     def time_filter(time)
@@ -73,7 +101,7 @@ module Agents
       span = t - Time.zone.now
       p span
       # if span < 10000 # for test
-      if (span <= 0.0) && (span >= -60.0)
+      if (span <= 0.0) && (span >= -61.0)
         return true
       else
         return nil
@@ -103,7 +131,7 @@ module Agents
         title: data[:text],
         channel: "#larm_vatten_ovik",
         pretext: data[:title],
-        text: "#{data[:info][0]}\n#{data[:info][1]}\n#{data[:info][2]}\n#{data[:info][3]}\nLäs mer på #{url}",
+        text: "#{generate_text(data)}\nLäs mer på #{url}",
         mrkdwn_in: ["text", "pretext"]
         }
       create_event payload: message
