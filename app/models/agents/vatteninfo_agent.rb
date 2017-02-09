@@ -127,6 +127,9 @@ module Agents
       event = JSON.parse(event[1..-2])
       print "-----------------------------------------"
       print event['payload'].keys
+      print "-------"
+      print event['payload']['plain']
+      print "'''''''''"
       print event['payload']['headers'].keys
       print "--------------------------------------------"
       # if event['payload']['title'].nil? == false
