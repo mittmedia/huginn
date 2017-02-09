@@ -125,13 +125,11 @@ module Agents
     def receive(incoming_events)
       event = incoming_events.to_json_with_active_support_encoder
       event = JSON.parse(event[1..-2])
-      print "-----------------------------------------"
-      print event['payload'].keys
-      print "-------"
-      print event['payload']['plain']
-      print "'''''''''"
-      print event['payload']['headers'].keys
-      print "--------------------------------------------"
+      link = event.match(/(http:\/\/miva.se\/\S*.html)/)
+      print "____________________"
+      print link
+      print "____________________"
+
       # if event['payload']['title'].nil? == false
       #   # Meddelande formaterat som följer: 
       #   message = {
