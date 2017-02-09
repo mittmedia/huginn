@@ -126,7 +126,8 @@ module Agents
       event = incoming_events.to_json_with_active_support_encoder
       event = JSON.parse(event[1..-2])
       print "-----------------------------------------"
-      print event['payload'].class
+      print event['payload'].keys
+      print event['payload']['headers'].keys
       print "--------------------------------------------"
       # if event['payload']['title'].nil? == false
       #   # Meddelande formaterat som följer: 
