@@ -81,7 +81,8 @@ module Agents
       if time.length == 1
         return "."
       elsif time.length > 1
-      tid_text(time)
+        tid_text(time)
+      end
     end
 
     def other_areas(data)
