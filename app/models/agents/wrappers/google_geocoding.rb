@@ -3,7 +3,7 @@
 # Address: the search query itself, formatted according to this description: https://developers.google.com/maps/documentation/geocoding/intro#GeocodingRequests
 # API-key from Google's Api Console
 
-module GEOCODE
+module Agents::WRAPPERS::GEOCODE
   def self.geocode(format, adress, api_key, bounds)
     url = "https://maps.googleapis.com/maps/api/geocode/#{format}?address=#{adress}&bounds=#{bounds}&key=#{api_key}"
     # p url
