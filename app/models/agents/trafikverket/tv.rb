@@ -48,6 +48,32 @@ module Agents::TRAFIKVERKET::Tv
         12 => "december"
     }
 
+    MONTH = {
+        "januari" => "january",
+        "februari" => "february",
+        "mars" => "mars",
+        "april" => "april",
+        "maj" => "may",
+        "juni" => "june",
+        "juli" => "july",
+        "augusti" => "august",
+        "september" => "september",
+        "oktober" => "october",
+        "november" => "november",
+        "december" => "december",
+        "jan" => "january",
+        "feb" => "february",
+        "mar" => "mars",
+        "apr" => "april",
+        "jun" => "june",
+        "jul" => "july",
+        "aug" => "august",
+        "sep" => "september",
+        "okt" => "october",
+        "nov" => "november",
+        "dec" => "december",
+  }
+
     PRIONIV = {
         "Ingen påverkan" => 1,
         "Liten påverkan" => 2,
