@@ -7,7 +7,10 @@ module Agents
 
     def default_options
       {
-        'channel' => '#larm_vatten_ovik'
+        'channel' => '#larm_vatten_ovik',
+        'api_key' => 'AIzaSyDw1Lo2Qlzw_dqLZYyX7hHgXY7BJSmWt4U',
+        'format' => 'json',
+        'bounds' => '63.003902,17.866272|63.614616,19.674941'
       }
     end
     
@@ -65,10 +68,29 @@ module Agents
       return data
     end
 
-    def generate_text(data)
+    def generate_text(data) 
       tid = omv_tid(data)
-      text = clean_text("Enligt MIVA är det en #{data[:title].split[0].downcase.strip} vid #{data[:data]["Berört område"].strip} som även kan påverka #{data[:data]["Övriga berörda områden"].strip}\nArbetet påbörjades på #{Agents::TRAFIKVERKET::Tv::DAGAR[tid[0].wday]} och man räknar med att arbetet kommer fortgå åtminstone till #{tid_text(tid)}")
-      return text
+      clean_text("Enligt MIVA är det #{data[:title].split[0].downcase} vid #{data[:data]["Berört område"]}#{other_areas(data)}\n#{start_end(tid)}")
+    end
+
+    def start_end(time)
+      "Arbetet påbörjades på #{Agents::TRAFIKVERKET::Tv::DAGAR[time[0].wday]}#{end_time(time)}"
+    end
+
+    def end_time(time)
+      if time.length == 1
+        return "."
+      elsif time.length > 1
+      tid_text(time)
+    end
+
+    def other_areas(data)
+      if data[:data]["Övriga berörda områden"].nil?
+        return "."
+      else
+        data[:data]["Övriga berörda områden"] = data[:data]["Övriga berörda områden"].downcase if data[:data]["Övriga berörda områden"].split[0] == "Eventuellt"
+        " som även kan påverka#{data[:data]["Övriga berörda områden"]}n."
+      end
     end
 
     def clean_text(text)
@@ -78,21 +100,46 @@ module Agents
     end
 
     def tid_text(tid)
-      if tid[0].wday != tid[1].wday
-        "#{Agents::TRAFIKVERKET::Tv::DAGAR[tid[1].wday]} den #{tid[1].day} #{Agents::TRAFIKVERKET::Tv::MANAD[tid[1].month]} klockan #{tid[1].strftime("%R")}."
-      else
-        "klockan #{tid[1].strftime("%R")}."
+      if (tid.length == 2) && (tid[0].wday != tid[1].wday)
+        " och man räknar med att arbetet kommer fortgå åtminstone till #{Agents::TRAFIKVERKET::Tv::DAGAR[tid[1].wday]} den #{tid[1].day} #{Agents::TRAFIKVERKET::Tv::MANAD[tid[1].month]} klockan #{tid[1].strftime("%R")}."
+      elsif (tid.length == 2) && (tid[0].wday == tid[1].wday)
+        " och man räknar med att arbetet kommer fortgå åtminstone till klockan #{tid[1].strftime("%R")}."
+      elsif tid.length == 3
+        " och man kunde avsluta arbetet vid klockan #{tid[2].strftime("%R")}."
       end
     end
 
     def omv_tid(data)
       time = []
-      tm = data[:data]["Påbörjas"].split
-      tm2 = data[:data]["Beräknas åtgärdad"].split
-      tm[4] = "#{tm[4]}:00"
-      tm2[4] = "#{tm2[4]}:00"
-      time << Time.parse("#{tm[0]} #{tm[1]} #{tm[2]} #{tm[4]}")
-      time << Time.parse("#{tm2[0]} #{tm2[1]} #{tm2[2]} #{tm2[4]}")
+      if data[:data]["Påbörjas"]
+        tm = data[:data]["Påbörjas"].split
+        if tm.length > 4
+          tid = "#{tm[4]}:00"
+        else
+          tid = "#{tm[3]}:00"
+        end
+        tm[1] = Agents::TRAFIKVERKET::Tv::MONTH[tm[1]]
+        time << Time.parse("#{tm[0]} #{tm[1]} #{tm[2]} #{tid}")
+      end
+      if data[:data]["Beräknas åtgärdat"]
+        data[:data]["Beräknas åtgärdad"] = data[:data]["Beräknas åtgärdat"]
+      end
+      if data[:data]["Beräknas åtgärdad"]
+        tm2 = data[:data]["Beräknas åtgärdad"].split
+        if tm2.length > 4
+          tid = "#{tm2[4]}:00"
+        else
+          tid = "#{tm2[3]}:00"
+        end
+        tm2[1] = Agents::TRAFIKVERKET::Tv::MONTH[tm2[1]]
+        time << Time.parse("#{tm2[0]} #{tm2[1]} #{tm2[2]} #{tid}")
+      end
+      if data[:data]["Åtgärdat"]
+        tm3 = data[:data]["Åtgärdat"].split
+        tm3[4] = "#{tm3[4]}:00"
+        tm3[1] = Agents::TRAFIKVERKET::Tv::MONTH[tm3[1]]
+        time << Time.parse("#{tm3[0]} #{tm3[1]} #{tm3[2]} #{tm3[4]}")
+      end
       return time
     end
 
@@ -130,17 +177,28 @@ module Agents
       send_event(find_data(link[0]), link[0])
     end
 
+    def geolocation
+      obj = WRAPPERS::GEOCODE.geocode(options['form'], "#{geo_search_substring(data[:title])},Västernorrland", options['api_key'], options['bounds'])
+      if obj['results'] == []
+        obj = WRAPPERS::GEOCODE.geocode(options['form'], adress, options['api_key'], options['bounds'])
+      end
+      lat = obj['results'][0]['geometry']['location']['lat']
+      long = obj['results'][0]['geometry']['location']['lng']
+      Agents::TRAFIKVERKET::MAP.iframe(lat, long)
+    end
+
     def send_event(data, url)
       return if data.nil?
       message = {
         article: data,
         title: data[:title],
-        channel: options['channel'] ,
+        channel: "#robottest",#options['channel'] ,
         pretext: "Driftinfo från MIVA",
-        text: "#{generate_text(data)}\nLäs mer på #{url}",
+        text: "#{generate_text(data)}\nLäs mer på #{url}\n\nKarta för inbäddning: #{geolocation("#{data[:title].split[-1]},Västernorrland", data)}",,
         mrkdwn_in: ["text", "pretext"],
         url: url
         }
+        print message[:text]
       create_event payload: message
     end
   end
