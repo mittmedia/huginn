@@ -179,9 +179,9 @@ module Agents
     end
 
     def geolocation(adress, data)
-      obj = WRAPPERS::GEOCODE.geocode(options['form'], "#{geo_search_substring(data[:title])},Västernorrland", options['api_key'], options['bounds'])
+      obj = Agents::WRAPPERS::GEOCODE.geocode(options['form'], "#{geo_search_substring(data[:title])},Västernorrland", options['api_key'], options['bounds'])
       if obj['results'] == []
-        obj = WRAPPERS::GEOCODE.geocode(options['form'], adress, options['api_key'], options['bounds'])
+        obj = Agents::WRAPPERS::GEOCODE.geocode(options['form'], adress, options['api_key'], options['bounds'])
       end
       lat = obj['results'][0]['geometry']['location']['lat']
       long = obj['results'][0]['geometry']['location']['lng']
