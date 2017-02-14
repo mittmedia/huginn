@@ -188,6 +188,12 @@ module Agents
       Agents::TRAFIKVERKET::MAP.iframe(lat, long)
     end
 
+    def geo_search_substring(string)
+      sub2 = string.scan(/[A-ZÅÄÖ][a-zåäö]*/)
+      sub2.shift
+      return sub2.join(",")
+    end
+
     def send_event(data, url)
       return if data.nil?
       message = {
