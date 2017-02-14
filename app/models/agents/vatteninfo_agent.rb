@@ -177,7 +177,7 @@ module Agents
       send_event(find_data(link[0]), link[0])
     end
 
-    def geolocation
+    def geolocation(adress, data)
       obj = WRAPPERS::GEOCODE.geocode(options['form'], "#{geo_search_substring(data[:title])},Västernorrland", options['api_key'], options['bounds'])
       if obj['results'] == []
         obj = WRAPPERS::GEOCODE.geocode(options['form'], adress, options['api_key'], options['bounds'])
