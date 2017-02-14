@@ -60,7 +60,7 @@ module Agents
       list.each do |i|
         data[:info] << i.text.gsub("kl.", "klockan").gsub("Kl.", "klockan")
       end
-      return nil if WRAPPERS::REDIS.digest(data[:title], data) == false
+      # return nil if WRAPPERS::REDIS.digest(data[:title], data) == false
       data[:info].each do |s|
         d = to_hash(s.strip)
         data[:data][d[0]] = d[1] 
