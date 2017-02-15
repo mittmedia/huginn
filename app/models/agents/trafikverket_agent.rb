@@ -109,7 +109,6 @@ module Agents
             article[:geometry] = geometry
             next if Agents::WRAPPERS::REDIS.digest(article[:udid], article[:udid]) == false
             res[:articles] << article
-            @article_counter = redis.incr("Trafikverket_article_count")
             send_event(m, article)
           end
         end
