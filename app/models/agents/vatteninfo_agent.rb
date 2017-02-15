@@ -168,9 +168,9 @@ module Agents
     end
 
     def geolocation(adress, data)
-      obj = Agents::WRAPPERS::GoogleGeocoding.geocode(options['form'], "#{geo_search_substring(data[:title])},Västernorrland", options['api_key'], options['bounds'])
+      obj = Agents::WRAPPERS::GoogleGeocoding.geocode(options['format'], "#{geo_search_substring(data[:title])},Västernorrland", options['api_key'], options['bounds'])
       if obj['results'] == []
-        obj = Agents::WRAPPERS::GoogleGeocoding.geocode(options['form'], adress, options['api_key'], options['bounds'])
+        obj = Agents::WRAPPERS::GoogleGeocoding.geocode(options['format'], adress, options['api_key'], options['bounds'])
       end
       lat = obj['results'][0]['geometry']['location']['lat']
       long = obj['results'][0]['geometry']['location']['lng']
