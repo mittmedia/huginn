@@ -22,17 +22,6 @@ module Agents
       !recent_error_logs?
     end
 
-    # def check
-    #   data = receive
-    #   data.each do |item|
-    #     next unless time_filter(item[1]) == true
-    #     # next if WRAPPERS::REDIS.digest(item[0], item) == false
-    #     send_event(find_data(item[3]), item[3])
-        
-    #     # find_data(parse_html(item[3]))
-    #   end
-    # end
-
     def extract_info
       main_info = []
       enum = 0
@@ -60,7 +49,7 @@ module Agents
       list.each do |i|
         data[:info] << i.text.gsub("kl.", "klockan").gsub("Kl.", "klockan")
       end
-      # return nil if WRAPPERS::REDIS.digest(data[:title], data) == false
+      return nil if WRAPPERS::REDIS.digest(data[:title], data) == false
       data[:info].each do |s|
         d = to_hash(s.strip)
         data[:data][d[0]] = d[1] 
@@ -205,7 +194,6 @@ module Agents
         mrkdwn_in: ["text", "pretext"],
         url: url
         }
-        print message[:text]
       create_event payload: message
     end
   end
