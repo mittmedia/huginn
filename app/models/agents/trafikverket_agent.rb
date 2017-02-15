@@ -107,10 +107,8 @@ module Agents
             geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
             geometry[:map] = Agents::TRAFIKVERKET::MAP.iframe(geometry[:lat], geometry[:long])
             article[:geometry] = geometry
-            digest = checksum("#{article[:udid]}")
-            next if digest == redis.get(article[:udid])
+            next if Agents::WRAPPERS::REDIS.digest(article[:udid], article[:udid]) == false
             res[:articles] << article
-            redis.set(article[:udid], digest)
             @article_counter = redis.incr("Trafikverket_article_count")
             send_event(m, article)
           end
@@ -134,7 +132,7 @@ module Agents
 
       def build_brodtext(m)
         meddelande = m[@need[4]]
-        "Trafikverket rapporterar störningar i trafiken #{add_road_number("", m)}och man uppger att #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")} är orsaken. Det hela påverkar #{m[@need[3]]}. #{add_context(m)}"
+        "Enligt uppgifter från Trafikverket är orsaken till störningen #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. #{add_context(m)}"
       end
 
       def add_context(m)
@@ -341,10 +339,6 @@ module Agents
           .gsub("köerMot", "köer mot")
           .gsub(/(\ i )([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
           .gsub(/(\ i )([A-ZÅÄÖ][a-zåäö]+) ([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
-      end
-
-      def checksum(json)
-        Digest::MD5.hexdigest(json.to_s).to_s
       end 
 
       def send_event(m, article)
@@ -404,10 +398,6 @@ module Agents
 
       def working?
         !recent_error_logs?
-      end
-
-      def redis
-        @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
       end
   	end
   end
