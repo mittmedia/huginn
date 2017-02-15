@@ -114,7 +114,6 @@ module Agents
           end
         end
       ensure
-        redis.quit
     	end
 
       def build_headline(m)
