@@ -168,9 +168,9 @@ module Agents
     end
 
     def geolocation(adress, data)
-      obj = Agents::WRAPPERS::GEOCODE.geocode(options['form'], "#{geo_search_substring(data[:title])},Västernorrland", options['api_key'], options['bounds'])
+      obj = Agents::WRAPPERS::GoogleGeocoding.geocode(options['form'], "#{geo_search_substring(data[:title])},Västernorrland", options['api_key'], options['bounds'])
       if obj['results'] == []
-        obj = Agents::WRAPPERS::GEOCODE.geocode(options['form'], adress, options['api_key'], options['bounds'])
+        obj = Agents::WRAPPERS::GoogleGeocoding.geocode(options['form'], adress, options['api_key'], options['bounds'])
       end
       lat = obj['results'][0]['geometry']['location']['lat']
       long = obj['results'][0]['geometry']['location']['lng']
@@ -181,6 +181,10 @@ module Agents
       sub2 = string.scan(/[A-ZÅÄÖ][a-zåäö]*/)
       sub2.shift
       return sub2.join(",")
+    end
+
+    def working?
+      !recent_error_logs?
     end
 
     def send_event(data, url)
