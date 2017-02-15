@@ -1,0 +1,80 @@
+{
+  "headers": {
+    "Received": [
+      "from mailgw.ornskoldsvik.se (unknown [127.0.0.1]) by IMSVA (Postfix) with ESMTP id 5A583920A9 for <0ee924ac7f03e7e5fa4b@cloudmailin.net>; Thu, 09 Feb 2017 14:27:08 +0100",
+      "from 172.20.18.11 (unknown [172.20.18.11]) by uxx1.ornskoldsvik.se (Postfix) with ESMTP id 58C4592099 for <0ee924ac7f03e7e5fa4b@cloudmailin.net>; Thu, 09 Feb 2017 14:27:08 +0100"
+    ],
+    "Date": "Thu, 09 Feb 2017 14:26:59 +0100",
+    "From": "\"Miljö och Vatten i Örnsköldsvik AB\" <info@miva.se>",
+    "To": "0ee924ac7f03e7e5fa4b@cloudmailin.net",
+    "Message-ID": "<857226707.46941.1486646819395.JavaMail.NTX01A$@ntx01a>",
+    "Subject": "Driftinformation från Miljö och Vatten i Örnsköldsvik AB",
+    "Mime-Version": "1.0",
+    "Content-Type": "multipart/mixed; boundary=\"----=_Part_46940_328487429.1486646819395\"",
+    "X-TM-AS-GCONF": "00",
+    "X-TM-AS-Product-Ver": "IMSVA-9.0.0.1549-8.1.0.1062-22874.007",
+    "X-TM-AS-Result": "No--6.151-7.0-31-10",
+    "X-imss-scan-details": "No--6.151-7.0-31-10",
+    "X-TMASE-Version": "IMSVA-9.0.0.1549-8.1.1062-22874.007",
+    "X-TMASE-Result": "10--6.150700-10.000000",
+    "X-TMASE-MatchedRID": "2UwwcHKl5CGGYAKJjm5IPZObxJgN/hOxBDU2iHL+ibrZUPjIeju3YJL7 3W3BBZ7r72f1jC4WePxftuJwrFEhTbcClLxx8lxlp99PkDRqbmbsqVV33HUEZOTCMddcL/gjOwB XM346/+xDt2i9hbCLNbQtLYZJg/HfhLNutHPrdfPZcaPAuoQkZgV8KUiCGBEL",
+    "X-TMASE-SNAP-Result": "1.821001.0001-0-1-12:0,22:0,33:0,34:0,39:0-0"
+  },
+  "envelope": {
+    "to": "0ee924ac7f03e7e5fa4b@cloudmailin.net",
+    "recipients": [
+      "0ee924ac7f03e7e5fa4b@cloudmailin.net"
+    ],
+    "from": "info@miva.se",
+    "helo_domain": "mailgw.ornskoldsvik.se",
+    "remote_ip": "10.242.59.38",
+    "spf": {
+      "result": "soft_fail",
+      "domain": "miva.se"
+    }
+  },
+  "plain": "\nVattenläcka Husumvägen i Björna\n\nhttp://miva.se/5.13e728d9159df5a40151a571.html\n\nFölj Miva på Facebook för att få information om när läckan är åtgärdad!\nGilla oss på www.facebook.se/mivaovik\n\nMiljö och Vatten i Örnsköldsvik AB\nPostadress: Box 385, 891 28 Örnsköldsvik\nBesöksadress: Sjögatan 4A\nVäxel: 0660-330 300. Kundservice: 0660-330 400\nwww.miva.se\n",
+  "html": null,
+  "reply_plain": null,
+  "attachments": null,
+  "web_request": {
+    "headers": {
+      "Received": [
+        "from mailgw.ornskoldsvik.se (unknown [127.0.0.1]) by IMSVA (Postfix) with ESMTP id 5A583920A9 for <0ee924ac7f03e7e5fa4b@cloudmailin.net>; Thu, 09 Feb 2017 14:27:08 +0100",
+        "from 172.20.18.11 (unknown [172.20.18.11]) by uxx1.ornskoldsvik.se (Postfix) with ESMTP id 58C4592099 for <0ee924ac7f03e7e5fa4b@cloudmailin.net>; Thu, 09 Feb 2017 14:27:08 +0100"
+      ],
+      "Date": "Thu, 09 Feb 2017 14:26:59 +0100",
+      "From": "\"Miljö och Vatten i Örnsköldsvik AB\" <info@miva.se>",
+      "To": "0ee924ac7f03e7e5fa4b@cloudmailin.net",
+      "Message-ID": "<857226707.46941.1486646819395.JavaMail.NTX01A$@ntx01a>",
+      "Subject": "Driftinformation från Miljö och Vatten i Örnsköldsvik AB",
+      "Mime-Version": "1.0",
+      "Content-Type": "multipart/mixed; boundary=\"----=_Part_46940_328487429.1486646819395\"",
+      "X-TM-AS-GCONF": "00",
+      "X-TM-AS-Product-Ver": "IMSVA-9.0.0.1549-8.1.0.1062-22874.007",
+      "X-TM-AS-Result": "No--6.151-7.0-31-10",
+      "X-imss-scan-details": "No--6.151-7.0-31-10",
+      "X-TMASE-Version": "IMSVA-9.0.0.1549-8.1.1062-22874.007",
+      "X-TMASE-Result": "10--6.150700-10.000000",
+      "X-TMASE-MatchedRID": "2UwwcHKl5CGGYAKJjm5IPZObxJgN/hOxBDU2iHL+ibrZUPjIeju3YJL7 3W3BBZ7r72f1jC4WePxftuJwrFEhTbcClLxx8lxlp99PkDRqbmbsqVV33HUEZOTCMddcL/gjOwB XM346/+xDt2i9hbCLNbQtLYZJg/HfhLNutHPrdfPZcaPAuoQkZgV8KUiCGBEL",
+      "X-TMASE-SNAP-Result": "1.821001.0001-0-1-12:0,22:0,33:0,34:0,39:0-0"
+    },
+    "envelope": {
+      "to": "0ee924ac7f03e7e5fa4b@cloudmailin.net",
+      "recipients": [
+        "0ee924ac7f03e7e5fa4b@cloudmailin.net"
+      ],
+      "from": "info@miva.se",
+      "helo_domain": "mailgw.ornskoldsvik.se",
+      "remote_ip": "10.242.59.38",
+      "spf": {
+        "result": "soft_fail",
+        "domain": "miva.se"
+      }
+    },
+    "plain": "\nVattenläcka Husumvägen i Björna\n\nhttp://miva.se/5.13e728d9159df5a40151a571.html\n\nFölj Miva på Facebook för att få information om när läckan är åtgärdad!\nGilla oss på www.facebook.se/mivaovik\n\nMiljö och Vatten i Örnsköldsvik AB\nPostadress: Box 385, 891 28 Örnsköldsvik\nBesöksadress: Sjögatan 4A\nVäxel: 0660-330 300. Kundservice: 0660-330 400\nwww.miva.se\n",
+    "html": null,
+    "reply_plain": null,
+    "attachments": null
+  }
+}

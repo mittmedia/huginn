@@ -3,16 +3,16 @@ require 'timecop'
 
 describe Agents::VatteninfoAgent do
   before do
-    Timecop.freeze("2017-02-02T06:54:33")
+    Timecop.freeze("2017-02-02T06:56:00")
   end
 
   after do
     Timecop.return
   end
   
-  # before do
-  #   ENV['REDIS_URL'] = 'foo'
-  # end
+  before do
+    ENV['REDIS_URL'] = 'foo'
+  end
   
   before(:each) do
     @valid_options = { 
@@ -33,7 +33,7 @@ describe Agents::VatteninfoAgent do
       stub_request(:any, /miva.se\/kundservice\/driftinformation.4.6d76c78f124d9a7776580001345.html/).to_return(:body => File.read(Rails.root.join("spec/data_fixtures/driftinfo_miva.html")), :status => 200, headers: { 'Content-Type' => 'text/html' })
       stub_request(:any, /miva.se\/kundservice\/driftinformation\/driftstorning\/driftstorningdombacksakernihusum.5.13e728d9159df5a4015b6dd.html/).to_return(:body => File.read(Rails.root.join("spec/data_fixtures/driftinfo2_miva.html")), :status => 200, headers: { 'Content-Type' => 'text/html' })
       a = agent.check
-      p a
+      # p a
     end
   end
 end
