@@ -280,7 +280,6 @@ module Agents
       def rensa_fel(text)
         text = text
           .gsub(/\([^()]*\)/, "") # Reg ex för att rensa paranteser och data däri
-          .gsub(/(\d\d|\d):(\d\d)/, '\1.\2')
           .gsub("  ", " ")
           .gsub(" .", ".")
           .gsub(" , ", ", ")
@@ -338,6 +337,7 @@ module Agents
           .gsub("köerMot", "köer mot")
           .gsub(/(\ i )([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
           .gsub(/(\ i )([A-ZÅÄÖ][a-zåäö]+) ([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
+          .gsub(/(\d\d|\d):(\d\d)/, '\1.\2')
       end 
 
       def send_event(m, article)
