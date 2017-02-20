@@ -280,6 +280,7 @@ module Agents
       def rensa_fel(text)
         text = text
           .gsub(/\([^()]*\)/, "") # Reg ex för att rensa paranteser och data däri
+          .gsub(/(\d\d|\d):(\d\d)/, '\1.\2')
           .gsub("  ", " ")
           .gsub(" .", ".")
           .gsub(" , ", ", ")
@@ -314,9 +315,9 @@ module Agents
           .gsub("/10", " oktober")
           .gsub("/11", " november")
           .gsub("/12", " december")
-          .gsub(/(\d\d):(\d\d)/, '\1.\2')
           .gsub(/(\d+)([\a-zåäöÅÄÖ]+)/, '\1 \2')
           .gsub(/(\D)\.(\S)/, '\1. \2')
+          .gsub(/( )\.(\S)/, '. \2')
           .gsub("Gävlei", "Gävle i")
           .gsub("\r\n", "")
           .gsub("en händelse som och det som", "en händelse som")
