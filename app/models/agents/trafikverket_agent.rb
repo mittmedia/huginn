@@ -337,7 +337,7 @@ module Agents
           .gsub("köerMot", "köer mot")
           .gsub(/(\ i )([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
           .gsub(/(\ i )([A-ZÅÄÖ][a-zåäö]+) ([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
-          .gsub(/(\d\d|\d):(\d\d)/, '\1.\2')
+          .gsub(/(\d\d|\d)(:| :)(\d\d)/, '\1.\3')
       end 
 
       def send_event(m, article)
