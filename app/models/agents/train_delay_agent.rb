@@ -29,7 +29,8 @@ module Agents
     end
 
 	  def redis
-	    @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
+	    # @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
+      @redis = Redis.new(:host => "127.0.0.1", :port => 6379, :db => 15)
 	  end
 
 	  def post_anrop(query_type)
@@ -63,24 +64,40 @@ module Agents
 	      <LOGIN authenticationkey='#{options['api_key']}' />
 	      <QUERY objecttype='#{query_type}'>
 	        <FILTER>
-	        </FILTER>
-	      </QUERY>
-	    </REQUEST>"
+          </FILTER>
+        </QUERY>
+      </REQUEST>"
+           # <GT name='ModifiedTime' value='#{Time.zone.now - 60}' />
 	  end
 
-	  def version_controll(s)
-	    if DateTime.parse(s['LastUpdateDateTime']).today? == false
-	      # return true
-        # p "#{s['LastUpdateDateTime']} är inte i dag"
-	      return false
-	    elsif Time.zone.now - Time.parse(s['LastUpdateDateTime']) > 70
-	    # elsif Time.parse(s['LastUpdateDateTime']).today? == false
-	      return false
-        # return true # for testing
-	    else
-	      return true
-	    end
-	  end
+	  # def version_controll(s)
+	  #   if DateTime.parse(s['LastUpdateDateTime']).today? == false
+	  #     # return true
+   #      # p "#{s['LastUpdateDateTime']} är inte i dag"
+	  #     return false
+	  #   elsif Time.zone.now - Time.parse(s['LastUpdateDateTime']) > 70
+	  #   # elsif Time.parse(s['LastUpdateDateTime']).today? == false
+	  #     return false
+   #      # return true # for testing
+	  #   else
+	  #     return true
+	  #   end
+	  # end
+
+    def version_controll(s)
+      t = Time.parse(s['LastUpdateDateTime'])
+      span = t - Time.zone.now
+      # log span
+
+      # if (span > -10000) # for test
+      if (span <= 0.0) && (span >= -61.0)
+        log "TIDDAÄD:ÖASDADS;FPOIJSIOFUGH"
+        return true
+      else
+        log "fel"
+        return false
+      end    
+    end
 
 	  def extract_sentences(sentence)
 	    if /kontakta|Kontakta/.match(sentence)
@@ -171,10 +188,14 @@ module Agents
 	  def check
 	    result = {articles:[]}
 	    data = JSON.parse(post_anrop(query_type[0]))
+      # print data
+      # log data['RESPONSE']['RESULT'][0]['TrainMessage'].length
 	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
 	      stations_affected = {situation:[]}
-	      next unless version_controll(s)
-	      article = {}
+        log version_controll(s)
+	      next unless version_controll(s) == true
+        log "gick vidare"
+        article = {}
 	      tags = []
 	      stations_affected[:situation] << array_of_stations(s)
 	      stations_affected[:situation].each do |sit|
@@ -201,17 +222,12 @@ module Agents
 	            end
             end
             article[:number_of_stations_affected] = article[:stations].length
-            digest = checksum("#{s['ExternalDescription']}")
-            next if redis.get(article[:trafikverket_event_id]).present?
+            return nil if WRAPPERS::REDIS.digest(article[:raw], article[:trafikverket_event_id]) == false
             result[:articles] << article unless article[:body].nil?
-            redis.set(article[:trafikverket_event_id], digest)
-            @article_counter = redis.incr("Trafikverket_train_article_count")
             send_event(find_channel(article), article)
           end        
         end
       end
-    ensure
-      redis.quit
     end
 
     def array_of_stations(s)
@@ -247,10 +263,10 @@ module Agents
           pretext: "Ny notis från Mittmedias Textrobot",
           text: "#{article[:ingress]}\n#{article[:body]}\n\n#{article[:author]}",
           mrkdwn_in: ["text", "pretext"],
-          channel: c,
-          article_count: @article_counter
+          channel: c
           }
         create_event payload: message
+        # log message
       end
     end
 
