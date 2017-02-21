@@ -69,7 +69,7 @@ module Agents
 
     def generate_text(data) 
       tid = omv_tid(data)
-      clean_text("#{Agents::WRAPPERS::Headline::ENETT[data[:title].split[0].downcase]} #{data[:data]["Berört område"]}#{other_areas(data)}\n#{context(data, tid)}\n#{start_end(tid)}")
+      clean_text("#{Agents::WRAPPERS::Headline::ENETT[data[:title].split[0]]} #{data[:data]["Berört område"]}#{other_areas(data)}\n#{context(data, tid)}\n#{start_end(tid)}")
     end
 
     def start_end(time)
