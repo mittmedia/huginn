@@ -91,10 +91,10 @@ module Agents
 
       # if (span > -10000) # for test
       if (span <= 0.0) && (span >= -61.0)
-        log "TIDDAÄD:ÖASDADS;FPOIJSIOFUGH"
+
         return true
       else
-        log "fel"
+
         return false
       end    
     end
@@ -192,9 +192,8 @@ module Agents
       # log data['RESPONSE']['RESULT'][0]['TrainMessage'].length
 	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
 	      stations_affected = {situation:[]}
-        log version_controll(s)
 	      next unless version_controll(s) == true
-        log "gick vidare"
+
         article = {}
 	      tags = []
 	      stations_affected[:situation] << array_of_stations(s)
