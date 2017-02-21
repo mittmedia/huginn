@@ -87,7 +87,7 @@ module Agents
     def version_controll(s)
       t = Time.parse(s['LastUpdateDateTime'])
       span = t - Time.zone.now
-      # log span
+      log span
 
       # if (span > -10000) # for test
       if (span <= 0.0) && (span >= -61.0)
