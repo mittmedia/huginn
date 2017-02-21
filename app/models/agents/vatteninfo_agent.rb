@@ -97,7 +97,7 @@ module Agents
         return "."
       else
         data[:data]["Övriga berörda områden"] = data[:data]["Övriga berörda områden"].downcase if data[:data]["Övriga berörda områden"].split[0] == "Eventuellt"
-        " som även kan påverka#{data[:data]["Övriga berörda områden"]}n."
+        " som även kan påverka#{data[:data]["Övriga berörda områden"]}."
       end
     end
 
