@@ -57,13 +57,23 @@ module Agents
       return data
     end
 
+    def headline(data)
+      if data[:title].split[1] == "i"
+        return clean_text("#{Agents::WRAPPERS::Headline::HEADER[data[:title].split[0]]}#{data[:title].split[1..-1].join(" ")}")
+      elsif data[:title].split[1] == "med"
+        return clean_text("#{Agents::WRAPPERS::Headline::HEADER[data[:title].split[0]]}#{data[:title].split[1..-1].join(" ")}")
+      else
+        return clean_text("#{Agents::WRAPPERS::Headline::HEADER[data[:title].split[0]]}vid #{data[:title].split[1..-1].join(" ")}")
+      end
+    end
+
     def generate_text(data) 
       tid = omv_tid(data)
-      clean_text("Enligt MIVA är det #{data[:title].split[0].downcase} vid #{data[:data]["Berört område"]}#{other_areas(data)}\n#{start_end(tid)}")
+      clean_text("Enligt MIVA är det #{data[:title].split[0].downcase} vid #{data[:data]["Berört område"]}#{other_areas(data)}\n#{context(data, tid)}\n#{start_end(tid)}")
     end
 
     def start_end(time)
-      "Arbetet påbörjades på #{Agents::TRAFIKVERKET::Tv::DAGAR[time[0].wday]}#{end_time(time)}"
+      "Arbetet påbörjades på #{Agents::TRAFIKVERKET::Tv::DAGAR[time[0].wday]} vid klockan #{time[0].strftime("%R")}#{end_time(time)}"
     end
 
     def end_time(time)
@@ -71,6 +81,14 @@ module Agents
         return "."
       elsif time.length > 1
         tid_text(time)
+      end
+    end
+
+    def context(data, tid)
+      unless tid.length == 3
+        return Agents::WRAPPERS::Headline::CONTEXT[data[:title].split[0]]
+      else
+        return ""
       end
     end
 
@@ -87,6 +105,8 @@ module Agents
       text.gsub("  ", " ")
           .gsub(" .", ".")
           .gsub("..", ".")
+          .gsub(" , ", ", ")
+          .gsub(/(\d\d):(\d\d)/, '\1.\2')
     end
 
     def tid_text(tid)
@@ -136,7 +156,7 @@ module Agents
     def time_filter(time)
       t = Time.parse(time)
       span = t - Time.zone.now
-      # if span < 10000 # for test
+      # if span < 30000 # for test
       if (span <= 0.0) && (span >= -61.0)
         return true
       else
@@ -191,7 +211,7 @@ module Agents
       return if data.nil?
       message = {
         article: data,
-        title: data[:title],
+        title: headline(data),
         channel: options['channel'],
         pretext: "Driftinfo från MIVA",
         text: "#{generate_text(data)}\nLäs mer på #{url}\n\nKarta för inbäddning: #{geolocation("#{data[:title].split[-1]},Västernorrland", data)}",
