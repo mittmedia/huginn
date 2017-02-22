@@ -221,7 +221,7 @@ module Agents
 	            end
             end
             article[:number_of_stations_affected] = article[:stations].length
-            return nil if WRAPPERS::REDIS.digest(article[:raw], article[:trafikverket_event_id]) == false
+            next if WRAPPERS::REDIS.digest(article[:raw], article[:trafikverket_event_id]) == false
             result[:articles] << article unless article[:body].nil?
             send_event(find_channel(article), article)
           end        
