@@ -3,7 +3,7 @@ module Agents::WRAPPERS::Headline
   HEADER = {
     "Vattenläcka" => "Vattenläcka ",
     "Ombyggnadsarbete" => "Ombyggnadsarbete  ",
-    "Läcksökning" => "Möjlig vattenläcka ",
+    "Läcksökning" => "Larm om vattenläcka ",
     "Driftstörning" => "Driftstörning "
   }
 
@@ -17,8 +17,8 @@ module Agents::WRAPPERS::Headline
   ENETT = {
     "Vattenläcka" => "MIVA rapporterar att man jobbar med att åtgärda en vättenläcka vid",
     "Ombyggnadsarbete" => "MIVA genomför nu ett planerat ombyggnadsarbete vid",
-    "Läcksökning" => "MIVA söker efter en potentiell vattenläcka vid",
-    "Driftstörning" => "MIVA raaporterar om en driftstörning"
+    "Läcksökning" => "MIVA söker efter en vattenläcka vid",
+    "Driftstörning" => "MIVA raporterar om en driftstörning"
   }
 
 end
