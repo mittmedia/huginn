@@ -214,7 +214,7 @@ module Agents
         title: headline(data),
         channel: options['channel'],
         pretext: "Driftinfo från MIVA",
-        text: "#{generate_text(data)}\nLäs mer på #{url}\n\nKarta för inbäddning: #{geolocation("#{data[:title].split[-1]},Västernorrland", data)}",
+        text: "#{generate_text(data)}\nLäs mer på #{url}\n\nKarta för inbäddning: #{geolocation("#{data[:title].split[-1]},Västernorrland", data)} @here",
         mrkdwn_in: ["text", "pretext"],
         url: url
         }
