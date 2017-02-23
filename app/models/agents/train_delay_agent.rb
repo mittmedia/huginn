@@ -87,10 +87,10 @@ module Agents
     def version_controll(s)
       t = Time.parse(s['LastUpdateDateTime'])
       span = t - Time.zone.now
-      log span
+      # log span
 
-      # if (span > -10000) # for test
-      if (span <= 0.0) && (span >= -61.0)
+      if (span > -10000) # for test
+      # if (span <= 0.0) && (span > -61.0)
 
         return true
       else
@@ -192,13 +192,14 @@ module Agents
       # log data['RESPONSE']['RESULT'][0]['TrainMessage'].length
 	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
 	      stations_affected = {situation:[]}
-	      next unless version_controll(s) == true
-
+	      next if version_controll(s) == false
+        log "gick vidare"
         article = {}
 	      tags = []
 	      stations_affected[:situation] << array_of_stations(s)
 	      stations_affected[:situation].each do |sit|
 	        unless sit.nil?
+            log "igen"
 	          article[:version] = "Trafikverket_Train_V1.0"
             article[:raw] = s['ExternalDescription']
 	          article[:generated_at] = Time.zone.now
@@ -221,9 +222,14 @@ module Agents
 	            end
             end
             article[:number_of_stations_affected] = article[:stations].length
-            next if WRAPPERS::REDIS.digest(article[:raw], article[:trafikverket_event_id]) == false
+            log "innan redis"
+            next if WRAPPERS::REDIS.digest(article[:sent], article[:trafikverket_event_id]) == false
+            log "gick genom redis"
+            log article[:body]
             result[:articles] << article unless article[:body].nil?
+            log "brödtext finns"
             send_event(find_channel(article), article)
+            log "sänt event?"
           end        
         end
       end
@@ -260,7 +266,7 @@ module Agents
           article: article,
           title: article[:title],
           pretext: "Ny notis från Mittmedias Textrobot",
-          text: "#{article[:ingress]}\n#{article[:body]}\n\n#{article[:author]}",
+          text: "#{article[:ingress]}\n#{article[:body]}\n\}",
           mrkdwn_in: ["text", "pretext"],
           channel: c
           }
