@@ -199,8 +199,12 @@ module Agents
 
     def geo_search_substring(string)
       sub2 = string.scan(/[A-ZÅÄÖ][a-zåäö]*/)
-      sub2.shift
-      return sub2.join(",")
+      if sub2.length == 1
+        return "#{sub2.to_s}, Örnsköldsvik"
+      else
+        sub2.shift 
+        return sub2.join(",") 
+      end
     end
 
     def working?
