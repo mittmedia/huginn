@@ -107,6 +107,7 @@ module Agents
           .gsub("..", ".")
           .gsub(" , ", ", ")
           .gsub(/(\d\d):(\d\d)/, '\1.\2')
+          .gsub(/M. fl.|m. fl./, "")
     end
 
     def tid_text(tid)
