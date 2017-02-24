@@ -28,17 +28,13 @@ module Agents
       errors.add(:base, "api_key is required") unless options['api_key'].present?
     end
 
-	  def redis
-	    # @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
-      @redis = Redis.new(:host => "127.0.0.1", :port => 6379, :db => 15)
-	  end
-
 	  def post_anrop(query_type)
 	    uri = URI.parse options['url_string']
 	    request = Net::HTTP::Post.new uri.path
 	    request.body = query(query_type)
 	    request.content_type = 'text/xml'
 	    response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request request }
+      log response.body
 	    response.body
 	  end
 
@@ -64,10 +60,10 @@ module Agents
 	      <LOGIN authenticationkey='#{options['api_key']}' />
 	      <QUERY objecttype='#{query_type}'>
 	        <FILTER>
+           <GT name='ModifiedTime' value='#{Time.zone.now - 1000}' />
           </FILTER>
         </QUERY>
       </REQUEST>"
-           # <GT name='ModifiedTime' value='#{Time.zone.now - 60}' />
 	  end
 
 	  # def version_controll(s)
@@ -87,9 +83,9 @@ module Agents
     def version_controll(s)
       t = Time.parse(s['LastUpdateDateTime'])
       span = t - Time.zone.now
-      # log span
+      log span
 
-      if (span > -10000) # for test
+      if (span > -100000) # for test
       # if (span <= 0.0) && (span > -61.0)
 
         return true
@@ -120,7 +116,11 @@ module Agents
 	    elsif /medför|Medför|medfört|Medfört/.match(sentence)
 	      sentence.to_s.strip.chomp
 	    elsif /ersätter|ersätts av|utförs/.match(sentence)
+        sentence.to_s.strip.chomp
+      elsif /rullar|återigen|återställt|som vanligt/.match(sentence)
 	      sentence.to_s.strip.chomp
+      elsif /åtgärdat|problemet löst|löst problem|åtgärdad/.match(sentence)
+        sentence.to_s.strip.chomp
 	    else
 	      return ""
 	    end
@@ -188,7 +188,6 @@ module Agents
 	  def check
 	    result = {articles:[]}
 	    data = JSON.parse(post_anrop(query_type[0]))
-      # print data
       # log data['RESPONSE']['RESULT'][0]['TrainMessage'].length
 	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
 	      stations_affected = {situation:[]}
@@ -266,7 +265,7 @@ module Agents
           article: article,
           title: article[:title],
           pretext: "Ny notis från Mittmedias Textrobot",
-          text: "#{article[:ingress]}\n#{article[:body]}\n\}",
+          text: "#{article[:ingress]}\n#{article[:body]}",
           mrkdwn_in: ["text", "pretext"],
           channel: c
           }
@@ -380,12 +379,12 @@ module Agents
 
 
 	  def build_headline(s, sit)
-	    "#{Agents::TRAFIKVERKET::Helper::HEADLINE[s['ReasonCodeText']]} orsakar tågförseningar #{find_stations(sit)}".gsub(/ (\d|\d\d|\d\d\d) stationer/, "")
+	    "#{Agents::TRAFIKVERKET::Helper::HEADLINE[s['ReasonCodeText']]} påverkar tågen #{find_stations(sit)}".gsub(/ (\d|\d\d|\d\d\d) stationer/, "")
 	  end
 
 	  def build_ingress(s, sit)
-	    "Förseningar väntas i tågtrafiken på grund av #{Agents::TRAFIKVERKET::Helper::CAUSE[s['ReasonCodeText']]}. 
-Störningen gäller #{find_stations(sit)}."
+	    "Förändringar i tågtrafiken efter #{Agents::TRAFIKVERKET::Helper::CAUSE[s['ReasonCodeText']]}. 
+Informationen gäller #{find_stations(sit)}."
 	  end
 
 	  def build_body(s)
