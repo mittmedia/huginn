@@ -188,7 +188,7 @@ module Agents
 	  def check
 	    result = {articles:[]}
 	    data = JSON.parse(post_anrop(query_type[0]))
-      # log data['RESPONSE']['RESULT'][0]['TrainMessage'].length
+      log data
 	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
 	      stations_affected = {situation:[]}
 	      next if version_controll(s) == false
