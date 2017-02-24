@@ -189,47 +189,51 @@ module Agents
 	    result = {articles:[]}
 	    data = JSON.parse(post_anrop(query_type[0]))
       log data
-	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
-	      stations_affected = {situation:[]}
-	      next if version_controll(s) == false
-        log "gick vidare"
-        article = {}
-	      tags = []
-	      stations_affected[:situation] << array_of_stations(s)
-	      stations_affected[:situation].each do |sit|
-	        unless sit.nil?
-            log "igen"
-	          article[:version] = "Trafikverket_Train_V1.0"
-            article[:raw] = s['ExternalDescription']
-	          article[:generated_at] = Time.zone.now
-	          article[:sent] = s['LastUpdateDateTime']
-	          article[:title] = build_headline(s, sit)
-	          article[:ingress] = build_ingress(s, sit)
-	          article[:body] = build_body(s)
-	          article[:author] = "Mittmedias Textrobot"
-	          article[:affected_counties] = lansomv(s)
-	          article[:trafikverket_event_id] = s['EventId']
-	          tags << {id: "some_number", name: "Tågförsening"} 
-	          tags << {id: "some_number", name: "Trafikverket"}
-	          article[:tags] = tags
-	          article[:stations] = []
-	          sit.each do |geo|
-	            csv.each do |c|
-	              if geo == [c[2].to_f, c[3].to_f]
-	                article[:stations] << {station_short: c[0], station_name: c[1],  municipality: c[5], coordinates: {lat: geo[0], long: geo[1]}} unless c[0] == "Hesv"
-	              end
-	            end
-            end
-            article[:number_of_stations_affected] = article[:stations].length
-            log "innan redis"
-            next if WRAPPERS::REDIS.digest(article[:sent], article[:trafikverket_event_id]) == false
-            log "gick genom redis"
-            log article[:body]
-            result[:articles] << article unless article[:body].nil?
-            log "brödtext finns"
-            send_event(find_channel(article), article)
-            log "sänt event?"
-          end        
+      if data['RESPONSE']['RESULT'][0]['TrainMessage'].nil?
+        return
+      else
+  	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
+  	      stations_affected = {situation:[]}
+  	      next if version_controll(s) == false
+          log "gick vidare"
+          article = {}
+  	      tags = []
+  	      stations_affected[:situation] << array_of_stations(s)
+  	      stations_affected[:situation].each do |sit|
+  	        unless sit.nil?
+              log "igen"
+  	          article[:version] = "Trafikverket_Train_V1.0"
+              article[:raw] = s['ExternalDescription']
+  	          article[:generated_at] = Time.zone.now
+  	          article[:sent] = s['LastUpdateDateTime']
+  	          article[:title] = build_headline(s, sit)
+  	          article[:ingress] = build_ingress(s, sit)
+  	          article[:body] = build_body(s)
+  	          article[:author] = "Mittmedias Textrobot"
+  	          article[:affected_counties] = lansomv(s)
+  	          article[:trafikverket_event_id] = s['EventId']
+  	          tags << {id: "some_number", name: "Tågförsening"} 
+  	          tags << {id: "some_number", name: "Trafikverket"}
+  	          article[:tags] = tags
+  	          article[:stations] = []
+  	          sit.each do |geo|
+  	            csv.each do |c|
+  	              if geo == [c[2].to_f, c[3].to_f]
+  	                article[:stations] << {station_short: c[0], station_name: c[1],  municipality: c[5], coordinates: {lat: geo[0], long: geo[1]}} unless c[0] == "Hesv"
+  	              end
+  	            end
+              end
+              article[:number_of_stations_affected] = article[:stations].length
+              log "innan redis"
+              next if WRAPPERS::REDIS.digest(article[:sent], article[:trafikverket_event_id]) == false
+              log "gick genom redis"
+              log article[:body]
+              result[:articles] << article unless article[:body].nil?
+              log "brödtext finns"
+              send_event(find_channel(article), article)
+              log "sänt event?"
+            end        
+          end
         end
       end
     end
