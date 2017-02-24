@@ -15,7 +15,7 @@ module Agents::WRAPPERS::Headline
   }
 
   ENETT = {
-    "Vattenläcka" => "MIVA rapporterar att man jobbar med att åtgärda en vättenläcka vid",
+    "Vattenläcka" => "MIVA rapporterar att man jobbar med att åtgärda en vattenläcka vid",
     "Ombyggnadsarbete" => "MIVA genomför nu ett planerat ombyggnadsarbete vid",
     "Läcksökning" => "MIVA söker efter en vattenläcka vid",
     "Driftstörning" => "MIVA rapporterar om en driftstörning"
