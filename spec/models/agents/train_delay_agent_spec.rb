@@ -9,7 +9,7 @@ describe Agents::TrainDelayAgent do
   end
 
   before do
-    Timecop.freeze("2016-07-07T09:53:33")
+    Timecop.freeze("2016-07-07T09:53:31")
   end
 
   after do

@@ -16,7 +16,7 @@ describe Agents::VatteninfoAgent do
   
   before(:each) do
     @valid_options = { 
-      'channel' => '#larm_vatten_ovik',
+      'channel' => '#larm_vasternorrland',
     }
     # stub_request(:any, /trafikverket.se/).to_return(:body => File.read(Rails.root.join("spec/data_fixtures/reponse.json")), :status => 200, headers: { 'Content-Type' => 'application/json' })
   end

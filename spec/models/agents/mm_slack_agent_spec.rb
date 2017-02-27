@@ -61,17 +61,24 @@ describe Agents::MmSlackAgent do
   describe "#receive" do
     it "receive an event without errors" do
       any_instance_of(Slack::Notifier) do |obj|
-        mock(obj).ping                      
+        mock(obj).ping(@event.payload[:message],
+                       attachments: [{'fallback' => @fallback}],
+                       channel: @event.payload[:channel],
+                       username: @event.payload[:username]
+                      )                       
       end
       expect { @checker.receive([@event]) }.not_to raise_error
     end
-    it "should evaluate event and go forward with the one formatted as a Slack message" do
-    	any_instance_of(Slack::Notifier) do |obj|
-        mock(obj).ping                      
-      end
-    	m = @checker.receive(@event)
-    	# p m[0]['payload']['channel']
-    end
+    # it "should evaluate event and go forward with the one formatted as a Slack message" do
+    # 	any_instance_of(Slack::Notifier) do |obj|
+    #     mock(obj).ping(@event.payload[:message],
+    #                    attachments: [{'fallback' => @fallback}],
+    #                    channel: @event.payload[:channel],
+    #                   )                    
+    #   end
+    # 	m = @checker.receive(@event)
+    # 	# p m[0]['payload']['channel']
+    # end
 
   end
 
