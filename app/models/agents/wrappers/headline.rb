@@ -2,9 +2,9 @@ module Agents::WRAPPERS::Headline
 
   HEADER = {
     "Vattenläcka" => "Vattenläcka ",
-    "Ombyggnadsarbete" => "Ombyggnadsarbete  ",
+    "Ombyggnadsarbete" => "Vattenledningar byggs om ",
     "Läcksökning" => "Larm om vattenläcka ",
-    "Driftstörning" => "Driftstörning "
+    "Driftstörning" => "Störning i vattentillgången "
   }
 
   CONTEXT = {
