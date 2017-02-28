@@ -107,7 +107,17 @@ module Agents
           .gsub("..", ".")
           .gsub(" , ", ", ")
           .gsub(/(\d\d):(\d\d)/, '\1.\2')
-          .gsub(/M. fl.|m. fl./, "")
+          .gsub(/M. fl.|m. fl.|mfl|m.fl|M.fl/, "med flera")
+          .gsub(/([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)(\.)([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)(\.)([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)/, '\1, \3, \5')
+          .gsub(/([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)(\.)([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)/, '\1, \3')
+          .gsub(/([a-zåäö])(\.)([a-zåäö]||[A-ZÅÄÖ])/, '\1. \3')
+    end
+
+    def clean_headline(text)
+      text.gsub(/M. fl.|m. fl.|mfl|m.fl|M.fl/, "")
+          .gsub(/([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)(\.)([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)(\.)([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)/, '\1 och \3')
+          .gsub(/([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)(\.)([A-ZÅÄÖ][a-zåäö]+|[a-zåäö]+)/, '\1 och \3')
+      
     end
 
     def tid_text(tid)
@@ -216,7 +226,7 @@ module Agents
       return if data.nil?
       message = {
         article: data,
-        title: headline(data),
+        title: clean_headline(headline(data)),
         channel: options['channel'],
         pretext: "Driftinfo från MIVA",
         text: "#{generate_text(data)}\nLäs mer på #{url}\n\nKarta för inbäddning: #{geolocation("#{data[:title].split[-1]},Västernorrland", data)} @here",
