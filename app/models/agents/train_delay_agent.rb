@@ -254,8 +254,9 @@ module Agents
     def send_event(list, article, data)
       list.each do |c|
         message = {
-          data: data,
           article: article,
+          data: data,
+          id: article[:trafikverket_event_id],
           title: article[:title],
           pretext: "Ny notis från Mittmedias Textrobot",
           text: "#{article[:ingress]}\n#{article[:body]}",
