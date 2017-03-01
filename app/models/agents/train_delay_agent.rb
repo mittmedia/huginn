@@ -121,6 +121,8 @@ module Agents
 	      sentence.to_s.strip.chomp
       elsif /åtgärdat|problemet löst|löst problem|åtgärdad/.match(sentence)
         sentence.to_s.strip.chomp
+      elsif /polis|polisen|prognos|/.match(sentence)
+        sentence.to_s.strip.chomp
 	    else
 	      return ""
 	    end
@@ -225,12 +227,12 @@ module Agents
               end
               article[:number_of_stations_affected] = article[:stations].length
               log "innan redis"
-              next if WRAPPERS::REDIS.digest(article[:sent], article[:trafikverket_event_id]) == false
+              next if WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id]) == false
               log "gick genom redis"
               log article[:body]
               result[:articles] << article unless article[:body].nil?
               log "brödtext finns"
-              send_event(find_channel(article), article)
+              send_event(find_channel(article), article, data)
               log "sänt event?"
             end        
           end
@@ -263,9 +265,10 @@ module Agents
       list
 	  end
 
-    def send_event(list, article)
+    def send_event(list, article, data)
       list.each do |c|
         message = {
+          data: data,
           article: article,
           title: article[:title],
           pretext: "Ny notis från Mittmedias Textrobot",
