@@ -158,7 +158,7 @@ module Agents
           message = {
             title: article[:title],
             pretext: "Felmeddelande SMHI:robot",
-            text: article,
+            text: "#{article} #{i} #{omrkod}",
             mrkdwn_in: ["text", "pretext"],
             channel: "#robottest",
             lat: "article[:geometry][:lat]",
