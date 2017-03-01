@@ -60,25 +60,11 @@ module Agents
 	      <LOGIN authenticationkey='#{options['api_key']}' />
 	      <QUERY objecttype='#{query_type}'>
 	        <FILTER>
-           <GT name='ModifiedTime' value='#{Time.zone.now - 1000}' />
           </FILTER>
         </QUERY>
       </REQUEST>"
+           # <GT name='ModifiedTime' value='#{Time.zone.now - 1000}' />
 	  end
-
-	  # def version_controll(s)
-	  #   if DateTime.parse(s['LastUpdateDateTime']).today? == false
-	  #     # return true
-   #      # p "#{s['LastUpdateDateTime']} är inte i dag"
-	  #     return false
-	  #   elsif Time.zone.now - Time.parse(s['LastUpdateDateTime']) > 70
-	  #   # elsif Time.parse(s['LastUpdateDateTime']).today? == false
-	  #     return false
-   #      # return true # for testing
-	  #   else
-	  #     return true
-	  #   end
-	  # end
 
     def version_controll(s)
       t = Time.parse(s['LastUpdateDateTime'])
@@ -87,7 +73,6 @@ module Agents
 
       if (span > -100000) # for test
       # if (span <= 0.0) && (span > -61.0)
-
         return true
       else
 
@@ -227,6 +212,7 @@ module Agents
               end
               article[:number_of_stations_affected] = article[:stations].length
               log "innan redis"
+              log "Svar från REDIS = #{WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id])} för ID #{article[:trafikverket_event_id]}"
               next if WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id]) == false
               log "gick genom redis"
               log article[:body]
