@@ -256,10 +256,9 @@ module Agents
         message = {
           article: article,
           data: data,
-          id: article[:trafikverket_event_id],
           title: article[:title],
           pretext: "Ny notis från Mittmedias Textrobot",
-          text: "#{article[:ingress]}\n#{article[:body]}",
+          text: "#{article[:ingress]}\n#{article[:body]}, Event-id: #{article[:trafikverket_event_id]}",
           mrkdwn_in: ["text", "pretext"],
           channel: c
           }
