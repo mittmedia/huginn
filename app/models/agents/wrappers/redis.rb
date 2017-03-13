@@ -13,10 +13,8 @@ module Agents::WRAPPERS::REDIS
     digest = Digest::MD5.hexdigest(data.to_s).to_s
     # p "=========.#{digest} och #{red.get(key)}"
     if digest == red.get(key)
-      log "redis = #{red.get(key)}"
       return false
     end
-    log "event sent with redis data: #{red.get(key)}"
     red.set(key, digest)
     return true
   end
