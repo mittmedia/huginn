@@ -59,28 +59,13 @@ module Agents
 	  def query(query_type)
 	    "<REQUEST>
 	      <LOGIN authenticationkey='#{options['api_key']}' />
-	      <QUERY objecttype='#{query_type}' includedeletedobjects='true'
-          lastmodified='true'>
+	      <QUERY objecttype='#{query_type}' lastmodified='true'>
 	        <FILTER>
+           <GT name='ModifiedTime' value='#{Time.zone.now - 65}' />
           </FILTER>
         </QUERY>
       </REQUEST>"
-           # <GT name='ModifiedTime' value='#{Time.zone.now - 1000}' />
 	  end
-
-    def version_controll(s)
-      t = Time.parse(s['LastUpdateDateTime'])
-      span = t - Time.zone.now
-      # log span
-
-      if (span > -100000) # for test
-      # if (span <= 0.0) && (span > -61.0)
-        return true
-      else
-
-        return false
-      end    
-    end
 
 	  def extract_sentences(sentence)
 	    if /kontakta|Kontakta/.match(sentence)
@@ -178,12 +163,11 @@ module Agents
 	    result = {articles:[]}
 	    data = JSON.parse(post_anrop(query_type[0]))
       log data
-      if data['RESPONSE']['RESULT'][0]['TrainMessage'].nil?
+      if data == '{"RESPONSE"=>{"RESULT"=>[{}]}}'
         return
       else
   	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
   	      stations_affected = {situation:[]}
-  	      next if version_controll(s) == false
           log "gick vidare"
           article = {}
   	      tags = []
@@ -193,7 +177,8 @@ module Agents
   	          article[:version] = "Trafikverket_Train_V1.0"
               article[:raw] = s['ExternalDescription']
   	          article[:generated_at] = Time.zone.now
-  	          article[:sent] = s['LastUpdateDateTime']
+  	          article[:ModifiedTime] = s['ModifiedTime']
+              article[:LastUpdateTime] = s['LastUpdateDateTime']
   	          article[:title] = build_headline(s, sit)
   	          article[:ingress] = build_ingress(s, sit)
   	          article[:body] = build_body(s)
