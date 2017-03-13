@@ -164,7 +164,7 @@ module Agents
 	    data = JSON.parse(post_anrop(query_type[0]))
       log data
       log data.class
-      if data == '{"RESPONSE"=>{"RESULT"=>[{}]}}'
+      if data == {"RESPONSE"=>{"RESULT"=>[{}]}}
         return
       else
   	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
