@@ -9,7 +9,7 @@ module Agents::WRAPPERS::REDIS
 
   def self.digest(key, data)
     red = redis
-    red.flushall
+    # red.flushall
     digest = Digest::MD5.hexdigest(data.to_s).to_s
     # p "=========.#{digest} och #{red.get(key)}"
     if digest == red.get(key)
