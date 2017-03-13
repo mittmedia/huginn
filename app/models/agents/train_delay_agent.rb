@@ -59,7 +59,7 @@ module Agents
 	  def query(query_type)
 	    "<REQUEST>
 	      <LOGIN authenticationkey='#{options['api_key']}' />
-	      <QUERY objecttype='#{query_type} includedeletedobjects=true'
+	      <QUERY objecttype='#{query_type}' includedeletedobjects='true'
           lastmodified='true'>
 	        <FILTER>
           </FILTER>
