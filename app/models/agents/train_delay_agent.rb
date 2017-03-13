@@ -36,7 +36,7 @@ module Agents
 	    response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request request }
       # log response.body
 
-	    response.body.encode('iso-8859-1').force_encoding('utf-8')
+	    response.body.encode('utf-8')
 	  end
 
 	  def distance(loc1, loc2)
