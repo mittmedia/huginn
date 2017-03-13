@@ -35,7 +35,8 @@ module Agents
 	    request.content_type = 'text/xml'
 	    response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request request }
       # log response.body
-	    response.body
+
+	    response.body.encode('iso-8859-1').encode('utf-8')
 	  end
 
 	  def distance(loc1, loc2)
