@@ -163,6 +163,7 @@ module Agents
 	    result = {articles:[]}
 	    data = JSON.parse(post_anrop(query_type[0]))
       log data
+      log data.class
       if data == '{"RESPONSE"=>{"RESULT"=>[{}]}}'
         return
       else
