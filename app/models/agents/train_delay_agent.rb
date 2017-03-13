@@ -61,7 +61,7 @@ module Agents
 	      <LOGIN authenticationkey='#{options['api_key']}' />
 	      <QUERY objecttype='#{query_type}' lastmodified='true'>
 	        <FILTER>
-           <GT name='ModifiedTime' value='#{Time.zone.now - 65}' />
+           <GT name='ModifiedTime' value='#{Time.zone.now - 10000}' />
           </FILTER>
         </QUERY>
       </REQUEST>"
