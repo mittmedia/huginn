@@ -9,12 +9,14 @@ module Agents::WRAPPERS::REDIS
 
   def self.digest(key, data)
     red = redis
-    # red.flushall
+    red.flushall
     digest = Digest::MD5.hexdigest(data.to_s).to_s
     # p "=========.#{digest} och #{red.get(key)}"
     if digest == red.get(key)
+      log "redis = #{red.get(key)}"
       return false
     end
+    log "event sent with redis data: #{red.get(key)}"
     red.set(key, digest)
     return true
   end
