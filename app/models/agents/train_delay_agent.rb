@@ -34,7 +34,7 @@ module Agents
 	    request.body = query(query_type)
 	    request.content_type = 'text/xml'
 	    response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request request }
-      log response.body
+      # log response.body
 	    response.body
 	  end
 
@@ -69,7 +69,7 @@ module Agents
     def version_controll(s)
       t = Time.parse(s['LastUpdateDateTime'])
       span = t - Time.zone.now
-      log span
+      # log span
 
       if (span > -100000) # for test
       # if (span <= 0.0) && (span > -61.0)
@@ -188,7 +188,6 @@ module Agents
   	      stations_affected[:situation] << array_of_stations(s)
   	      stations_affected[:situation].each do |sit|
   	        unless sit.nil?
-              log "igen"
   	          article[:version] = "Trafikverket_Train_V1.0"
               article[:raw] = s['ExternalDescription']
   	          article[:generated_at] = Time.zone.now
@@ -211,7 +210,6 @@ module Agents
   	            end
               end
               article[:number_of_stations_affected] = article[:stations].length
-              log "innan redis"
               log "Svar från REDIS = #{WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id])} för ID #{article[:trafikverket_event_id]}"
               next if WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id]) == false
               log "gick genom redis"
