@@ -38,7 +38,7 @@ module Agents
 
 	    response.body.force_encoding('utf-8')
 	  end
-§
+
 	  def distance(loc1, loc2)
 	    rad_per_deg = Math::PI/180  # PI / 180
 	    rkm = 6371                  # Earth radius in kilometers
