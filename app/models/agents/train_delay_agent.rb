@@ -198,17 +198,19 @@ module Agents
   	            end
               end
               article[:number_of_stations_affected] = article[:stations].length
-              log "Svar från REDIS = #{WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id])} för ID #{article[:trafikverket_event_id]}"
-              if WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id]) == false
+              log "Svar från REDIS = #{WRAPPERS::REDIS.exists?(article[:trafikverket_event_id])} för ID #{article[:trafikverket_event_id]}"
+              if WRAPPERS::REDIS.exists?(article[:trafikverket_event_id])
                 log "gick inte genom redis med resultat: #{WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id])}"
                 next
+              else
+                log "gick genom redis"
+                log article[:body]
+                result[:articles] << article unless article[:body].nil?
+                log "brödtext finns"
+                WRAPPERS::REDIS.set(article[:trafikverket_event_id], article[:trafikverket_event_id])
+                send_event(find_channel(article), article, data)
+                log "sänt event?"
               end
-              log "gick genom redis"
-              log article[:body]
-              result[:articles] << article unless article[:body].nil?
-              log "brödtext finns"
-              send_event(find_channel(article), article, data)
-              log "sänt event?"
             end        
           end
         end

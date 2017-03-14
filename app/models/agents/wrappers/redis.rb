@@ -21,4 +21,15 @@ module Agents::WRAPPERS::REDIS
     Rails.logger.info("Ny redis key: #{red.get(key)}")
     return true
   end
+
+  def self.set(key, data)
+    if !exists?(key)
+      digest = Digest::MD5.hexdigest(data.to_s).to_s
+      redis.set(key, digest)
+    end
+  end
+
+  def self.exists?(key)
+    redis.exists(key)
+  end
 end
