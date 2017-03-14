@@ -13,7 +13,7 @@ module Agents::WRAPPERS::REDIS
     digest = Digest::MD5.hexdigest(data.to_s).to_s
     # p "=========.#{digest} och #{red.get(key)}"
     if digest == red.get(key)
-      Rails.logger.info("Redis key: #{red.get(key)}")
+      Rails.logger.info("Redis key: #{red.get(key)}, Key: #{key}")
       return false
     end
     Rails.logger.info("Digest: #{digest}, Key:#{key}")
