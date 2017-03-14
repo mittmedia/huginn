@@ -69,6 +69,8 @@ module Agents
       def roadwork_repeat(m)
         if m[@need[0]] == "roadworks" || m[@need[0]] == "resurfacingWork"
           return false
+        # elsif m[@need[0]] == "slowTraffic" || m[@need[0]] == "slowVehicle"
+          # return false
         else
           return true
         end
@@ -290,8 +292,6 @@ module Agents
           .gsub(" '.", "'.")
           .gsub("jvstn", "järnvägsstation")
           .gsub("Tpl", "Trafikplats")
-          .gsub("Länsgräns AB/C", "länsgränsen mellan Stockholm och Uppsala")
-          .gsub("Länsgräns U/W", "länsgränsen mellan Dalarna och Västmanland")
           .gsub(" S ", " södra ")
           .gsub(" N ", " norra ")
           .gsub(" Ö ", " östra ")
@@ -328,16 +328,17 @@ module Agents
           .gsub("Lednings/telearb.", "lednings- och telearbete")
           .gsub(" pga", "på grund av")
           .gsub("Väg", "väg")
-          .gsub("Länsgräns AB/D", "länsgränsen mellan Stockholm och Södermanland")
           .gsub("jord/Sten", "jord och sten på vägen")
-          .gsub("Länsgr. H/K", "länsgränsen mellan Kalmar och Blekinge")
-          .gsub("Länsgräns H/K", "länsgränsen mellan Kalmar och Blekinge")
           .gsub("väg 6 ", "E6")
           .gsub("/", ", ")
           .gsub("köerMot", "köer mot")
           .gsub(/(\ i )([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
           .gsub(/(\ i )([A-ZÅÄÖ][a-zåäö]+) ([A-ZÅÄÖ][a-zåäö]+) (\län)/, "")
           .gsub(/(\d\d|\d)(:| :)(\d\d)/, '\1.\3')
+          .gsub(", i båda riktningar.", ".")
+          .gsub(/(Länsgräns |Länsgr. |länsgräns |länsgr. )([A-ZÅÄÖ]+,[A-ZÅÄÖ]+|[A-ZÅÄÖ]+\/[A-ZÅÄÖ]+)/, "länsgränsen")
+          .gsub("Trafikplats", "trafikplats")
+          .gsub("Cirkulationsplats", "cirkulationsplats")
       end 
 
       def send_event(m, article)
