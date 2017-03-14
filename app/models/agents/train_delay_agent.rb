@@ -198,8 +198,8 @@ module Agents
   	            end
               end
               article[:number_of_stations_affected] = article[:stations].length
-              log "Svar från REDIS = #{Agents::WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id])} för ID #{article[:trafikverket_event_id]}"
-              next if Agents::WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id]) == false
+              log "Svar från REDIS = #{WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id])} för ID #{article[:trafikverket_event_id]}"
+              next if WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id]) == false
               log "gick genom redis"
               log article[:body]
               result[:articles] << article unless article[:body].nil?
