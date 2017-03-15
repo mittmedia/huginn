@@ -132,7 +132,7 @@ module Agents
 
       def build_brodtext(m)
         meddelande = m[@need[4]]
-        "Enligt uppgifter från Trafikverket är orsaken till störningen #{enett(m)}#{meddelande[1..-1].gsub("\r\n", "").gsub("\n", "")}. #{add_context(m)}"
+        "Trafiken påverkas kraftigt och orsaken uppges vara #{Agents::TRAFIKVERKET::Tv::BESKR2[m[@need[0]]]}. Det inträffade rör alltså #{m[@need[3]]}. #{add_context(m)}"
       end
 
       def add_context(m)
@@ -164,7 +164,7 @@ module Agents
           if slut.day != version.day
             "Man bedömer att trafiken kommer påverkas fram till #{Agents::TRAFIKVERKET::Tv::DAGAR[slut.wday]} den #{slut.day} #{Agents::TRAFIKVERKET::Tv::MANAD[slut.month]} klockan #{slut.strftime("%R")}."
           else
-            "Man bedömer att trafiken kommer påverkas fram till klockan #{slut.strftime("%R")}."
+            "Man bedömer att trafiken kommer påverkas fram till åtminstone klockan #{slut.strftime("%R")}."
           end
       	else
           ""
@@ -337,8 +337,12 @@ module Agents
           .gsub(/(\d\d|\d)(:| :)(\d\d)/, '\1.\3')
           .gsub(", i båda riktningar.", ".")
           .gsub(/(Länsgräns |Länsgr. |länsgräns |länsgr. )([A-ZÅÄÖ]+,[A-ZÅÄÖ]+|[A-ZÅÄÖ]+\/[A-ZÅÄÖ]+)/, "länsgränsen")
+          .gsub(/(.-län,)/, "")
+          .gsub(/(.-län)/, "")
           .gsub("Trafikplats", "trafikplats")
           .gsub("Cirkulationsplats", "cirkulationsplats")
+          .gsub("  .", ".")
+          .gsub("  ", " ")
       end 
 
       def send_event(m, article)
