@@ -11,7 +11,8 @@ module Agents::TRAFIKVERKET::Helper
 		"försenad lastning/växling" => "någon form av lastningsproblem",
     "djur i spåret" => "djur på spåret",
     "akut kontroll av spår/fordon" => "ett tekniskt fel",
-    "fordonsfel" => "ett fordonsfel" 
+    "fordonsfel" => "ett fordonsfel",
+    "naturhändelse" => "påverkan av naturen"
 	}
 
 	HEADLINE = {
@@ -26,7 +27,8 @@ module Agents::TRAFIKVERKET::Helper
 		"försenad lastning/växling" => "Lastproblem",
     "djur i spåret" => "Djur på spåret",
     "akut kontroll av spår/fordon" => "Tekniska problem",
-    "fordonsfel" => "Fordonsfel" 
+    "fordonsfel" => "Fordonsfel",
+    "naturhändelse" => "En naturhändelse"
 	}
 end
 
