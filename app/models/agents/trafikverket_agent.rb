@@ -132,7 +132,7 @@ module Agents
 
       def build_brodtext(m)
         meddelande = m[@need[4]]
-        "Trafiken påverkas kraftigt och orsaken uppges vara #{Agents::TRAFIKVERKET::Tv::BESKR2[m[@need[0]]]}. Det inträffade rör alltså #{m[@need[3]]}. #{add_context(m)}"
+        "Trafiken påverkas kraftigt och orsaken uppges vara #{Agents::TRAFIKVERKET::Tv::BESKR2[m[@need[0]]]}. Störningen är alltså #{headline_place("", m)}. #{add_context(m)}"
       end
 
       def add_context(m)
@@ -343,6 +343,7 @@ module Agents
           .gsub("Cirkulationsplats", "cirkulationsplats")
           .gsub("  .", ".")
           .gsub("  ", " ")
+          .gsub(/(E\d)([A-ZÅÄÖ] \d\d,\d\d\d)/, '\1')
       end 
 
       def send_event(m, article)
