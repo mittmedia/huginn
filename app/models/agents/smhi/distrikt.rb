@@ -126,7 +126,7 @@ module Agents::SMHI::Distrikt
         "Jämtlands län, Härjedalsfjällen" => ["#larm_jamtland"],
         "Örebro län" => ["#larm_orebro"],
         "Bottenviken" => ["#larm_ovriga_landet"],
-        "Norrbottens läns kustland" => ["#larm_ovriga_landet"],
+        "Norrbottens län kustland" => ["#larm_ovriga_landet"],
         "Södra Östersjön" => ["#larm_ovriga_landet"],
         "Kalmar län, Öland" => ["#larm_ovriga_landet"],
         "Skåne län, Österlen" => ["#larm_ovriga_landet"],
