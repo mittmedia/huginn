@@ -167,7 +167,7 @@ module Agents::TRAFIKVERKET::Tv
           :ickefung => "JUST NU: Stora störningar i trafiken",
           :langsamtr => "JUST NU: långa köer i trafiken",
           :lgf => "Långsamt fordon på vägen stör trafiken",
-          :olycka => "JUST NU: Trafikolyckaskapar köer",
+          :olycka => "JUST NU: Trafikolycka skapar köer",
           :sprangarb => "Sprängarbeten stör trafiken",
           :stortevent => "JUST NU: Stora trafikstörningar",
           :underhall => "JUST NU: Stora trafikstörningar",
