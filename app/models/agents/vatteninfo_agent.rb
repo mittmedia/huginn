@@ -44,7 +44,7 @@ module Agents
       data[:text] = doc.css('div.sv-text-portlet-content')[3].css('p')[0].text
       data[:info] = []
       data[:data] = {}
-      xpath = '//*[@id="svid12_55489f891518fcc53d97fd00"]/ul/li'
+      xpath = '//*[@id="svid12_4ac0a77c1584e3b57cd3910b"]/ul/li'
       list = doc.xpath(xpath)
       list.each do |i|
         data[:info] << i.text.gsub("kl.", "klockan").gsub("Kl.", "klockan")
