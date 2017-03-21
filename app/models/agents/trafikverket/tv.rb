@@ -119,7 +119,8 @@ module Agents::TRAFIKVERKET::Tv
         "blackIceHalt" => :asfalt,
         "blackIce" => :asfalt,
         "vehicleOnWrongCarriageway" => :felsida,
-        "accidentInvolvingHazardousMaterials" => :olycka
+        "accidentInvolvingHazardousMaterials" => :olycka,
+        "strongWinds" => :starkavindar
     }
 # =begin
     RUBRIKER = {
@@ -157,7 +158,8 @@ module Agents::TRAFIKVERKET::Tv
           :eftersok => "Människor kan finnas längs vägen – trafikanter varnas",
           :fallnatrad => "Fallna träd skapar problem i trafiken",
           :asfalt => '"Blödande" asfalt stör trafiken',
-          :felsida => 'JUST NU: Trafikanter varnas för bil på fel sida'
+          :felsida => 'JUST NU: Trafikanter varnas för bil på fel sida',
+          :starkavindar => "JUST NU: Starka vindar stör trafiken"
         },
         PRIONIV[5] => {
                   :belagg => "Stora störningar i trafiken på grund av vägarbete",
@@ -193,7 +195,8 @@ module Agents::TRAFIKVERKET::Tv
           :eftersok => "Människor kan finnas längs vägen – trafikanter varnas",
           :fallnatrad => "Fallna träd skapar problem i trafiken",
           :asfalt => '"Blödande" asfalt stör trafiken',
-          :felsida => 'JUST NU: Trafikanter varnas för bil på fel sida'
+          :felsida => 'JUST NU: Trafikanter varnas för bil på fel sida',
+          :starkavindar => "JUST NU: Starka vindar stör trafiken"
         }
     }
 
@@ -234,7 +237,8 @@ module Agents::TRAFIKVERKET::Tv
         "accidentInvolvingHeavyLorries" => "En lastbilsolycka",
         "peopleOnRoadway" => "Människor på vägbanan",
         "blackIce" => 'Svart is på vägbanan',
-        "vehicleOnWrongCarriageway" => "Ett fordon på fel sida av vägbanan"
+        "vehicleOnWrongCarriageway" => "Ett fordon på fel sida av vägbanan",
+        "strongWinds" => "Starka vindar"
 
     }
 
@@ -275,7 +279,8 @@ module Agents::TRAFIKVERKET::Tv
     "accidentInvolvingHeavyLorries" => "en lastbilsolycka",
     "peopleOnRoadway" => "människor på vägbanan",
     "blackIce" => '"blödande" asfalt',
-    "vehicleOnWrongCarriageway" => "ett fordon som färdas på fel sida av vägen"
+    "vehicleOnWrongCarriageway" => "ett fordon som färdas på fel sida av vägen",
+    "strongWinds" => "starka vindar"
   }
 
     MEDDELANDETYP = {
