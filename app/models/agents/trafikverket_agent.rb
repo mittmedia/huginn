@@ -357,7 +357,7 @@ module Agents
           if i != 2
             Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
               message = {
-                ort: artice[:ort],
+                ort: article[:ort],
                 channel: c,
                 article: article,
                 title: article[:ingress],
