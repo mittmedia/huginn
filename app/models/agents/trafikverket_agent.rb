@@ -357,12 +357,13 @@ module Agents
           if i != 2
             Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
               message = {
+                ort: artice[:ort],
+                channel: c,
                 article: article,
                 title: article[:ingress],
                 pretext: article[:title],
                 text: "#{article[:body]}\n\nIframe-inbäddning: #{article[:geometry][:map]}",
                 mrkdwn_in: ["text", "pretext"],
-                channel: c,
                 article_count: @article_counter
                 }
               create_event payload: message
