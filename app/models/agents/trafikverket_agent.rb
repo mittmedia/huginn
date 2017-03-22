@@ -68,6 +68,7 @@ module Agents
 
       def roadwork_repeat(m)
         if m[@need[0]] == "roadworks" || m[@need[0]] == "resurfacingWork"
+          log m[@need[0]]
           return false
         # elsif m[@need[0]] == "slowTraffic" || m[@need[0]] == "slowVehicle"
           # return false
