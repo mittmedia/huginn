@@ -81,6 +81,7 @@ module Agents
         data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], @post_body)
         lan = []
         res = {articles:[]}
+        log "Antal aktiva varningar: #{data['RESPONSE']['RESULT'][0]['Situation'].length}"
         data['RESPONSE']['RESULT'][0]['Situation'].each do |d|
           d['Deviation'].each do |m|
             article = {}
@@ -390,14 +391,6 @@ module Agents
   							<ELEMENTMATCH>
   							  <EQ name='Deviation.MessageType' value='Restriktion' />
   							  <EQ name='Deviation.MessageCode' value='Väg avstängd' />
-  							</ELEMENTMATCH>
-  							<ELEMENTMATCH>
-  					      <EQ name='Deviation.MessageType' value='Vägarbete' />
-  					      <EQ name='Deviation.SeverityCode' value='5' />
-  							</ELEMENTMATCH>
-  							<ELEMENTMATCH>
-  					      <NE name='Deviation.MessageType' value='Vägarbete' />
-  					      <GTE name='Deviation.SeverityCode' value='4' />
   							</ELEMENTMATCH>
   							</OR>
   						</FILTER>
