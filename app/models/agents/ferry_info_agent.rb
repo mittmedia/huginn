@@ -1,9 +1,8 @@
 require "json"
 require 'net/http'
-require 'active_support/Time'
 
 module Agents
-  class TrainDelayAgent < Agent
+  class FerryInfoAgent < Agent
     default_schedule "every_1m"
     description <<-MD
       Agent för omvandling av data från Trafikverkets öppna API gällande tågföreningar till nyhetsartiklar.
@@ -25,23 +24,14 @@ module Agents
 
     def get_data(id)
       api_url_beta = "http://api.trafikinfo.trafikverket.se/beta/data.json"
-      fa_query = AGENTS::WRAPPERS::PostRequests.ferry_announcements(options["api_key"], id)
-      post_call(fa_query, api_url_beta)
+      fa_query = Agents::WRAPPERS::POSTREQUESTS.ferry_announcements(options["api_key"], id)
+      Agents::TRAFIKVERKET::POST.post_call(api_url_beta, fa_query)
     end
 
     def get_deviation_data
       api_url = "http://api.trafikinfo.trafikverket.se/v1.1/data.json"
-      situation_query = AGENTS::WRAPPERS::PostRequests.ferry_situations(options["api_key"])
-      post_call(ferry_query, api_url)
-    end
-
-    def post_call(post_body, url)
-      uri = URI.parse url
-      request = Net::HTTP::Post.new uri.path
-      request.body = post_body
-      request.content_type = 'text/xml'
-      response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request request }
-      JSON.parse(response.body)
+      situation_query = Agents::WRAPPERS::POSTREQUESTS.ferry_situations(options["api_key"])
+      Agents::TRAFIKVERKET::POST.post_call(api_url, situation_query)
     end
 
     def check  
@@ -51,21 +41,22 @@ module Agents
       unless dev_data == {"RESPONSE"=>{"RESULT"=>[{}]}}
         dev_data['RESPONSE']['RESULT'][0]['Situation'].each do |sit|
           if sit['Deviation'][0]['MessageType'] == "Färjor"
-            id = sit['Deviation'][0]['Id']
-            info = get_data(id)
+            devi['id'] = sit['Deviation'][0]['Id']
             devi['meddelande'] = sit['Deviation'][0]['Message']
             devi['county'] = sit['Deviation'][0]['CountyNo']  
             devi['publicerat_tid'] = sit['Deviation'][0]['VersionTime']
+            info = get_data(devi['id'])
             devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
             devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
             devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
             devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
-            devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']
+            devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']       
             all[:deviation] << devi
           end
         end
+        return if Agents::WRAPPERS::REDIS.set(devi['id'], devi['id']) == false
+        send_event(all)
       end
-      send_event(all)
     end
 
     def send_event(data)
@@ -78,7 +69,7 @@ module Agents
                 ort: dev['county'],
                 channel: c,
                 article: dev,
-                title: "Gäller #{dev[ruttnamn]}",
+                title: "Gäller #{dev['ruttnamn']}",
                 pretext: "Färjeinformation från Trafikverkets BETA-API",
                 text: "Meddelande: #{dev['meddelande']}\n#{dev['typ_av_rutt']} rutt mellan #{dev['fran_hamn']} och #{dev['till_hamn']}.\nBeskrivning av rutt: #{dev['beskrivning']}Publicerat: #{dev['publicerat_tid']}\n",
                 mrkdwn_in: ["text", "pretext"],
