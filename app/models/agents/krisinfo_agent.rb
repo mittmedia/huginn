@@ -68,9 +68,6 @@ module Agents
       if Time.zone.parse(entry['Updated']).today? == false
         return false
         # true
-      elsif Time.zone.now - Time.zone.parse(entry['Updated']) > 70
-        return false
-        # true
       else
         return true
       end
