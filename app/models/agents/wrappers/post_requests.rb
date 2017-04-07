@@ -1,4 +1,5 @@
-module Agents::WRAPPERS::PostRequests
+module Agents::WRAPPERS::POSTREQUESTS
+  
   def self.ferry_situations(api_key)
     "<REQUEST>
       <LOGIN authenticationkey='#{api_key}' />
@@ -49,4 +50,4 @@ module Agents::WRAPPERS::PostRequests
       </QUERY>
     </REQUEST>"
   end
-end
+end 
