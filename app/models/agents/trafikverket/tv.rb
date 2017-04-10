@@ -22,7 +22,8 @@ module Agents::TRAFIKVERKET::Tv
         23 => "Jämtland",
         24 => "Västerbotten",
         25 => "Norrbotten",
-        26 => "#robot_trafikinfo"
+        26 => "#robot_trafikinfo",
+        27 => "#robot_farjeinfo"
     }
     DAGAR = {
         1 => "måndagen",
