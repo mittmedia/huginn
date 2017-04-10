@@ -58,7 +58,7 @@ module Agents
           end
         end
         channel << "#robot_krisinfo"
-        @article_counter = redis.incr("Krisinfo_article_count")
+        next if Agents::WRAPPERS::REDIS.set(article[:id], article[:id]) ==false
         res[:articles] << {article: article, channel:channel}
       end
       send_event(res)
@@ -88,7 +88,7 @@ module Agents
         event[:channel].each do |send|
           # p event[:article][:body]
           message = {
-              article: event[:article],
+              article: res,
               title: event[:article][:title],
               pretext: "Ny notis från Mittmedias Textrobot",
               text: "#{event[:article][:body]}\n\n#{event[:article][:author]}",
