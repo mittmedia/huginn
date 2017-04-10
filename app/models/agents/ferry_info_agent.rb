@@ -23,7 +23,7 @@ module Agents
     end
 
     def get_data(id)
-      api_url_beta = "http://api.trafikinfo.trafikverket.se/beta/data.json"
+      api_url_beta = "http://api.trafnanonikinfo.trafikverket.se/beta/data.json"
       fa_query = Agents::WRAPPERS::POSTREQUESTS.ferry_announcements(options["api_key"], id)
       Agents::TRAFIKVERKET::POST.post_call(api_url_beta, fa_query)
     end
@@ -71,7 +71,7 @@ module Agents
                 article: dev,
                 title: "Gäller #{dev['ruttnamn']}",
                 pretext: "Färjeinformation från Trafikverkets BETA-API",
-                text: "Meddelande: #{dev['meddelande']}\n#{dev['typ_av_rutt']} rutt mellan #{dev['fran_hamn']} och #{dev['till_hamn']}.\nBeskrivning av rutt: #{dev['beskrivning']}Publicerat: #{dev['publicerat_tid']}\n",
+                text: "Meddelande: #{dev['meddelande']}\n#{dev['typ_av_rutt']} rutt mellan #{dev['fran_hamn']} och #{dev['till_hamn']}.\nBeskrivning av rutt: #{dev['beskrivning']}\nPublicerat: #{dev['publicerat_tid']}\n",
                 mrkdwn_in: ["text", "pretext"],
                 }
               create_event payload: message
