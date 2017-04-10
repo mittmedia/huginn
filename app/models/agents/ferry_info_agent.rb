@@ -23,7 +23,7 @@ module Agents
     end
 
     def get_data(id)
-      api_url_beta = "http://api.trafnanonikinfo.trafikverket.se/beta/data.json"
+      api_url_beta = "http://api.trafikinfo.trafikverket.se/beta/data.json"
       fa_query = Agents::WRAPPERS::POSTREQUESTS.ferry_announcements(options["api_key"], id)
       Agents::TRAFIKVERKET::POST.post_call(api_url_beta, fa_query)
     end
