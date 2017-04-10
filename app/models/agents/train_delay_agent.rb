@@ -9,7 +9,7 @@ require 'csv'
 	
 module Agents
 	class TrainDelayAgent < Agent
-    default_schedule "every_5m"
+    default_schedule "every_1m"
     description <<-MD
       Agent för omvandling av data från Trafikverkets öppna API gällande tågföreningar till nyhetsartiklar.
       Tar emot data via en POST-request och returnerar ett JSON-objekt.
@@ -27,17 +27,6 @@ module Agents
       errors.add(:base, "url_string is required") unless options['url_string'].present?
       errors.add(:base, "api_key is required") unless options['api_key'].present?
     end
-
-	  def post_anrop(query_type)
-	    uri = URI.parse options['url_string']
-	    request = Net::HTTP::Post.new uri.path
-	    request.body = query(query_type)
-	    request.content_type = 'text/xml'
-	    response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request request }
-      # log response.body
-
-	    response.body.force_encoding('utf-8')
-	  end
 
 	  def distance(loc1, loc2)
 	    rad_per_deg = Math::PI/180  # PI / 180
@@ -161,15 +150,12 @@ module Agents
 
 	  def check
 	    result = {articles:[]}
-	    data = JSON.parse(post_anrop(query_type[0]))
-      log data
-      log data.class
+	    data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], query(query_type[0]))
       if data == {"RESPONSE"=>{"RESULT"=>[{}]}}
         return
       else
   	    data['RESPONSE']['RESULT'][0]['TrainMessage'].each do |s|
   	      stations_affected = {situation:[]}
-          log "gick vidare"
           article = {}
   	      tags = []
   	      stations_affected[:situation] << array_of_stations(s)
@@ -207,9 +193,10 @@ module Agents
                 log article[:body]
                 result[:articles] << article unless article[:body].nil?
                 log "brödtext finns"
-                WRAPPERS::REDIS.set(article[:trafikverket_event_id], article[:trafikverket_event_id])
-                send_event(find_channel(article), article, data)
-                log "sänt event?"
+                if WRAPPERS::REDIS.set(article[:trafikverket_event_id], article[:trafikverket_event_id])
+                  send_event(find_channel(article), article, data)
+                  log "sänt event?"
+                end
               end
             end        
           end
