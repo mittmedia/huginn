@@ -29,9 +29,8 @@ module Agents
     end
 
     def get_deviation_data
-      api_url = "http://api.trafikinfo.trafikverket.se/v1.1/data.json"
       situation_query = Agents::WRAPPERS::POSTREQUESTS.ferry_situations(options["api_key"])
-      Agents::TRAFIKVERKET::POST.post_call(api_url, situation_query)
+      Agents::TRAFIKVERKET::POST.post_call(options["api_key"], situation_query)
     end
 
     def check  
@@ -64,6 +63,9 @@ module Agents
         dev['county'] << 27
         dev['county'].each do |i|
           if i != 2
+            if Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].nil?
+              log dev['county']
+            end
             Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
               message = {
                 ort: dev['county'],
