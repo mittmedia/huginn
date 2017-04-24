@@ -34,15 +34,15 @@ module Agents
       !recent_error_logs?
     end
 
-    def time_check(alert)
-      if Time.parse(alert['sent']).today? == false
-        return false
-      elsif Time.now - Time.parse(alert['sent']) > 70
-        return false
-      else
-        return true
-      end
-    end
+    # def time_check(alert)
+    #   if Time.parse(alert['sent']).today? == false
+    #     return false
+    #   elsif Time.now - Time.parse(alert['sent']) > 70
+    #     return false
+    #   else
+    #     return true
+    #   end
+    # end
 
     def check
       res = {article:[]}
@@ -50,7 +50,7 @@ module Agents
       d = https_call
       return if d['count'] == 0
       d['alert'].each do |alert|
-        next unless time_check(alert)
+        # next unless time_check(alert)
         article = {}
         alert['info'].each do |data|
           article[:id] = alert['identifier']
@@ -67,10 +67,7 @@ module Agents
             article[:geo] << {'county' => geography['geocode'][1]['value']}
           end
           res[:article] << article
-          digest = checksum(article[:url] + article[:id])
-          next if digest == redis.get(article[:id])
-          redis.set(article[:id], digest)
-          @article_counter = redis.incr("Vma_article_count")
+          next if Agents::WRAPPERS::REDIS.set(article[:id], article[:id]) == false
           find_channel(article)
         end
       end
