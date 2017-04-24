@@ -30,7 +30,7 @@ module Agents
 
     def get_deviation_data
       situation_query = Agents::WRAPPERS::POSTREQUESTS.ferry_situations(options["api_key"])
-      Agents::TRAFIKVERKET::POST.post_call(options["api_key"], situation_query)
+      Agents::TRAFIKVERKET::POST.post_call(options["url_string"], situation_query)
     end
 
     def check  
