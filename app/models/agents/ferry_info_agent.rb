@@ -35,22 +35,28 @@ module Agents
 
     def check  
       all = {deviation:[]}
-      devi = {}
       dev_data = get_deviation_data
+      
       unless dev_data == {"RESPONSE"=>{"RESULT"=>[{}]}}
         dev_data['RESPONSE']['RESULT'][0]['Situation'].each do |sit|
+          devi = {}
+
           if sit['Deviation'][0]['MessageType'] == "Färjor"
             devi['id'] = sit['Deviation'][0]['Id']
             devi['meddelande'] = sit['Deviation'][0]['Message']
             devi['county'] = sit['Deviation'][0]['CountyNo']  
             devi['publicerat_tid'] = sit['Deviation'][0]['VersionTime']
             info = get_data(devi['id'])
-            devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
-            devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
-            devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
-            devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
-            devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']       
-            all[:deviation] << devi
+            if info == {"RESPONSE"=>{"RESULT"=>[{}]}}
+              return
+            else
+              devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
+              devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
+              devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
+              devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
+              devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']       
+              all[:deviation] << devi
+            end
           end
         end
         return if Agents::WRAPPERS::REDIS.set(devi['id'], devi['id']) == false
