@@ -56,10 +56,10 @@ module Agents
               devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
               devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']       
               all[:deviation] << devi
+              return if Agents::WRAPPERS::REDIS.set(devi['id'], devi['id']) == false
             end
           end
         end
-        return if Agents::WRAPPERS::REDIS.set(devi['id'], devi['id']) == false
         send_event(all)
       end
     end
