@@ -48,6 +48,7 @@ module Agents
             devi['publicerat_tid'] = sit['Deviation'][0]['VersionTime']
             info = get_data(devi['id'])
             if info == {"RESPONSE"=>{"RESULT"=>[{}]}}
+              log devi
               return
             else
               devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
