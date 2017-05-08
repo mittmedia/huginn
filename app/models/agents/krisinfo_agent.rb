@@ -19,15 +19,6 @@ module Agents
       errors.add(:base, "url_string is required") unless options['url_string'].present?
     end
 
-    def redis
-      #Läser in Redis miljövariabel
-      @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
-    end
-
-    def checksum(json)
-      Digest::MD5.hexdigest(json.to_s).to_s
-    end
-
     def working?
       !recent_error_logs?
     end
@@ -57,8 +48,8 @@ module Agents
             channel << find_channel(a[:Area]) unless channel.include?(find_channel(a[:Area]))
           end
         end
-        channel << "#robot_krisinfo"
-        next if Agents::WRAPPERS::REDIS.set(article[:id], article[:id]) ==false
+        channel << "#robot_vma"
+        next if Agents::WRAPPERS::REDIS.set(article[:id], article[:id]) == false
         res[:articles] << {article: article, channel:channel}
       end
       send_event(res)
@@ -85,7 +76,7 @@ module Agents
 
     def send_event(res)
       res[:articles].each do |event|
-        event[:channel].each do |send|
+        event[:channel].each do |c|
           # p event[:article][:body]
           message = {
               article: res,
@@ -93,7 +84,7 @@ module Agents
               pretext: "Ny notis från Mittmedias Textrobot",
               text: "#{event[:article][:body]}\n\n#{event[:article][:author]}",
               mrkdwn_in: ["text", "pretext"],
-              channel: send,
+              channel: c,
               article_count: @article_counter
               }
           create_event payload: message
