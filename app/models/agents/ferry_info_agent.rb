@@ -36,8 +36,10 @@ module Agents
     def check  
       all = {deviation:[]}
       dev_data = get_deviation_data
-      
       unless dev_data == {"RESPONSE"=>{"RESULT"=>[{}]}}
+        if dev_data['RESPONSE']['RESULT'][0]['Situation'].nil?
+          log dev_data
+        end 
         dev_data['RESPONSE']['RESULT'][0]['Situation'].each do |sit|
           devi = {}
 
