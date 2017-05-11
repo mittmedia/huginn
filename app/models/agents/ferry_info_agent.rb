@@ -58,7 +58,8 @@ module Agents
               devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
               devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
               devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']       
-              return if Agents::WRAPPERS::REDIS.set(devi['id'], devi['meddelande']) == false  
+              log devi
+              return if Agents::WRAPPERS::REDIS.set(devi['meddelande'], devi['meddelande']) == false  
               all[:deviation] << devi
             end
           end
