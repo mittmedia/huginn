@@ -63,6 +63,7 @@ module Agents
             end
           end
         end
+        log all
         send_event(all)
       end
     end
@@ -85,6 +86,7 @@ module Agents
                 text: "Meddelande: #{dev['meddelande']}\n#{dev['typ_av_rutt']} rutt mellan #{dev['fran_hamn']} och #{dev['till_hamn']}.\nBeskrivning av rutt: #{dev['beskrivning']}\nPublicerat: #{dev['publicerat_tid']}\n",
                 mrkdwn_in: ["text", "pretext"],
                 }
+              log message
               create_event payload: message
             end
           end
