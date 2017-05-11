@@ -319,7 +319,8 @@ module Agents::TRAFIKVERKET::Tv
     "Jämtland" => ["#larm_jamtland"],
     "Västerbotten" => ["#larm_ovriga_landet"],
     "Norrbotten" => ["#larm_ovriga_landet"],
-    "#robot_trafikinfo" => ["#robot_trafikinfo"]
+    "#robot_trafikinfo" => ["#robot_trafikinfo"],
+    "robot_farjeinfo" => ["robot_farjeinfo"]
     }
 
     CHANNEL2 = {
