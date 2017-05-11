@@ -51,15 +51,15 @@ module Agents
             info = get_data(devi['id'])
             if info == {"RESPONSE"=>{"RESULT"=>[{}]}}
               log devi
-              return
+              # return
             else
               devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
               devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
               devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
               devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
               devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']       
+              return if Agents::WRAPPERS::REDIS.set(devi['id'], devi['meddelande']) == false  
               all[:deviation] << devi
-              return if Agents::WRAPPERS::REDIS.set(devi['id'], devi['id']) == false
             end
           end
         end
