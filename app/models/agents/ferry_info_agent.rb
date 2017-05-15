@@ -53,11 +53,11 @@ module Agents
               log "Inget svar från FerryAnnouncement"              
             else
               log info['RESPONSE']['RESULT'][0]
-              # devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
-              # devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
-              # devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
-              # devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
-              # devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']
+              devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
+              devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
+              devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
+              devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
+              devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']
               devi['link'] = sit['Deviation'][0]['WebLink']
               log "Innan redis"
               next if Agents::WRAPPERS::REDIS.set(devi, devi) == false
@@ -86,12 +86,10 @@ module Agents
                 article: dev,
                 title: "Gäller #{dev['ruttnamn']}",
                 pretext: "Färjeinformation från Trafikverkets API",
-                text: "Meddelande: #{dev['meddelande']}",
+                text: "Meddelande: #{dev['meddelande']}\n#{dev['typ_av_rutt']} rutt mellan #{dev['fran_hamn']} och #{dev['till_hamn']}.\nBeskrivning av rutt: #{dev['beskrivning']}\nPublicerat: #{dev['publicerat_tid']}\nLänk: #{dev['link']}",
                 mrkdwn_in: ["text", "pretext"],
                 }
-              create_event payload: message
-
-              #\n#{dev['typ_av_rutt']} rutt mellan #{dev['fran_hamn']} och #{dev['till_hamn']}.\nBeskrivning av rutt: #{dev['beskrivning']}\nPublicerat: #{dev['publicerat_tid']}\nLänk: #{dev['link']}
+              create_event payload: message          
               log "skickade #{message}"
             end
           end
