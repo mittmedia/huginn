@@ -39,10 +39,10 @@ module Agents
       unless dev_data == {"RESPONSE"=>{"RESULT"=>[{}]}}
         if dev_data['RESPONSE']['RESULT'][0]['Situation'].nil?
           log dev_data
+          log "Konstig data från API?"
         end 
         dev_data['RESPONSE']['RESULT'][0]['Situation'].each do |sit|
           devi = {}
-
           if sit['Deviation'][0]['MessageType'] == "Färjor"
             devi['id'] = sit['Deviation'][0]['Id']
             devi['meddelande'] = sit['Deviation'][0]['Message']
@@ -51,20 +51,20 @@ module Agents
             info = get_data(devi['id'])
             if info == {"RESPONSE"=>{"RESULT"=>[{}]}}
               log devi
-              # return
+              log "Inget svar från FerryAnnouncement"              
             else
               devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
               devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
               devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
               devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
               devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']       
-              log devi
+              log "Innan redis"
               return if Agents::WRAPPERS::REDIS.set(devi['meddelande'], devi['meddelande']) == false  
               all[:deviation] << devi
+              log "Gick genom redis"
             end
           end
         end
-        log all
         send_event(all)
       end
     end
@@ -87,8 +87,8 @@ module Agents
                 text: "Meddelande: #{dev['meddelande']}\n#{dev['typ_av_rutt']} rutt mellan #{dev['fran_hamn']} och #{dev['till_hamn']}.\nBeskrivning av rutt: #{dev['beskrivning']}\nPublicerat: #{dev['publicerat_tid']}\n",
                 mrkdwn_in: ["text", "pretext"],
                 }
-              log message
               create_event payload: message
+              log "skickade #{message}"
             end
           end
         end
