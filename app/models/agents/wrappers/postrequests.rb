@@ -50,4 +50,15 @@ module Agents::WRAPPERS::POSTREQUESTS
       </QUERY>
     </REQUEST>"
   end
+
+  def self.train(api_key)
+    "<REQUEST>
+      <LOGIN authenticationkey='#{api_key}' />
+      <QUERY objecttype='TrainMessage' lastmodified='true'>
+        <FILTER>
+         <GT name='ModifiedTime' value='#{Time.zone.now - 10000}' />
+        </FILTER>
+      </QUERY>
+    </REQUEST>"
+  end
 end 
