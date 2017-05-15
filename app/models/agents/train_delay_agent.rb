@@ -135,7 +135,7 @@ module Agents
 
 	  def check
 	    result = {articles:[]}
-	    data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], Agents::WRAPPERS::POSTREQUESTS.train(options['api_key'])))
+	    data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], Agents::WRAPPERS::POSTREQUESTS.train(options['api_key']))
       if data == {"RESPONSE"=>{"RESULT"=>[{}]}}
         return
       else
