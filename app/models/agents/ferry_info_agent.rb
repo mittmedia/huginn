@@ -59,7 +59,7 @@ module Agents
               devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
               devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']       
               log "Innan redis"
-              return if Agents::WRAPPERS::REDIS.set(devi['meddelande'], devi['meddelande']) == false  
+              return if Agents::WRAPPERS::REDIS.set(devi, devi) == false
               all[:deviation] << devi
               log "Gick genom redis"
             end
