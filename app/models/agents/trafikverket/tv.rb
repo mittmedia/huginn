@@ -320,7 +320,7 @@ module Agents::TRAFIKVERKET::Tv
     "Västerbotten" => ["#larm_ovriga_landet"],
     "Norrbotten" => ["#larm_ovriga_landet"],
     "#robot_trafikinfo" => ["#robot_trafikinfo"],
-    "robot_farjeinfo" => ["robot_farjeinfo"]
+    "robot_farjeinfo" => ["#robot_farjeinfo"]
     }
 
     CHANNEL2 = {
