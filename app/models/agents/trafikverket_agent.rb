@@ -3,7 +3,7 @@ require "active_support/time"
 require "json"
 require 'net/http'
 require 'slack-notifier'
-require 'digest/md5'
+
 
 module Agents
   class TrafikverketAgent < Agent
@@ -48,6 +48,7 @@ module Agents
         @useful = ['RoadNumber', 'EndTime']
         # Filtrerar bort poster som inte är ursprungsposter
         if m.has_key?('EndTime')
+          log m
           return false if DateTime.parse(m['EndTime']).today? == false 
         end
         return false if DateTime.parse(m['StartTime']).today? == false
@@ -68,7 +69,6 @@ module Agents
 
       def roadwork_repeat(m)
         if m[@need[0]] == "roadworks" || m[@need[0]] == "resurfacingWork"
-          log m[@need[0]]
           return false
         # elsif m[@need[0]] == "slowTraffic" || m[@need[0]] == "slowVehicle"
           # return false
@@ -77,9 +77,9 @@ module Agents
         end
       end
 
-      def filter_and_text
+      def check
         # redis.flushall
-        data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], @post_body)
+        data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], Agents::WRAPPERS::POSTREQUESTS.situations(options['api_key']))
         lan = []
         res = {articles:[]}
         log "Antal aktiva varningar: #{data['RESPONSE']['RESULT'][0]['Situation'].length}"
@@ -111,7 +111,7 @@ module Agents
             geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
             geometry[:map] = Agents::TRAFIKVERKET::MAP.iframe(geometry[:lat], geometry[:long])
             article[:geometry] = geometry
-            next if Agents::WRAPPERS::REDIS.digest(article[:udid], article[:udid]) == false
+            next if Agents::WRAPPERS::REDIS.set(article[:udid], article[:udid]) == false
             res[:articles] << article
             send_event(m, article)
           end
@@ -372,32 +372,6 @@ module Agents
             end
           end
         end
-      end
-
-      def check
-        @post_body =
-          "<REQUEST>
-           <LOGIN authenticationkey='#{options["api_key"]}' />
-           <QUERY objecttype='Situation'>
-            <FILTER>
-              <OR>
-  							<ELEMENTMATCH>
-  							  <EQ name='Deviation.ManagedCause' value='true' />
-  							  <IN name='Deviation.MessageType' value='Trafikmeddelande,Olycka' />
-  							</ELEMENTMATCH>
-  							<ELEMENTMATCH>
-  							  <EQ name='Deviation.MessageType' value='Färjor' />
-  							  <EQ name='Deviation.IconId' value='ferryServiceNotOperating' />
-  							</ELEMENTMATCH>
-  							<ELEMENTMATCH>
-  							  <EQ name='Deviation.MessageType' value='Restriktion' />
-  							  <EQ name='Deviation.MessageCode' value='Väg avstängd' />
-  							</ELEMENTMATCH>
-  							</OR>
-  						</FILTER>
-            </QUERY>
-          </REQUEST>"
-      	filter_and_text
       end
 
       def working?
