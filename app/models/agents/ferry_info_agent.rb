@@ -13,7 +13,7 @@ module Agents
       MD
 
     def default_options
-      { "url_string" => "http://api.trafikinfo.trafikverket.se/v1.1/data.json",
+      { "url_string" => "http://api.trafikinfo.trafikverket.se/v1.2/data.json",
         "api_key" => "984fb975e4c540ccae03ec5558b2e657" }
     end
 
@@ -23,9 +23,8 @@ module Agents
     end
 
     def get_data(id)
-      api_url_beta = "http://api.trafikinfo.trafikverket.se/beta/data.json"
       fa_query = Agents::WRAPPERS::POSTREQUESTS.ferry_announcements(options["api_key"], id)
-      Agents::TRAFIKVERKET::POST.post_call(api_url_beta, fa_query)
+      Agents::TRAFIKVERKET::POST.post_call(options['url_string'], fa_query)
     end
 
     def get_deviation_data
@@ -57,7 +56,8 @@ module Agents
               devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
               devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
               devi['ruttnamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Name']
-              devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']       
+              devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']
+              devi['link'] = sit['Deviation'][0]['WebLink']
               log "Innan redis"
               return if Agents::WRAPPERS::REDIS.set(devi, devi) == false
               all[:deviation] << devi
@@ -76,6 +76,7 @@ module Agents
           if i != 2
             if Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].nil?
               log dev['county']
+              log i
             end
             Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|
               message = {
@@ -83,8 +84,8 @@ module Agents
                 channel: c,
                 article: dev,
                 title: "Gäller #{dev['ruttnamn']}",
-                pretext: "Färjeinformation från Trafikverkets BETA-API",
-                text: "Meddelande: #{dev['meddelande']}\n#{dev['typ_av_rutt']} rutt mellan #{dev['fran_hamn']} och #{dev['till_hamn']}.\nBeskrivning av rutt: #{dev['beskrivning']}\nPublicerat: #{dev['publicerat_tid']}\n",
+                pretext: "Färjeinformation från Trafikverkets API",
+                text: "Meddelande: #{dev['meddelande']}\n#{dev['typ_av_rutt']} rutt mellan #{dev['fran_hamn']} och #{dev['till_hamn']}.\nBeskrivning av rutt: #{dev['beskrivning']}\nPublicerat: #{dev['publicerat_tid']}\nLänk: #{dev['link']}",
                 mrkdwn_in: ["text", "pretext"],
                 }
               create_event payload: message
