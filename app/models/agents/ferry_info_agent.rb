@@ -59,7 +59,7 @@ module Agents
               devi['typ_av_rutt'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Type']['Name']
               devi['link'] = sit['Deviation'][0]['WebLink']
               log "Innan redis"
-              return if Agents::WRAPPERS::REDIS.set(devi, devi) == false
+              next if Agents::WRAPPERS::REDIS.set(devi, devi) == false
               all[:deviation] << devi
               log "Gick genom redis"
             end
