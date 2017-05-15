@@ -18,7 +18,7 @@ module Agents::WRAPPERS::Headline
     "Vattenläcka" => "MIVA rapporterar att man jobbar med att åtgärda en vattenläcka vid",
     "Ombyggnadsarbete" => "MIVA genomför nu ett planerat ombyggnadsarbete vid",
     "Läcksökning" => "MIVA söker efter en vattenläcka vid",
-    "Driftstörning" => "MIVA rapporterar om en driftstörning som kan påverka vattentillgången vid"
+    "Driftstörning" => "MIVA rapporterar om en driftstörning som kan påverka vattentillgången vid"  
   }
 
 end
