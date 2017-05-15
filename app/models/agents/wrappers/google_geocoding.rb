@@ -1,15 +1,11 @@
 module Agents::WRAPPERS::GoogleGeocoding
   def self.geocode(format, address, api_key, bounds)
     url = "https://maps.googleapis.com/maps/api/geocode/#{format}?address=#{address}&bounds=#{bounds}&key=#{api_key}"
-    print "------------url: #{url}-------------------"
     uri = URI(URI.escape(url))
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
     data = http.get(uri.request_uri).body
-    print "------------------"
-    print data
-    print "==================="
     JSON.parse(data)
   end
 end
