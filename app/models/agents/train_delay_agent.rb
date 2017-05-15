@@ -41,21 +41,6 @@ module Agents
 	    rm * c # Delta in meters
 	  end
 
-	  def query_type
-	    ["TrainMessage", "TrainStation"]
-	  end
-
-	  def query(query_type)
-	    "<REQUEST>
-	      <LOGIN authenticationkey='#{options['api_key']}' />
-	      <QUERY objecttype='#{query_type}' lastmodified='true'>
-	        <FILTER>
-           <GT name='ModifiedTime' value='#{Time.zone.now - 10000}' />
-          </FILTER>
-        </QUERY>
-      </REQUEST>"
-	  end
-
 	  def extract_sentences(sentence)
 	    if /kontakta|Kontakta/.match(sentence)
 	      # print sentence
@@ -150,7 +135,7 @@ module Agents
 
 	  def check
 	    result = {articles:[]}
-	    data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], query(query_type[0]))
+	    data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], Agents::WRAPPERS::POSTREQUESTS.train(options['api_key'])))
       if data == {"RESPONSE"=>{"RESULT"=>[{}]}}
         return
       else
@@ -184,20 +169,10 @@ module Agents
   	            end
               end
               article[:number_of_stations_affected] = article[:stations].length
-              log "Svar från REDIS = #{WRAPPERS::REDIS.exists?(article[:trafikverket_event_id])} för ID #{article[:trafikverket_event_id]}"
-              if WRAPPERS::REDIS.exists?(article[:trafikverket_event_id])
-                log "gick inte genom redis med resultat: #{WRAPPERS::REDIS.digest(article[:trafikverket_event_id], article[:trafikverket_event_id])}"
-                next
-              else
-                log "gick genom redis"
-                log article[:body]
-                result[:articles] << article unless article[:body].nil?
-                log "brödtext finns"
-                if WRAPPERS::REDIS.set(article[:trafikverket_event_id], article[:trafikverket_event_id])
-                  send_event(find_channel(article), article, data)
-                  log "sänt event?"
-                end
-              end
+              result[:articles] << article unless article[:body].nil?
+              next if WRAPPERS::REDIS.set(article[:trafikverket_event_id], article[:trafikverket_event_id]) == false
+              send_event(find_channel(article), article, data)
+              log "sänt event?"
             end        
           end
         end
@@ -236,7 +211,7 @@ module Agents
           data: data,
           title: article[:ingress],
           pretext: article[:title],
-          text: "#{article[:body]}\n, Event-id: #{article[:trafikverket_event_id]}",
+          text: "#{article[:body]}\n",
           mrkdwn_in: ["text", "pretext"],
           channel: c
           }
