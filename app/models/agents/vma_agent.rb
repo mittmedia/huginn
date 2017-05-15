@@ -21,15 +21,6 @@ module Agents
       errors.add(:base, "url_string is required") unless options['url_string'].present?
     end
 
-    def redis
-      #Läser in Redis miljövariabel
-      @redis ||= Redis.connect(url: ENV.fetch('REDIS_URL'))
-    end
-
-    def checksum(json)
-      Digest::MD5.hexdigest(json.to_s).to_s
-    end
-
     def working?
       !recent_error_logs?
     end
@@ -103,8 +94,7 @@ module Agents
             pretext: "Ny notis från Mittmedias Textrobot",
             text: "#{article[:ingress]}\n#{article[:body]}\n\n#{article[:author]}",
             mrkdwn_in: ["text", "pretext"],
-            channel: c,
-            article_count: @article_counter
+            channel: c
             }
         create_event payload: message
       end
