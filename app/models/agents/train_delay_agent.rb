@@ -223,6 +223,10 @@ module Agents
     def lansomv(s)
       list = []
       lan = s['CountyNo']
+      if lan.nil?
+        log s
+        return "Okänd ort"
+      end
       for lansnr in lan
         if lansnr == 2
           next
