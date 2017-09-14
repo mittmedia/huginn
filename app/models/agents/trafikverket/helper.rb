@@ -12,7 +12,12 @@ module Agents::TRAFIKVERKET::Helper
     "djur i spåret" => "djur på spåret",
     "akut kontroll av spår/fordon" => "ett tekniskt fel",
     "fordonsfel" => "ett fordonsfel",
-    "naturhändelse" => "påverkan av naturen"
+    "naturhändelse" => "påverkan av naturen",
+    "Banarbete/transport" => "ett ban- och transportarbete",
+    "Dynamisk skylt" => 'ny skyltning',
+    "Positioneringssystem" => "problem med ett positioneringssystem",
+    "Signalställverk, RBC och linjeblockeringssystem" => "ett signalfel",
+    "Signal" => "Problem med signalerna"
 	}
 
 	HEADLINE = {
@@ -28,7 +33,12 @@ module Agents::TRAFIKVERKET::Helper
     "djur i spåret" => "Djur på spåret",
     "akut kontroll av spår/fordon" => "Tekniska problem",
     "fordonsfel" => "Fordonsfel",
-    "naturhändelse" => "En naturhändelse"
+    "naturhändelse" => "En naturhändelse",
+    "Banarbete/transport" => "Ett ban- och transportarbete",
+    "Dynamisk skylt" => 'Ny dynamisk skyltning',
+    "Positioneringssystem" => "Problem med ett positioneringssystem",
+    "Signalställverk, RBC och linjeblockeringssystem" => "Ett signalfel",
+    "Signal" => "Problem med signalerna"
 	}
 end
 
