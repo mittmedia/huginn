@@ -23,7 +23,7 @@ module Agents
 
     def default_options
       {
-        'webhook_url' => url: ENV.fetch('SLACK_WEBHOOK'),
+        'webhook_url' => ENV.fetch('SLACK_WEBHOOK'),
         'username' => "Mittmedias Textrobot",
         'icon' => ':robot:',
         'channel' => '#robottest',
