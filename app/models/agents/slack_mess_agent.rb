@@ -30,7 +30,7 @@ module Agents
       print event['payload']
       where_to = event['payload']['headers']['Subject']
       text = event['payload']['plain']
-      channels = Agents::WRAPPERS::Headline[where_to]
+      channels = Agents::WRAPPERS::Headline::CHANNELS[where_to]
       send_event(channels, text)
     end
 

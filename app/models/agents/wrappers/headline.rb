@@ -21,4 +21,8 @@ module Agents::WRAPPERS::Headline
     "Driftstörning" => "MIVA rapporterar om en driftstörning som kan påverka vattentillgången vid"  
   }
 
+  CHANNELS = {
+    "Deskarna" = ["#robottest", "@micke"]
+  }
+
 end
