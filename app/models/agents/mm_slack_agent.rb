@@ -17,13 +17,13 @@ module Agents
       - Go to `https://my.slack.com/services/new/incoming-webhook`, choose a default channel and add the integration.
         else      Your webhook URL will look like: `https://hooks.slack.com/services/some/random/characters`
 
-      Once the webhook has been configured, it can be used to post to other channels or direct to team members. To send a private message to team member, use their @username as the channel. Messages can be formatted using [Liquid](https://github.com/cantino/huginn/wiki/Formatting-Events-using-Liquid).
+      Once the webhook has been configured, it can be used to post to other channels or direct to team members. To send a private message to team member, use their @username as the channel. 
 
     MD
 
     def default_options
       {
-        'webhook_url' => 'https://hooks.slack.com/services/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',
+        'webhook_url' => '',
         'username' => "Mittmedias Textrobot",
         'icon' => ':robot:',
         'channel' => '#robottest',
