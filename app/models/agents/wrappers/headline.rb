@@ -5,7 +5,7 @@ module Agents::WRAPPERS::Headline
     "Ombyggnadsarbete" => "Vattenledningar byggs om ",
     "Läcksökning" => "Larm om vattenläcka ",
     "Driftstörning" => "Störning i vattentillgången "
-  }
+  },
 
   CONTEXT = {
    "Vattenläcka" => "Läckan gör att påverkade hushåll kan vara utan vatten eller uppleva sämre tryck i kranarna.",
@@ -22,7 +22,7 @@ module Agents::WRAPPERS::Headline
   }
 
   CHANNELS = {
-    "Deskarna" = ["#robottest", "@micke"]
+    "Deskarna" => ["#robottest", "@micke"]
   }
 
 end
