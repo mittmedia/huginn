@@ -4,7 +4,7 @@ require "httparty"
 
 module Agents::SLACK::MESSAGE
 	def self.slacking(c, article, message)
-    notifier = Slack::Notifier.new "https://hooks.slack.com/services/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",
+    notifier = Slack::Notifier.new "",
       channel: c,
       username: 'Mittmedias Textrobot'
     # Meddelande formaterat som följer: 
