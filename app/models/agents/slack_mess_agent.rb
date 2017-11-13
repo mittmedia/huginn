@@ -22,36 +22,36 @@ module Agents
     def parse_html(url)
       Nokogiri::HTML(open(url))
     end
-
-    def messaget
-      "Det här kommer ju gå kanon det =) fixar listorna på måndag! Trevlig helg!=)"
-    end
     
     def receive(incoming_events)
       event = incoming_events.to_json_with_active_support_encoder
       event = JSON.parse(event[1..-2])
-      log event['payload']
+      log event['payload']['headers']['Subject']
       print event['payload']
-      # link = event['payload']['plain'].match(/(http:\/\/miva.se\/\S*.html)/)
-      send_event(messaget, options['channel'])
+      where_to = event['payload']['headers']['Subject']
+      text = event['payload']['plain']
+      channels = Agents::WRAPPERS::Headline[where_to]
+      send_event(channels, text)
     end
 
     def working?
       !recent_error_logs?
     end
 
-    def send_event(data,channel)
-      return if data.nil?
-      message = {
-        article: data,
-        title: "Plusdesken",
-        channel: channel,
-        pretext: "Ett meddelande från Plusdesken",
-        text: messaget,
-        mrkdwn_in: ["text", "pretext"],
-        sent: Time.zone.now
-        }
-      create_event payload: message
+    def send_event(channel_list, text)
+      return if text.nil?
+      channel_list.each do |c|
+        message = {
+          article: text,
+          title: "Plusdesken",
+          channel: c,
+          pretext: "Ett meddelande från Plusdesken",
+          text: text,
+          mrkdwn_in: ["text", "pretext"],
+          sent: Time.zone.now
+            }
+        create_event payload: message
+      end
     end
   end
 end
