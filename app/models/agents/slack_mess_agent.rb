@@ -31,6 +31,9 @@ module Agents
       where_to = event['payload']['headers']['Subject'].to_s
       text = event['payload']['plain']
       channels = Agents::WRAPPERS::Headline::CHANNELS[where_to]
+      if channels.nil?
+        channels = event['payload']['headers']['Subject'].split(' ')
+      end
       log channels
       send_event(channels, text)
     end
