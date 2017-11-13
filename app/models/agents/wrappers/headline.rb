@@ -22,7 +22,7 @@ module Agents::WRAPPERS::Headline
   }
 
   CHANNELS = {
-    "Deskarna" => ["#robottest", "@micke"]
+    "Deskarna" => ["#robottest", "#plus-och-iuteamet"]
   }
 
 end
