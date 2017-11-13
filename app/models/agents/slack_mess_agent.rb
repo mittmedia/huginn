@@ -28,9 +28,10 @@ module Agents
       event = JSON.parse(event[1..-2])
       log event['payload']['headers']['Subject']
       print event['payload']
-      where_to = event['payload']['headers']['Subject']
+      where_to = event['payload']['headers']['Subject'].to_s
       text = event['payload']['plain']
       channels = Agents::WRAPPERS::Headline::CHANNELS[where_to]
+      log channels
       send_event(channels, text)
     end
 
