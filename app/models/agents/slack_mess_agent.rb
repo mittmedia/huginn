@@ -44,6 +44,9 @@ module Agents
         end
       end
       log channels
+      if channels.nil?
+        return
+      end
       send_event(channels, text)
     end
 
