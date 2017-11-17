@@ -20,7 +20,8 @@ module Agents::TRAFIKVERKET::Helper
     "Signal" => "problem med signalerna",
     'Sent till/från utlandet' => "en tågförsening på andra sidan gränsen",
     'omfattande signalfel' => "ett omfattande signalfel",
-    "Broöppning" => "en broöppning"
+    "Broöppning" => "en broöppning",
+    "olycka" => "en olycka"
 	}
 
 	HEADLINE = {
@@ -44,7 +45,8 @@ module Agents::TRAFIKVERKET::Helper
     "Signal" => "Problem med signalerna",
     'Sent till/från utlandet' => "En tågförsening på andra sidan gränsen",
     'omfattande signalfel' => "Ett omfattande signalfel",
-    "Broöppning" => "En broöppning"
+    "Broöppning" => "En broöppning",
+    "olycka" => "En olycka"
 	}
 end
 
