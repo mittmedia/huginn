@@ -329,6 +329,9 @@ module Agents
 
 
 	  def build_headline(s, sit)
+      if Agents::TRAFIKVERKET::Helper::HEADLINE[s['ReasonCodeText']].nil?
+        log "ReasonCodeText = #{s['ReasonCodeText']}"
+      end
 	    "#{Agents::TRAFIKVERKET::Helper::HEADLINE[s['ReasonCodeText']]} påverkar tågen #{find_stations(sit)}".gsub(/ (\d|\d\d|\d\d\d) stationer/, "")
 	  end
 

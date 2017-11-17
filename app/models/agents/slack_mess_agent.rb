@@ -7,7 +7,9 @@ module Agents
 
     def default_options
       {
-        'channel' => '#robottest'
+        'channel' => '#robottest',
+        'pretext' => 'Ett meddelande från Plusdesken',
+        'title' => 'Plusdesken'
       }
     end
     
@@ -33,6 +35,12 @@ module Agents
       channels = Agents::WRAPPERS::Headline::CHANNELS[where_to]
       if channels.nil?
         channels = event['payload']['headers']['Subject'].split(' ')
+        channels.each do |c|
+          if (c[0] != "#") || (c[0] != "@")
+            log "Felaktig kanal: #{c}"
+            next
+          end
+        end
       end
       log channels
       send_event(channels, text)
@@ -47,9 +55,9 @@ module Agents
       channel_list.each do |c|
         message = {
           article: text,
-          title: "Plusdesken",
+          title: options['title'],
           channel: c,
-          pretext: "Ett meddelande från Plusdesken",
+          pretext: options['pretext'],
           text: text,
           mrkdwn_in: ["text", "pretext"],
           sent: Time.zone.now

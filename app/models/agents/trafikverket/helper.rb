@@ -17,7 +17,10 @@ module Agents::TRAFIKVERKET::Helper
     "Dynamisk skylt" => 'ny skyltning',
     "Positioneringssystem" => "problem med ett positioneringssystem",
     "Signalställverk, RBC och linjeblockeringssystem" => "ett signalfel",
-    "Signal" => "Problem med signalerna"
+    "Signal" => "problem med signalerna",
+    'Sent till/från utlandet' => "en tågförsening på andra sidan gränsen",
+    'omfattande signalfel' => "ett omfattande signalfel",
+    "Broöppning" => "en broöppning"
 	}
 
 	HEADLINE = {
@@ -38,7 +41,10 @@ module Agents::TRAFIKVERKET::Helper
     "Dynamisk skylt" => 'Ny dynamisk skyltning',
     "Positioneringssystem" => "Problem med ett positioneringssystem",
     "Signalställverk, RBC och linjeblockeringssystem" => "Ett signalfel",
-    "Signal" => "Problem med signalerna"
+    "Signal" => "Problem med signalerna",
+    'Sent till/från utlandet' => "En tågförsening på andra sidan gränsen",
+    'omfattande signalfel' => "Ett omfattande signalfel",
+    "Broöppning" => "En broöppning"
 	}
 end
 
