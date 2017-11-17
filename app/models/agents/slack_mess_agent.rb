@@ -36,7 +36,7 @@ module Agents
       if channels.nil?
         channels = event['payload']['headers']['Subject'].split(' ')
         channels.each do |c|
-          if (c[0] != "#") || (c[0] != "@")
+          unless (c[0] == "#") || (c[0] == "@")
             log "Felaktig kanal: #{c}"
             next
           end
