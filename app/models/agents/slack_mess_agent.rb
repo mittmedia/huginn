@@ -38,7 +38,7 @@ module Agents
         channels.each do |c|
           unless (c[0] == "#") || (c[0] == "@")
             log "Felaktig kanal: #{c}"
-            channels = channels.delete_at(channels.index(c))
+            channels = channels.delete(c)
             next
           end
         end
