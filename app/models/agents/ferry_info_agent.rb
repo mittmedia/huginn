@@ -52,8 +52,8 @@ module Agents
             if info == {"RESPONSE"=>{"RESULT"=>[{}]}}
               log devi
               log "Inget svar från FerryAnnouncement"              
-            else
-              log info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']
+            elsif info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description'].nil? == false
+              log "information: #{info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']} "
               devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
               devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
               devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
