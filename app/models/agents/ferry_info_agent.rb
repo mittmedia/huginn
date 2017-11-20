@@ -42,6 +42,7 @@ module Agents
         end 
         dev_data['RESPONSE']['RESULT'][0]['Situation'].each do |sit|
           devi = {}
+          log sit
           if sit['Deviation'][0]['MessageType'] == "Färjor"
             devi['id'] = sit['Deviation'][0]['Id']
             devi['meddelande'] = sit['Deviation'][0]['Message']
@@ -52,6 +53,7 @@ module Agents
               log devi
               log "Inget svar från FerryAnnouncement"              
             else
+              log info
               devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
               devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
               devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
