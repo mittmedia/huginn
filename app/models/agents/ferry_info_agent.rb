@@ -53,7 +53,7 @@ module Agents
               log devi
               log "Inget svar från FerryAnnouncement"              
             else
-              log info
+              log info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']
               devi['fran_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['FromHarbor']['Name']
               devi['till_hamn'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['ToHarbor']['Name']
               devi['beskrivning'] = info['RESPONSE']['RESULT'][0]['FerryAnnouncement'][0]['Route']['Description']
