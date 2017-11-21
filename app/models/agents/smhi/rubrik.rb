@@ -47,7 +47,7 @@ module Agents::SMHI::Rubrik
         "Warning class 1 late snow" => :sno,
         "Warning class 1 snow" => :sno,
         "Warning class 1 early snow" => :sno,
-        "Risk snow that may result in heavy drifting snow" => :sno2,
+        "Risk snow that may result in heavy drifting snow" => :sno,
         "Warning class 2 heavy drifting snow" => :sno2,
         "Warning class 2 heavy snow" => :sno2,
         "Warning class 3 very heavy snow" => :sno2,
@@ -71,6 +71,7 @@ module Agents::SMHI::Rubrik
         "Warning class 1 very strong wind" => :vind,
         "Warning class 1 very strong wind and precipitation, bad visibility" => :vindregn
     }
+
     RUBBE = {
         :aska1 => "SMHI utfärdar klass 1-varning: Kraftigt åskväder på ingång",
         :aska2 => "Extremt åskoväder på väg – SMHI varnar allmänheten",
