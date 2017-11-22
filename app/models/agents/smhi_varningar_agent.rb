@@ -78,13 +78,14 @@ module Agents
       return if handelser.nil?
       mess_response = SMHI::API.message(options['message_url'])
       res = {articles:[]}
-      handelser.each do |a| 
+      handelser.each do |a|
         article = {}
         tags = []
         geometry = {}
         article[:systemversion] = a['code'][2][-1].to_i
         article[:updated_at] = Time.parse(a['code'][1][14..-1]) if a['code'][1].present?
         next unless system_version_control(article, a)
+        # p "här går det"
         omrkod = a['info']['area']['areaDesc']
         article[:SMHI_agent_version] = "1.0"
         article[:article_created_at] = Time.zone.now
@@ -104,7 +105,7 @@ module Agents
         article[:categories] = ['id': 'some_number', 'name': 'Vädervarning']
         article[:geometry] = geometry
         digest = checksum(article[:id], article[:ingress])
-        next if digest == redis.get(article[:id])
+        # next if digest == redis.get(article[:id])
         res[:articles] << article
         redis.set(article[:id], digest)
         @article_counter = redis.incr("SMHI_article_count")
@@ -127,7 +128,9 @@ module Agents
           .gsub("Idag", "I dag")
           .gsub("blir i eftermiddag stor", "blir stor i eftermiddag")
           .gsub("siljan", "Siljan")
-          .gsub(/\. ([a-zåäö])/, '. \1'.upcase)
+          .gsub(/\n\n/, "")
+          text = text.sub!(/\. [a-zåäö]/){ |s| s.upcase }
+      return text
     end
 
     def build_ingress(a, article)
@@ -185,7 +188,7 @@ module Agents
     end
 
     def checksum(id, ingress)
-      Digest::MD5.hexdigest(id + ingress).to_s
+      Digest::MD5.hexdigest(id.to_s + ingress.to_s).to_s
     end
 
     def working?
