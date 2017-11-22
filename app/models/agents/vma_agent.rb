@@ -78,6 +78,7 @@ module Agents
       list = []
       article[:geo].each do |geo|
         list << Agents::TRAFIKVERKET::Municipalities::SLACK[geo['municipality']] unless list.include?(Agents::TRAFIKVERKET::Municipalities::SLACK[geo['municipality']])
+        log geo
       end
       list.each do |f|
         # for future use of multiple channels
