@@ -127,7 +127,7 @@ module Agents
           .gsub("Idag", "I dag")
           .gsub("blir i eftermiddag stor", "blir stor i eftermiddag")
           .gsub("siljan", "Siljan")
-          .gsub(/\. ([a-zåäö])/, '. \1'.uppercase)
+          .gsub(/\. ([a-zåäö])/, '. \1'.upcase)
     end
 
     def build_ingress(a, article)
