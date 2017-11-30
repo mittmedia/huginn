@@ -2,7 +2,7 @@ module Agents::TRAFIKVERKET::MAP
 	def self.iframe(lat, long)
     @lat = lat
     @long = long
-    code = "<iframe width=100% height='450' frameborder='0' style='border:0' src='#{build_embed}'></iframe>"
+    code = "<iframe src='#{build_embed}' width=100% height='450' frameborder='0' style='border:0' allowfullscreen></iframe>"
     return code
   end
 
@@ -12,15 +12,16 @@ module Agents::TRAFIKVERKET::MAP
 
 	def self.params_embed
     params = {
+    "key" => ENV.fetch('GOOGLE_MAP_EMBED_API_KEY'),
+    "center" => "#{@lat},#{@long}",
     "q" => "#{@lat},#{@long}",
-    "z" => "14",
+    "zoom" => "14",
     "maptype" => "satellite",
-    "output" => "embed"
     }
   end
 
   def self.build_embed
-  	base_url = "http://maps.google.com/maps?"
-    "#{base_url}#{flatt(params_embed, "=", "&")}"
+  	base_url = "https://www.google.com/maps/embed/v1/view?"
+    return "#{base_url}#{flatt(params_embed, "=", "&")}"
   end
 end
