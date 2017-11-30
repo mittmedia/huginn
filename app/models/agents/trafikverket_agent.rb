@@ -27,7 +27,7 @@ module Agents
         :rubrik,
         :omr,
         :ingress,
-        :brodtext
+        :brodtext,
         :exact_poly,
         }
       }
@@ -109,7 +109,7 @@ module Agents
             article[:version_time] = m['VersionTime']
             geometry[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
             geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
-            geometry[:map] = Agents::TRAFIKVERKET::MAP.iframe(geometry[:lat], geometry[:long])
+            # geometry[:map] = Agents::TRAFIKVERKET::MAP.iframe(geometry[:lat], geometry[:long])
             article[:geometry] = geometry
             next if Agents::WRAPPERS::REDIS.set(article[:udid], article[:udid]) == false
             res[:articles] << article
@@ -364,7 +364,7 @@ module Agents
                 article: article,
                 title: article[:ingress],
                 pretext: article[:title],
-                text: "#{article[:body]}\n\nIframe-inbäddning: #{article[:geometry][:map]}",
+                text: "#{article[:body]}\n\n",#Iframe-inbäddning: #{article[:geometry][:map]}
                 mrkdwn_in: ["text", "pretext"],
                 article_count: @article_counter
                 }
