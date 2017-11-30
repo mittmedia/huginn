@@ -109,7 +109,8 @@ module Agents
             article[:version_time] = m['VersionTime']
             geometry[:long] = m[@need[6]]['WGS84'].split[1][1..-1]
             geometry[:lat] = m[@need[6]]['WGS84'].split[2][0..-2]
-            # geometry[:map] = Agents::TRAFIKVERKET::MAP.iframe(geometry[:lat], geometry[:long])
+            geometry[:map] = Agents::TRAFIKVERKET::MAP.iframe(geometry[:lat], geometry[:long])
+            log geometry[:map]
             article[:geometry] = geometry
             next if Agents::WRAPPERS::REDIS.set(article[:udid], article[:udid]) == false
             res[:articles] << article
