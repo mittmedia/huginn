@@ -95,7 +95,12 @@ module Agents
         article[:title] = SMHI::Rubrik::RUBBE[SMHI::Rubrik::ETIKETT[a['info']['eventCode'][0]['value']]]
         article[:ort] = area_transformation(omrkod)
         article[:ingress] = build_ingress(a, article)
+        if article[:ingress].nil?
+          log a
+        end
         article[:body] = build_brodtext(a, article, mess_response)
+        if article[:body].nil?
+          log "Brödfail: #{a}, #{mess_response}"
         geometry[:point] = SMHI::Geometri::POINT[omrkod[0..2]]
         geometry[:lat] = geometry[:point].split[0][6..-1]
         geometry[:long] = geometry[:point].split[1][0..-2]
@@ -129,14 +134,17 @@ module Agents
           .gsub("blir i eftermiddag stor", "blir stor i eftermiddag")
           .gsub("siljan", "Siljan")
           .gsub(/\n\n/, "")
-          text = text.sub!(/\. [a-zåäö]/){ |s| s.upcase }
+          .gsub(/[a-z][^.?!]*/) { |match| match[0].upcase + match[1..-1].rstrip }
+          # p text
+
       return text
     end
 
     def build_ingress(a, article)
       varning_for = SMHI::Rubrik::SVOVERS[a['info']['eventCode'][3]['value']]
       ingress = "SMHI har gått ut med #{varning_for}. Meddelandet rör #{article[:ort]}."
-      ingress = clean_up_text(ingress)
+      # p ingress
+      return clean_up_text(ingress)
     end
 
     def build_brodtext(a, article, mess_response)
@@ -147,7 +155,7 @@ module Agents
       mess2 = a['info']['eventCode'][1]['value']
       brodtext = "Varningen skickades ut klockan #{klockslag} på #{veckodag} och man meddelar att #{mess1.downcase.strip}
 #{mess_response} #{warning_text(article[:prio])}"
-      brodtext = clean_up_text(brodtext)
+      return clean_up_text(brodtext)
     end
 
     def slack(omrkod, article)     
