@@ -101,6 +101,7 @@ module Agents
         article[:body] = build_brodtext(a, article, mess_response)
         if article[:body].nil?
           log "Brödfail: #{a}, #{mess_response}"
+        end
         geometry[:point] = SMHI::Geometri::POINT[omrkod[0..2]]
         geometry[:lat] = geometry[:point].split[0][6..-1]
         geometry[:long] = geometry[:point].split[1][0..-2]
