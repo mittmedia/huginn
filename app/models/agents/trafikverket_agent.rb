@@ -48,7 +48,7 @@ module Agents
         @useful = ['RoadNumber', 'EndTime']
         # Filtrerar bort poster som inte är ursprungsposter
         if m.has_key?('EndTime')
-          log m
+          # log m
           return false if DateTime.parse(m['EndTime']).today? == false 
         end
         return false if DateTime.parse(m['StartTime']).today? == false
