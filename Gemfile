@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Ruby 2.0 is the minimum requirement
-ruby ['2.2', RUBY_VERSION].max
+ruby ['2.3', RUBY_VERSION].max
 
 
 # Load vendored dotenv gem and .env file
@@ -86,7 +86,7 @@ gem 'omniauth-wunderlist', github: 'wunderlist/omniauth-wunderlist', ref: 'd0910
 # Bundler <1.5 does not recognize :x64_mingw as a valid platform name.
 # Unfortunately, it can't self-update because it errors when encountering :x64_mingw.
 unless Gem::Version.new(Bundler::VERSION) >= Gem::Version.new('1.5.0')
-  STDERR.puts "Bundler >=1.5.0 is required.  Please upgrade bundler with 'gem install bundler'"
+  STDERR.puts "Bundler >=1.5.0 is required.  Please upgrade bundler with 'gem ge bundler'"
   exit 1
 end
 
