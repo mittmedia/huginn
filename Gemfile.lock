@@ -302,7 +302,7 @@ GEM
       actionmailer (>= 3.2)
       letter_opener (~> 1.0)
       railties (>= 3.2)
-    libv8 (3.16.14.13)
+    libv8 (4.5.95.5)
     liquid (3.0.6)
     listen (3.0.5)
       rb-fsevent (>= 0.9.3)
@@ -657,7 +657,7 @@ DEPENDENCIES
   weibo_2!
 
 RUBY VERSION
-   ruby 2.2.6p396
+   ruby 2.4.0p396
 
 BUNDLED WITH
    1.13.7
