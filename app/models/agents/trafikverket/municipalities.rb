@@ -1,5 +1,5 @@
 module Agents::TRAFIKVERKET::Municipalities
-	SLACK = {
+	SLACK = { 
 		"Boxholm" => "#larm_ovriga_landet",
 		"Finspång" => "#larm_ovriga_landet",
 		"Kinda" => "#larm_ovriga_landet",
