@@ -23,7 +23,9 @@ module Agents::TRAFIKVERKET::Tv
         24 => "Västerbotten",
         25 => "Norrbotten",
         26 => "#robot_trafikinfo",
-        27 => "#robot_farjeinfo"
+        27 => "#robot_farjeinfo",
+        28 => "#st-larm",
+        29 => "#allehanda-larm"
     }
     DAGAR = {
         1 => "måndagen",
