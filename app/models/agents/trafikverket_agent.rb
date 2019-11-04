@@ -356,10 +356,6 @@ module Agents
       def send_event(m, article)
         omrkod = m[@need[5]]
         omrkod << 26
-        if omrkod[0] = 22
-          omrkod << 28
-          omrkod << 29
-        end
         omrkod.each do |i|
           if i != 2
             Agents::TRAFIKVERKET::Tv::CHANNEL[Agents::TRAFIKVERKET::Tv::LANSNUMMER[i]].each do |c|

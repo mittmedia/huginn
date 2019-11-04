@@ -23,9 +23,7 @@ module Agents::TRAFIKVERKET::Tv
         24 => "Västerbotten",
         25 => "Norrbotten",
         26 => "#robot_trafikinfo",
-        27 => "#robot_farjeinfo",
-        28 => "#st-larm",
-        29 => "#allehanda-larm"
+        27 => "#robot_farjeinfo"
     }
     DAGAR = {
         1 => "måndagen",
@@ -317,7 +315,7 @@ module Agents::TRAFIKVERKET::Tv
     "Västmanland" => ["#larm_vastmanland"],
     "Dalarna" => ["#larm_dalarna"],
     "Gävleborg" => ["#larm_gavleborg"],
-    "Västernorrland" => ["#larm_vasternorrland"],
+    "Västernorrland" => ["#larm_vasternorrland", "#allehanda-larm", "#st-larm"],
     "Jämtland" => ["#larm_jamtland"],
     "Västerbotten" => ["#larm_ovriga_landet"],
     "Norrbotten" => ["#larm_ovriga_landet"],
