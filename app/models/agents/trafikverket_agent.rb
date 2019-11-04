@@ -82,7 +82,7 @@ module Agents
         data = Agents::TRAFIKVERKET::POST.post_call(options['url_string'], Agents::WRAPPERS::POSTREQUESTS.situations(options['api_key']))
         lan = []
         res = {articles:[]}
-        log "Antal aktiva varningar: #{data['RESPONSE']['RESULT'][0]['Situation'].length}"
+        # log "Antal aktiva varningar: #{data['RESPONSE']['RESULT'][0]['Situation'].length}"
         data['RESPONSE']['RESULT'][0]['Situation'].each do |d|
           d['Deviation'].each do |m|
             article = {}
@@ -356,7 +356,7 @@ module Agents
       def send_event(m, article)
         omrkod = m[@need[5]]
         omrkod << 26
-        if omrkod = 22
+        if omrkod[0] = 22
           omrkod << 28
           omrkod << 29
         end
